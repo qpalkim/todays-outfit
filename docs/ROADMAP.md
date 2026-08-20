@@ -30,16 +30,17 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 ## 현재 코드베이스 상태 (2026-08-20 기준)
 
-| 구분 | 항목 | 상태 |
-|------|------|------|
-| 완료 | 인증 전체(F010) — 로그인/회원가입/구글 OAuth/비밀번호 재설정, 라우트 보호(`proxy.ts`) | ✅ |
-| 완료 | Supabase 클라이언트(`lib/supabase/client.ts`, `server.ts`), shadcn/ui 설정(`components.json`) | ✅ |
-| 완료 | `components/ui/` 20종 설치 완료(기존 7종 + form/select/dialog/alert-dialog/tabs/calendar/textarea/avatar/sonner/skeleton/separator/sheet/progress), 모바일 터치 타깃(44px) 보정, `Toaster` 전역 마운트(Task 006) | ✅ |
-| 완료 | TailwindCSS **v4** 마이그레이션 및 민트·그레이 브랜드 테마 적용, 다크모드 제거(Task 002) | ✅ |
-| 완료 | `outfits`/`clothing_items`/`outfit_items` 테이블 + RLS 12종 + Storage 버킷 2종 생성, `lib/supabase/types.ts` 재생성(Task 004) | ✅ |
-| 완료 | React Hook Form·Zod 설치, 도메인 타입(`types/`)·검증 스키마(`lib/validations/`)·카테고리 상수 정의(Task 003) | ✅ |
-| 완료 | `app/(tabs)/` 라우트 그룹 + 탭 외 라우트 골격 9종, 인증 재검증 레이아웃, 스타터킷 잔재 전면 정리(Task 005) | ✅ |
-| 미착수 | 홈·착장기록·옷장·캘린더·통계·마이 페이지 실제 기능 미구현, 하단 탭바 실제 링크는 골격뿐 (F001~F009, F011~F013) | ❌ |
+| 구분   | 항목                                                                                                                          | 상태 |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------- | ---- |
+| 완료   | 인증 전체(F010) — 로그인/회원가입/구글 OAuth/비밀번호 재설정, 라우트 보호(`proxy.ts`)                                         | ✅   |
+| 완료   | Supabase 클라이언트(`lib/supabase/client.ts`, `server.ts`), shadcn/ui 설정(`components.json`)                                 | ✅   |
+| 완료   | `components/ui/` 20종 설치 완료(기존 7종 + form/select/dialog/alert-dialog/tabs/calendar/textarea/avatar/sonner/skeleton/separator/sheet/progress), 모바일 터치 타깃(44px) 보정, `Toaster` 전역 마운트(Task 006)         | ✅   |
+| 완료   | TailwindCSS **v4** 마이그레이션 및 민트·그레이 브랜드 테마 적용, 다크모드 제거(Task 002)                                      | ✅   |
+| 완료   | `outfits`/`clothing_items`/`outfit_items` 테이블 + RLS 12종 + Storage 버킷 2종 생성, `lib/supabase/types.ts` 재생성(Task 004) | ✅   |
+| 완료   | React Hook Form·Zod 설치, 도메인 타입(`types/`)·검증 스키마(`lib/validations/`)·카테고리 상수 정의(Task 003)                  | ✅   |
+| 완료   | `app/(tabs)/` 라우트 그룹 + 탭 외 라우트 골격 9종, 인증 재검증 레이아웃, 스타터킷 잔재 전면 정리(Task 005)                    | ✅   |
+| 완료   | 하단 탭바 실제 링크 및 활성 하이라이트(`components/layout/bottom-tab-bar.tsx`), 공통 헤더·모바일 셸(Task 007)               | ✅   |
+| 미착수 | 홈·착장기록·옷장·캘린더·통계·마이 페이지 실제 기능 미구현 (F001~F009, F011~F013)                                             | ❌   |
 
 ---
 
@@ -83,6 +84,7 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 - ✅ 로그아웃 (`components/logout-button.tsx`)
 
 **완료 기준 (DoD)**
+
 - ✅ 비로그인 상태로 보호 라우트 접근 시 `/auth/login`으로 리다이렉트된다
 - ✅ 이메일·구글 로그인 성공 시 세션 쿠키가 발급되고 서버 컴포넌트에서 `user`를 읽을 수 있다
 
@@ -99,6 +101,7 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 - ✅ 모바일 전용 뷰포트 설정 (`app/layout.tsx`의 `viewport` export, `max-width` 컨테이너 셸)
 
 **완료 기준 (DoD)**
+
 - ✅ `npm run build` 성공, Tailwind v4가 적용된 상태로 기존 인증 화면이 깨짐 없이 렌더링됨
 - ✅ 버튼/카드/인풋에 민트 계열 브랜드 컬러가 반영되고, 다크 모드 토글 흔적이 코드베이스에 남아 있지 않음
 - ✅ 375px(모바일) 뷰포트에서 가로 스크롤이 발생하지 않음
@@ -115,6 +118,7 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 - ✅ 공통 API 응답 타입 정의 (`ActionResult<T>` 형태의 Server Action 반환 규약)
 
 **완료 기준 (DoD)**
+
 - ✅ `npx tsc --noEmit` 통과, `any` 타입 사용 0건
 - ✅ 카테고리 값이 Zod 스키마 · TS 타입에서 동일한 단일 출처(`lib/constants/category.ts`)를 참조함 (DB CHECK 제약과의 정합은 Task 004에서 동일 값으로 반영 예정)
 
@@ -132,12 +136,14 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 - ✅ `mcp__supabase__generate_typescript_types`로 `lib/supabase/types.ts` 재생성 (기존 instruments/profiles 템플릿 제거)
 
 **완료 기준 (DoD)**
+
 - ✅ `list_tables`에서 3개 테이블과 RLS 활성 상태가 확인됨
 - ✅ `get_advisors(security)` 결과에 RLS 미적용·정책 누락 경고가 없음
 - ✅ 다른 사용자 토큰으로 타인의 outfits/clothing_items 조회 시 0건 반환됨
 - ✅ 재생성된 `Database` 타입이 도메인 타입(Task 003)과 정합함
 
 **테스트 체크리스트**
+
 - ✅ SQL로 A 사용자 데이터 삽입 → B 사용자 세션에서 SELECT 시 0건 확인
 - ✅ 같은 `user_id` + 같은 `record_date` 중복 INSERT 시 제약 위반 발생 확인
 - ✅ `outfits` 삭제 시 연결된 `outfit_items`가 CASCADE 삭제되는지 확인
@@ -155,11 +161,13 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 - ✅ 스타터킷 잔여 코드 정리: `app/protected/`, `components/tutorial/`, `hero.tsx`, `next-logo.tsx`, `supabase-logo.tsx`, `deploy-button.tsx`(+ `auth-button.tsx`, `env-var-warning.tsx`) 제거
 
 **완료 기준 (DoD)**
+
 - ✅ 로그인 상태에서 5개 탭 경로가 모두 200으로 응답함 (하단 탭바는 이번 Task에서 placeholder `<nav>` 슬롯만 배치, 실제 탭 링크·활성 하이라이트는 Task 007에서 구현 예정)
 - ✅ 비로그인 상태에서 모든 신규 라우트(5개 탭 + 4개 동적)가 `/auth/login`으로 리다이렉트됨
 - ✅ 사용하지 않는 스타터 페이지·컴포넌트가 저장소에 남아 있지 않고(`git grep` 0건) 빌드 경고 없음
 
 **테스트 체크리스트**
+
 - ✅ Playwright MCP로 비로그인 접속 → 9개 라우트 전부 `/auth/login` 리다이렉트 확인
 - ✅ 로그인 후 5개 탭 + 4개 동적 라우트 경로 이동 확인 (탭바 링크는 Task 005에 없어 직접 URL 이동으로 검증, 클릭 기반 활성 탭 표시 검증은 Task 007에서 수행)
 
@@ -178,22 +186,24 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 - [x] Lucide 아이콘 사용 규칙 정리(탭바/액션 아이콘 세트 확정)
 
 **완료 기준 (DoD)**
+
 - [x] 설치된 모든 컴포넌트가 375px 기준에서 레이아웃 깨짐 없이 렌더링됨
 - [x] `toast()` 호출이 어느 화면에서든 동작함
 
 ---
 
-#### Task 007: 하단 탭바 네비게이션 컴포넌트 구현 `F013`
+#### Task 007: 하단 탭바 네비게이션 컴포넌트 구현 `F013` ✅ - 완료
 
-- [ ] `components/layout/bottom-tab-bar.tsx` 구현 — 홈·옷장·캘린더·통계·마이 5개 탭
-- [ ] `usePathname()` 기반 활성 탭 하이라이트(민트 컬러) 처리
-- [ ] `safe-area-inset-bottom` 대응 및 fixed 배치, 콘텐츠 하단 패딩 유틸 적용
-- [ ] `components/layout/app-header.tsx` — 화면별 타이틀/뒤로가기 액션을 받는 공통 헤더
-- [ ] `components/layout/mobile-shell.tsx` — 최대 폭 제한 + 세로 스크롤 컨테이너
+- [x] `components/layout/bottom-tab-bar.tsx` 구현 — 홈·옷장·캘린더·통계·마이 5개 탭
+- [x] `usePathname()` 기반 활성 탭 하이라이트(민트 컬러) 처리
+- [x] `safe-area-inset-bottom` 대응 및 fixed 배치, 콘텐츠 하단 패딩 유틸 적용
+- [x] `components/layout/app-header.tsx` — 화면별 타이틀/뒤로가기 액션을 받는 공통 헤더
+- [x] `components/layout/mobile-shell.tsx` — 최대 폭 제한 + 세로 스크롤 컨테이너
 
 **완료 기준 (DoD)**
-- [ ] 5개 탭 간 이동 시 활성 상태가 정확히 반영되고 스크롤 위치가 화면별로 유지됨
-- [ ] iOS Safari 하단 홈 인디케이터 영역과 탭바가 겹치지 않음
+
+- [x] 5개 탭 간 이동 시 활성 상태가 정확히 반영되고 스크롤 위치가 화면별로 유지됨
+- [x] iOS Safari 하단 홈 인디케이터 영역과 탭바가 겹치지 않음
 
 ---
 
@@ -207,10 +217,12 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 - [ ] 업로드 취소·에러 시 고아 파일이 남지 않도록 정리 로직 추가
 
 **완료 기준 (DoD)**
+
 - [ ] 이미지 선택 → 미리보기 → 업로드 → `photo_url` 반환까지 단일 컴포넌트로 완결됨
 - [ ] 5MB 초과 또는 비이미지 파일 선택 시 업로드가 차단되고 안내 메시지가 노출됨
 
 **테스트 체크리스트**
+
 - [ ] Playwright MCP `browser_file_upload`로 정상 이미지 업로드 → 미리보기 및 Storage 반영 확인
 - [ ] 용량 초과 파일 업로드 시 에러 메시지 노출 및 요청 미발생 확인
 - [ ] 업로드 중 네트워크 실패 시 재시도 UI 동작 확인
@@ -226,6 +238,7 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 - [ ] 선택 상태 관리 훅 `useItemSelection` 작성
 
 **완료 기준 (DoD)**
+
 - [ ] 아이템 다중 선택 후 선택 목록이 폼 값(`clothingItemIds`)으로 정확히 전달됨
 - [ ] 카테고리 필터 전환 시에도 기존 선택 상태가 유지됨
 
@@ -241,10 +254,12 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 - [ ] `lib/utils/date.ts` — `record_date` 포맷·타임존(KST) 처리 유틸 `F007` `F013`
 
 **완료 기준 (DoD)**
+
 - [ ] 모든 DB 접근이 쿼리 계층을 경유하며 컴포넌트에서 직접 `supabase.from()`을 호출하지 않음
 - [ ] 날짜 유틸이 자정 경계(23:59 / 00:01)에서 KST 기준 오늘 날짜를 정확히 반환함
 
 **테스트 체크리스트**
+
 - [ ] Server Action 실패 시 `ActionResult.error`가 UI 토스트로 노출되는지 확인
 - [ ] 데이터 0건 상태에서 각 화면의 EmptyState가 렌더링되는지 확인
 
@@ -263,10 +278,12 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 - [ ] 로그인 사용자 인사 영역 및 로딩/에러 상태 처리
 
 **완료 기준 (DoD)**
+
 - [ ] 오늘 기록 유무에 따라 두 가지 UI가 정확히 분기됨
 - [ ] 기록 저장 직후 홈 복귀 시 캐시 재검증(`revalidatePath`)으로 최신 상태가 즉시 반영됨
 
 **테스트 체크리스트**
+
 - [ ] Playwright MCP: 기록 없는 계정 로그인 → 미기록 UI 및 CTA 노출 확인
 - [ ] 착장 저장 후 홈 이동 → 기록 완료 UI로 전환 확인
 - [ ] 날짜 경계(전날 기록만 존재) 상황에서 미기록으로 표시되는지 확인
@@ -283,10 +300,12 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 - [ ] 카테고리별 아이템 개수 표시 및 최신순 정렬
 
 **완료 기준 (DoD)**
+
 - [ ] 등록한 아이템이 즉시 목록에 반영되고 카테고리 필터에서도 정확히 조회됨
 - [ ] 필수값 누락 시 폼 제출이 차단되고 필드별 에러 메시지가 노출됨
 
 **테스트 체크리스트**
+
 - [ ] Playwright MCP: 아이템 등록 전체 플로우(사진 선택 → 이름 → 카테고리 → 저장 → 목록 확인)
 - [ ] 이름 미입력 / 사진 미선택 상태 제출 시 검증 에러 확인
 - [ ] 카테고리 탭 전환 시 해당 카테고리 아이템만 표시되는지 확인
@@ -303,11 +322,13 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 - [ ] 삭제 후 Storage 파일 정리 및 목록 캐시 재검증
 
 **완료 기준 (DoD)**
+
 - [ ] 수정 결과가 목록·착장 상세·통계에 일관되게 반영됨
 - [ ] 삭제 후 DB·Storage에 잔여 데이터가 남지 않음
 - [ ] 타 사용자 아이템 ID로 수정/삭제 요청 시 RLS로 차단됨
 
 **테스트 체크리스트**
+
 - [ ] Playwright MCP: 이름 수정 → 목록 반영 확인
 - [ ] 사진 교체 → 새 이미지 표시 및 이전 파일 삭제 확인
 - [ ] 삭제 확인 다이얼로그 취소 시 삭제되지 않는지 확인
@@ -327,11 +348,13 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 - [ ] 저장 중 중복 제출 방지 및 실패 시 업로드 파일 롤백
 
 **완료 기준 (DoD)**
+
 - [ ] 사진 1장 + 아이템 0~N개가 하나의 트랜잭션 흐름으로 저장되고 부분 저장이 발생하지 않음
 - [ ] 저장 실패 시 Storage에 고아 이미지가 남지 않음
 - [ ] 사진 미선택 상태로는 저장할 수 없음(사진은 필수, 아이템은 선택)
 
 **테스트 체크리스트**
+
 - [ ] Playwright MCP: 사진 업로드 → 아이템 3개 선택 → 저장 → 홈 기록 완료 UI 확인
 - [ ] 사진만 업로드하고 아이템 미선택 상태로 저장 → 정상 저장되는지 확인
 - [ ] 같은 날 재진입 시 기존 기록이 프리필되는지 확인
@@ -350,12 +373,14 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 - [ ] 기록 없는 날짜(과거 포함) 선택 시 안내 + 해당 날짜로 신규 착장 기록 생성 가능 (정책 확정: 과거 날짜 신규 기록 허용)
 
 **완료 기준 (DoD)**
+
 - [ ] 기록된 날짜만 마커가 표시되고 월 이동 시에도 정확함
 - [ ] 상세에서 연결 아이템 썸네일·이름·카테고리가 모두 표시됨
 - [ ] 타임존 경계에서 날짜가 하루 밀리지 않음
 - [ ] 과거 미기록 날짜 선택 시 해당 날짜로 신규 기록 생성 화면으로 정상 진입함
 
 **테스트 체크리스트**
+
 - [ ] Playwright MCP: 기록 있는 날짜 마커 확인 → 클릭 → 상세 정보 일치 확인
 - [ ] 이전/다음 달 이동 시 마커 갱신 확인
 - [ ] 기록 없는 과거 날짜 선택 → 신규 기록 생성 진입 및 저장 후 마커 반영 확인
@@ -373,11 +398,13 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 - [ ] 기록 0건 시 EmptyState 처리
 
 **완료 기준 (DoD)**
+
 - [ ] 집계 수치가 실제 `outfit_items` 데이터와 정확히 일치함
 - [ ] 착장 추가/삭제 후 통계가 재검증되어 즉시 반영됨
 - [ ] 삭제된 아이템이 통계에 유령 항목으로 남지 않음
 
 **테스트 체크리스트**
+
 - [ ] Playwright MCP: 착장 2건 기록 후 특정 아이템 착용 횟수 2 표시 확인
 - [ ] 착장 1건 삭제 후 횟수가 1로 감소하는지 확인
 - [ ] 카테고리 비중 합이 100%가 되는지 확인
@@ -395,6 +422,7 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 - [ ] 375px / 414px 뷰포트에서 전체 플로우 재실행
 
 **완료 기준 (DoD)**
+
 - [ ] 전체 사용자 여정(PRD 4절) 시나리오가 중단 없이 완주됨
 - [ ] 콘솔 에러 및 실패한 네트워크 요청 0건
 - [ ] 발견된 결함이 모두 수정 또는 이슈로 등록됨
@@ -413,10 +441,12 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 - [ ] 과거 날짜 기록도 제한 없이 수정 가능하도록 처리
 
 **완료 기준 (DoD)**
+
 - [ ] 아이템 연결 변경이 정확히 반영되고 중복/누락 레코드가 생기지 않음
 - [ ] 삭제 후 캘린더 마커와 통계 수치가 동시에 갱신됨
 
 **테스트 체크리스트**
+
 - [ ] Playwright MCP: 아이템 1개 해제 + 1개 추가 → 상세 및 통계 반영 확인
 - [ ] 사진 교체 시 이전 Storage 파일 삭제 확인
 - [ ] 기록 삭제 후 캘린더 마커 제거 확인
@@ -433,10 +463,12 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 - [ ] 계정 정보 조회 실패 시 에러 상태 처리
 
 **완료 기준 (DoD)**
+
 - [ ] 로그인한 계정 이메일이 정확히 표시됨
 - [ ] 로그아웃 시 세션 쿠키가 제거되고 보호 라우트 재접근이 차단됨
 
 **테스트 체크리스트**
+
 - [ ] Playwright MCP: 이메일 계정/구글 계정 각각 로그인 후 마이 페이지 정보 확인
 - [ ] 로그아웃 후 뒤로가기로 보호 페이지 재진입 차단 확인
 
@@ -452,6 +484,7 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 - [ ] 폼 제출 중 버튼 비활성화 및 중복 제출 방지 전역 적용
 
 **완료 기준 (DoD)**
+
 - [ ] 모든 화면이 로딩·빈 상태·에러 3가지 상태를 빠짐없이 처리함
 - [ ] 사용자에게 원문 에러 스택이 노출되지 않음
 
@@ -466,10 +499,12 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 - [ ] 미저장 상태 이탈 시 확인 다이얼로그
 
 **완료 기준 (DoD)**
+
 - [ ] 클라이언트 검증을 우회한 직접 Server Action 호출도 서버에서 차단됨
 - [ ] 모든 검증 메시지가 한국어이며 필드 옆에 정확히 표시됨
 
 **테스트 체크리스트**
+
 - [ ] Playwright MCP: 경계값(최대 길이, 최대 용량) 입력 검증 확인
 - [ ] 검증 우회 요청 시 서버 거부 응답 확인
 
@@ -486,6 +521,7 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 - [ ] iOS Safari / Android Chrome 실기기 동작 확인
 
 **완료 기준 (DoD)**
+
 - [ ] 전 화면에서 가로 스크롤 및 요소 겹침이 없음
 - [ ] Lighthouse Accessibility 90점 이상
 
@@ -501,10 +537,12 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 - [ ] 번들 크기 점검 및 불필요한 클라이언트 컴포넌트 서버 전환
 
 **완료 기준 (DoD)**
+
 - [ ] Lighthouse(모바일) Performance 85점 이상, LCP 2.5초 이하
 - [ ] 옷장 100개 아이템 기준 목록 스크롤이 끊기지 않음
 
 **테스트 체크리스트**
+
 - [ ] Playwright MCP `browser_network_requests`로 이미지 요청 크기·개수 확인
 - [ ] 느린 네트워크 조건에서 스켈레톤 → 콘텐츠 전환 확인
 
@@ -520,10 +558,12 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 - [ ] 구글 OAuth 리다이렉트 URL을 운영 도메인 기준으로 등록
 
 **완료 기준 (DoD)**
+
 - [ ] Supabase advisor 보안 경고 0건
 - [ ] 클라이언트 번들에 비공개 키가 포함되지 않음
 
 **테스트 체크리스트**
+
 - [ ] 두 계정 교차 접근 시나리오 재실행하여 데이터 격리 확인
 - [ ] 직접 Storage URL 접근 시 타 사용자 이미지 접근 차단 확인
 
@@ -539,10 +579,12 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 - [ ] 에러 로깅·모니터링 최소 구성 및 README 실행 가이드 정리
 
 **완료 기준 (DoD)**
+
 - [ ] 프로덕션 도메인에서 이메일/구글 로그인과 전체 기록 플로우가 정상 동작함
 - [ ] 빌드·린트·타입 체크가 모두 통과하고 배포 파이프라인이 자동화됨
 
 **테스트 체크리스트**
+
 - [ ] Playwright MCP로 프로덕션 URL 대상 전체 사용자 여정 스모크 테스트
 - [ ] 구글 OAuth 콜백이 운영 도메인에서 정상 처리되는지 확인
 
@@ -550,32 +592,32 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 ## 기능 ID 추적 매트릭스
 
-| 기능 ID | 기능명 | 담당 Task | 상태 |
-|---------|--------|-----------|------|
-| F001 | 오늘의 착장 사진 업로드 | Task 004, 008, 014 | 대기 |
-| F002 | 착장-아이템 연결 | Task 004, 009, 014 | 대기 |
-| F003 | 옷 아이템 등록 | Task 003, 008, 012 | 대기 |
-| F004 | 옷 아이템 수정 | Task 013 | 대기 |
-| F005 | 옷 아이템 삭제 | Task 013 | 대기 |
-| F006 | 옷장 목록 조회 | Task 009, 012 | 대기 |
-| F007 | 캘린더 기록 표시 | Task 010, 015 | 대기 |
-| F008 | 날짜별 착장 상세 조회 | Task 015 | 대기 |
-| F009 | 스타일 통계 | Task 016 | 대기 |
-| F010 | 기본 인증 | Task 001, 018 | ✅ 완료(인증 기반) |
-| F011 | 착장 기록 수정/삭제 | Task 017 | 대기 |
-| F012 | 계정 정보 확인 | Task 018 | 대기 |
-| F013 | 오늘 기록 여부 안내 | Task 005, 011 | 대기 |
+| 기능 ID | 기능명                  | 담당 Task          | 상태               |
+| ------- | ----------------------- | ------------------ | ------------------ |
+| F001    | 오늘의 착장 사진 업로드 | Task 004, 008, 014 | 대기               |
+| F002    | 착장-아이템 연결        | Task 004, 009, 014 | 대기               |
+| F003    | 옷 아이템 등록          | Task 003, 008, 012 | 대기               |
+| F004    | 옷 아이템 수정          | Task 013           | 대기               |
+| F005    | 옷 아이템 삭제          | Task 013           | 대기               |
+| F006    | 옷장 목록 조회          | Task 009, 012      | 대기               |
+| F007    | 캘린더 기록 표시        | Task 010, 015      | 대기               |
+| F008    | 날짜별 착장 상세 조회   | Task 015           | 대기               |
+| F009    | 스타일 통계             | Task 016           | 대기               |
+| F010    | 기본 인증               | Task 001, 018      | ✅ 완료(인증 기반) |
+| F011    | 착장 기록 수정/삭제     | Task 017           | 대기               |
+| F012    | 계정 정보 확인          | Task 018           | 대기               |
+| F013    | 오늘 기록 여부 안내     | Task 005, 011      | 대기               |
 
 ---
 
 ## 진행 현황 요약
 
-| Phase | 범위 | Task 수 | 상태 |
-|-------|------|---------|------|
-| Phase 1 | 프로젝트 초기 설정(골격 구축) | 5 | 5/5 완료 ✅ |
-| Phase 2 | 공통 모듈/컴포넌트 개발 | 5 | 1/5 진행 중 |
-| Phase 3 | 핵심 기능 개발 (F001~F009, F013) | 7 | 대기 |
-| Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4 | 대기 |
-| Phase 5 | 최적화 및 배포 | 4 | 대기 |
+| Phase   | 범위                                | Task 수 | 상태        |
+| ------- | ----------------------------------- | ------- | ----------- |
+| Phase 1 | 프로젝트 초기 설정(골격 구축)       | 5       | 5/5 완료 ✅ |
+| Phase 2 | 공통 모듈/컴포넌트 개발             | 5       | 2/5 진행 중 |
+| Phase 3 | 핵심 기능 개발 (F001~F009, F013)    | 7       | 대기        |
+| Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4       | 대기        |
+| Phase 5 | 최적화 및 배포                      | 4       | 대기        |
 
-**다음 실행 작업**: `Task 007 — 하단 탭바 네비게이션 컴포넌트 구현` (Phase 2 진행 중)
+**다음 실행 작업**: `Task 008 — 이미지 업로드 공통 컴포넌트 구현` (Phase 2 진행 중)

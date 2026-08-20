@@ -6,6 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **오늘 뭐 입었지? (Today's Outfit)** — 하루 단위로 착장을 기록하는 모바일 웹 옷장 로그 앱. 제품 요구사항은 `docs/PRD.md`(F001~F013 기능 명세, 데이터 모델, 화면별 요구사항)에 있고, 개발 순서와 현재 진행 상태는 `docs/ROADMAP.md`에 있다. 새 기능을 시작하기 전에 두 문서를 먼저 확인할 것.
 
+**Task 완료 시 로드맵 갱신(필수)**: `docs/ROADMAP.md`의 Task 작업을 완료하면(검증까지 끝난 시점) 그 즉시 같은 턴에서 다음을 갱신할 것 — ① 해당 Task 제목에 `✅ - 완료` 추가, ② 하위 체크리스트와 `완료 기준(DoD)` 항목을 `- [x]`로 표시, ③ 상단 "현재 코드베이스 상태" 표의 관련 행, ④ 하단 "진행 현황 요약" 표의 Phase 진행률, ⑤ "다음 실행 작업" 줄. 사용자가 별도로 요청하지 않아도 매 Task 완료마다 수행한다.
+
 ## 명령어
 
 ```bash
