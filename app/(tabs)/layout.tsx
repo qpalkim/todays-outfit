@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
+import { BottomTabBar } from "@/components/layout/bottom-tab-bar";
 
 async function AuthGuard({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
@@ -26,8 +27,7 @@ export default function TabsLayout({
           <AuthGuard>{children}</AuthGuard>
         </Suspense>
       </main>
-      {/* Task 007에서 components/layout/bottom-tab-bar.tsx로 교체 예정 */}
-      <nav className="fixed inset-x-0 bottom-0 h-16 border-t bg-background" />
+      <BottomTabBar />
     </div>
   );
 }
