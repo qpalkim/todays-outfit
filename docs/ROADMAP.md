@@ -42,6 +42,7 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | 완료   | 하단 탭바 실제 링크 및 활성 하이라이트(`components/layout/bottom-tab-bar.tsx`), 공통 헤더·모바일 셸(Task 007)               | ✅   |
 | 완료   | 이미지 업로드 공통 컴포넌트(`components/common/image-uploader.tsx`) + Storage 헬퍼(`lib/storage/upload.ts`, 리사이즈/WebP 변환, 고아 파일 정리)(Task 008) | ✅   |
 | 완료   | 카테고리 필터/선택 및 아이템 다중 선택 공통 컴포넌트(`category-tabs`, `category-select`, `item-card`, `item-picker`, `useItemSelection`)(Task 009) | ✅   |
+| 완료   | 서버 조회 계층(`lib/queries/*`), Server Action 골격(`app/outfits/actions.ts`, `app/closet/actions.ts`), 에러 매핑·날짜 유틸·공통 상태 컴포넌트(Task 010) | ✅   |
 | 미착수 | 홈·착장기록·옷장·캘린더·통계·마이 페이지 실제 기능 미구현 (F001~F009, F011~F013)                                             | ❌   |
 
 ---
@@ -175,7 +176,7 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 ---
 
-### Phase 2: 공통 모듈 / 컴포넌트 개발
+### Phase 2: 공통 모듈 / 컴포넌트 개발 ✅
 
 > 목표: 화면 기능을 붙이기 전에 **재사용 컴포넌트와 데이터 액세스 계층**을 먼저 확정해 중복 구현을 제거한다.
 
@@ -246,24 +247,24 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 ---
 
-#### Task 010: 데이터 액세스 계층 및 상태 컴포넌트 구축
+#### Task 010: 데이터 액세스 계층 및 상태 컴포넌트 구축 ✅ - 완료
 
-- [ ] `lib/queries/outfits.ts`, `lib/queries/clothing-items.ts`, `lib/queries/stats.ts` — 서버 조회 함수 정의
-- [ ] `app/**/actions.ts` — Server Action 골격 및 `ActionResult<T>` 공통 반환 규약 적용
-- [ ] `components/common/empty-state.tsx` — 옷장/캘린더/통계 빈 상태 공통 컴포넌트
-- [ ] `components/common/loading-skeleton.tsx` — 목록·카드·캘린더용 스켈레톤
-- [ ] `components/common/error-message.tsx` + 공통 에러 매핑(`lib/errors.ts`)
-- [ ] `lib/utils/date.ts` — `record_date` 포맷·타임존(KST) 처리 유틸 `F007` `F013`
+- [x] `lib/queries/outfits.ts`, `lib/queries/clothing-items.ts`, `lib/queries/stats.ts` — 서버 조회 함수 정의
+- [x] `app/**/actions.ts` — Server Action 골격 및 `ActionResult<T>` 공통 반환 규약 적용
+- [x] `components/common/empty-state.tsx` — 옷장/캘린더/통계 빈 상태 공통 컴포넌트
+- [x] `components/common/loading-skeleton.tsx` — 목록·카드·캘린더용 스켈레톤
+- [x] `components/common/error-message.tsx` + 공통 에러 매핑(`lib/errors.ts`)
+- [x] `lib/utils/date.ts` — `record_date` 포맷·타임존(KST) 처리 유틸 `F007` `F013`
 
 **완료 기준 (DoD)**
 
-- [ ] 모든 DB 접근이 쿼리 계층을 경유하며 컴포넌트에서 직접 `supabase.from()`을 호출하지 않음
-- [ ] 날짜 유틸이 자정 경계(23:59 / 00:01)에서 KST 기준 오늘 날짜를 정확히 반환함
+- [x] 모든 DB 접근이 쿼리 계층을 경유하며 컴포넌트에서 직접 `supabase.from()`을 호출하지 않음
+- [x] 날짜 유틸이 자정 경계(23:59 / 00:01)에서 KST 기준 오늘 날짜를 정확히 반환함
 
 **테스트 체크리스트**
 
-- [ ] Server Action 실패 시 `ActionResult.error`가 UI 토스트로 노출되는지 확인
-- [ ] 데이터 0건 상태에서 각 화면의 EmptyState가 렌더링되는지 확인
+- [x] Server Action 실패 시 `ActionResult.error`가 정확히 반환됨을 확인 (직접 호출로 검증; 실제 화면의 toast 연결은 Phase 3 폼 구현 시 확인)
+- [x] 데이터 0건 상태에서 각 화면의 EmptyState가 렌더링되는지 확인
 
 ---
 
@@ -617,9 +618,9 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | Phase   | 범위                                | Task 수 | 상태        |
 | ------- | ----------------------------------- | ------- | ----------- |
 | Phase 1 | 프로젝트 초기 설정(골격 구축)       | 5       | 5/5 완료 ✅ |
-| Phase 2 | 공통 모듈/컴포넌트 개발             | 5       | 4/5 진행 중 |
+| Phase 2 | 공통 모듈/컴포넌트 개발             | 5       | 5/5 완료 ✅ |
 | Phase 3 | 핵심 기능 개발 (F001~F009, F013)    | 7       | 대기        |
 | Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4       | 대기        |
 | Phase 5 | 최적화 및 배포                      | 4       | 대기        |
 
-**다음 실행 작업**: `Task 010 — 데이터 액세스 계층 및 상태 컴포넌트 구축` (Phase 2 진행 중)
+**다음 실행 작업**: `Task 011 — 홈: 오늘 기록 여부 안내` (Phase 3 시작)
