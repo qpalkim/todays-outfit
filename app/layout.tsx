@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
 
+import { Toaster } from "@/components/ui/sonner";
+
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "http://localhost:3000";
@@ -37,6 +39,7 @@ export default function RootLayout({
         className={`${geistSans.className} antialiased mx-auto min-h-screen w-full max-w-md bg-background`}
       >
         {children}
+        <Toaster />
       </body>
     </html>
   );
