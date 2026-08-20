@@ -40,6 +40,7 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | 완료   | React Hook Form·Zod 설치, 도메인 타입(`types/`)·검증 스키마(`lib/validations/`)·카테고리 상수 정의(Task 003)                  | ✅   |
 | 완료   | `app/(tabs)/` 라우트 그룹 + 탭 외 라우트 골격 9종, 인증 재검증 레이아웃, 스타터킷 잔재 전면 정리(Task 005)                    | ✅   |
 | 완료   | 하단 탭바 실제 링크 및 활성 하이라이트(`components/layout/bottom-tab-bar.tsx`), 공통 헤더·모바일 셸(Task 007)               | ✅   |
+| 완료   | 이미지 업로드 공통 컴포넌트(`components/common/image-uploader.tsx`) + Storage 헬퍼(`lib/storage/upload.ts`, 리사이즈/WebP 변환, 고아 파일 정리)(Task 008) | ✅   |
 | 미착수 | 홈·착장기록·옷장·캘린더·통계·마이 페이지 실제 기능 미구현 (F001~F009, F011~F013)                                             | ❌   |
 
 ---
@@ -207,25 +208,25 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 ---
 
-#### Task 008: 이미지 업로드 공통 컴포넌트 구현 `F001` `F003`
+#### Task 008: 이미지 업로드 공통 컴포넌트 구현 `F001` `F003` ✅ - 완료
 
-- [ ] `components/common/image-uploader.tsx` — 파일 선택, 미리보기, 삭제, 교체 지원
-- [ ] 클라이언트 리사이즈/압축 처리(장변 기준 축소, JPEG/WebP 변환)
-- [ ] 확장자·용량 검증 및 실패 메시지 표시 (Zod 스키마 재사용)
-- [ ] `lib/storage/upload.ts` — Supabase Storage 업로드/삭제 헬퍼 (`{user_id}/{uuid}.webp` 경로 규칙)
-- [ ] 업로드 진행률 및 실패 시 재시도 UI 처리
-- [ ] 업로드 취소·에러 시 고아 파일이 남지 않도록 정리 로직 추가
+- [x] `components/common/image-uploader.tsx` — 파일 선택, 미리보기, 삭제, 교체 지원
+- [x] 클라이언트 리사이즈/압축 처리(장변 기준 축소, JPEG/WebP 변환)
+- [x] 확장자·용량 검증 및 실패 메시지 표시 (Zod 스키마 재사용)
+- [x] `lib/storage/upload.ts` — Supabase Storage 업로드/삭제 헬퍼 (`{user_id}/{uuid}.webp` 경로 규칙)
+- [x] 업로드 진행률 및 실패 시 재시도 UI 처리
+- [x] 업로드 취소·에러 시 고아 파일이 남지 않도록 정리 로직 추가
 
 **완료 기준 (DoD)**
 
-- [ ] 이미지 선택 → 미리보기 → 업로드 → `photo_url` 반환까지 단일 컴포넌트로 완결됨
-- [ ] 5MB 초과 또는 비이미지 파일 선택 시 업로드가 차단되고 안내 메시지가 노출됨
+- [x] 이미지 선택 → 미리보기 → 업로드 → `photo_url` 반환까지 단일 컴포넌트로 완결됨
+- [x] 5MB 초과 또는 비이미지 파일 선택 시 업로드가 차단되고 안내 메시지가 노출됨
 
 **테스트 체크리스트**
 
-- [ ] Playwright MCP `browser_file_upload`로 정상 이미지 업로드 → 미리보기 및 Storage 반영 확인
-- [ ] 용량 초과 파일 업로드 시 에러 메시지 노출 및 요청 미발생 확인
-- [ ] 업로드 중 네트워크 실패 시 재시도 UI 동작 확인
+- [x] Playwright MCP `browser_file_upload`로 정상 이미지 업로드 → 미리보기 및 Storage 반영 확인
+- [x] 용량 초과 파일 업로드 시 에러 메시지 노출 및 요청 미발생 확인
+- [x] 업로드 중 네트워크 실패 시 재시도 UI 동작 확인
 
 ---
 
@@ -615,9 +616,9 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | Phase   | 범위                                | Task 수 | 상태        |
 | ------- | ----------------------------------- | ------- | ----------- |
 | Phase 1 | 프로젝트 초기 설정(골격 구축)       | 5       | 5/5 완료 ✅ |
-| Phase 2 | 공통 모듈/컴포넌트 개발             | 5       | 2/5 진행 중 |
+| Phase 2 | 공통 모듈/컴포넌트 개발             | 5       | 3/5 진행 중 |
 | Phase 3 | 핵심 기능 개발 (F001~F009, F013)    | 7       | 대기        |
 | Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4       | 대기        |
 | Phase 5 | 최적화 및 배포                      | 4       | 대기        |
 
-**다음 실행 작업**: `Task 008 — 이미지 업로드 공통 컴포넌트 구현` (Phase 2 진행 중)
+**다음 실행 작업**: `Task 009 — 카테고리 · 아이템 선택 공통 컴포넌트 구현` (Phase 2 진행 중)
