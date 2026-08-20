@@ -34,7 +34,7 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 |------|------|------|
 | 완료 | 인증 전체(F010) — 로그인/회원가입/구글 OAuth/비밀번호 재설정, 라우트 보호(`proxy.ts`) | ✅ |
 | 완료 | Supabase 클라이언트(`lib/supabase/client.ts`, `server.ts`), shadcn/ui 설정(`components.json`) | ✅ |
-| 부분 | `components/ui/` 7종만 설치(badge, button, card, checkbox, dropdown-menu, input, label) | ⚠️ |
+| 완료 | `components/ui/` 20종 설치 완료(기존 7종 + form/select/dialog/alert-dialog/tabs/calendar/textarea/avatar/sonner/skeleton/separator/sheet/progress), 모바일 터치 타깃(44px) 보정, `Toaster` 전역 마운트(Task 006) | ✅ |
 | 완료 | TailwindCSS **v4** 마이그레이션 및 민트·그레이 브랜드 테마 적용, 다크모드 제거(Task 002) | ✅ |
 | 완료 | `outfits`/`clothing_items`/`outfit_items` 테이블 + RLS 12종 + Storage 버킷 2종 생성, `lib/supabase/types.ts` 재생성(Task 004) | ✅ |
 | 완료 | React Hook Form·Zod 설치, 도메인 타입(`types/`)·검증 스키마(`lib/validations/`)·카테고리 상수 정의(Task 003) | ✅ |
@@ -169,17 +169,17 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 > 목표: 화면 기능을 붙이기 전에 **재사용 컴포넌트와 데이터 액세스 계층**을 먼저 확정해 중복 구현을 제거한다.
 
-#### Task 006: shadcn/ui 컴포넌트 확충 및 디자인 프리미티브 정리
+#### Task 006: shadcn/ui 컴포넌트 확충 및 디자인 프리미티브 정리 ✅ - 완료
 
-- [ ] 부족한 shadcn/ui 컴포넌트 설치: `form`, `select`, `dialog`, `alert-dialog`, `tabs`, `calendar`, `textarea`, `avatar`, `sonner`(toast), `skeleton`, `separator`, `sheet`, `progress`
-- [ ] 설치 컴포넌트에 민트/그레이 브랜드 토큰 적용 및 모바일 터치 타깃(최소 44px) 보정
-- [ ] `components/ui/`의 기존 7종을 v4 토큰 기준으로 재점검
-- [ ] `app/layout.tsx`에 `Toaster` 전역 마운트
-- [ ] Lucide 아이콘 사용 규칙 정리(탭바/액션 아이콘 세트 확정)
+- [x] 부족한 shadcn/ui 컴포넌트 설치: `form`, `select`, `dialog`, `alert-dialog`, `tabs`, `calendar`, `textarea`, `avatar`, `sonner`(toast), `skeleton`, `separator`, `sheet`, `progress`
+- [x] 설치 컴포넌트에 민트/그레이 브랜드 토큰 적용 및 모바일 터치 타깃(최소 44px) 보정
+- [x] `components/ui/`의 기존 7종을 v4 토큰 기준으로 재점검
+- [x] `app/layout.tsx`에 `Toaster` 전역 마운트
+- [x] Lucide 아이콘 사용 규칙 정리(탭바/액션 아이콘 세트 확정)
 
 **완료 기준 (DoD)**
-- [ ] 설치된 모든 컴포넌트가 375px 기준에서 레이아웃 깨짐 없이 렌더링됨
-- [ ] `toast()` 호출이 어느 화면에서든 동작함
+- [x] 설치된 모든 컴포넌트가 375px 기준에서 레이아웃 깨짐 없이 렌더링됨
+- [x] `toast()` 호출이 어느 화면에서든 동작함
 
 ---
 
@@ -573,9 +573,9 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | Phase | 범위 | Task 수 | 상태 |
 |-------|------|---------|------|
 | Phase 1 | 프로젝트 초기 설정(골격 구축) | 5 | 5/5 완료 ✅ |
-| Phase 2 | 공통 모듈/컴포넌트 개발 | 5 | 대기 |
+| Phase 2 | 공통 모듈/컴포넌트 개발 | 5 | 1/5 진행 중 |
 | Phase 3 | 핵심 기능 개발 (F001~F009, F013) | 7 | 대기 |
 | Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4 | 대기 |
 | Phase 5 | 최적화 및 배포 | 4 | 대기 |
 
-**다음 실행 작업**: `Task 006 — shadcn/ui 컴포넌트 확충 및 디자인 프리미티브 정리` (Phase 2 시작)
+**다음 실행 작업**: `Task 007 — 하단 탭바 네비게이션 컴포넌트 구현` (Phase 2 진행 중)
