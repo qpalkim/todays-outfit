@@ -14,18 +14,90 @@ export type Database = {
   }
   public: {
     Tables: {
-      instruments: {
+      clothing_items: {
         Row: {
-          id: number
+          category: string
+          created_at: string
+          id: string
           name: string
+          photo_url: string
+          user_id: string
         }
         Insert: {
-          id?: never
+          category: string
+          created_at?: string
+          id?: string
           name: string
+          photo_url: string
+          user_id: string
         }
         Update: {
-          id?: never
+          category?: string
+          created_at?: string
+          id?: string
           name?: string
+          photo_url?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      outfit_items: {
+        Row: {
+          clothing_item_id: string
+          id: string
+          outfit_id: string
+        }
+        Insert: {
+          clothing_item_id: string
+          id?: string
+          outfit_id: string
+        }
+        Update: {
+          clothing_item_id?: string
+          id?: string
+          outfit_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "outfit_items_clothing_item_id_fkey"
+            columns: ["clothing_item_id"]
+            isOneToOne: false
+            referencedRelation: "clothing_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "outfit_items_outfit_id_fkey"
+            columns: ["outfit_id"]
+            isOneToOne: false
+            referencedRelation: "outfits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      outfits: {
+        Row: {
+          created_at: string
+          id: string
+          memo: string | null
+          photo_url: string
+          record_date: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          memo?: string | null
+          photo_url: string
+          record_date: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          memo?: string | null
+          photo_url?: string
+          record_date?: string
+          user_id?: string
         }
         Relationships: []
       }

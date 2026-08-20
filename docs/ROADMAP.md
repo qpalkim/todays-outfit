@@ -36,10 +36,10 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | 완료 | Supabase 클라이언트(`lib/supabase/client.ts`, `server.ts`), shadcn/ui 설정(`components.json`) | ✅ |
 | 부분 | `components/ui/` 7종만 설치(badge, button, card, checkbox, dropdown-menu, input, label) | ⚠️ |
 | 완료 | TailwindCSS **v4** 마이그레이션 및 민트·그레이 브랜드 테마 적용, 다크모드 제거(Task 002) | ✅ |
-| 부분 | `lib/supabase/types.ts`가 스타터 템플릿(instruments, profiles) 기준 | ⚠️ |
-| 미착수 | `supabase/` 마이그레이션 디렉토리 없음 — outfits / clothing_items / outfit_items 전부 미생성 | ❌ |
+| 완료 | `outfits`/`clothing_items`/`outfit_items` 테이블 + RLS 12종 + Storage 버킷 2종 생성, `lib/supabase/types.ts` 재생성(Task 004) | ✅ |
 | 완료 | React Hook Form·Zod 설치, 도메인 타입(`types/`)·검증 스키마(`lib/validations/`)·카테고리 상수 정의(Task 003) | ✅ |
-| 미착수 | 홈·착장기록·옷장·캘린더·통계·마이 페이지 전부 미구현 (F001~F009, F011~F013) | ❌ |
+| 완료 | `app/(tabs)/` 라우트 그룹 + 탭 외 라우트 골격 9종, 인증 재검증 레이아웃, 스타터킷 잔재 전면 정리(Task 005) | ✅ |
+| 미착수 | 홈·착장기록·옷장·캘린더·통계·마이 페이지 실제 기능 미구현, 하단 탭바 실제 링크는 골격뿐 (F001~F009, F011~F013) | ❌ |
 
 ---
 
@@ -68,7 +68,7 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 ## 개발 단계
 
-### Phase 1: 프로젝트 초기 설정 (골격 구축)
+### Phase 1: 프로젝트 초기 설정 (골격 구축) ✅
 
 > 목표: 실제 기능 코드를 작성하기 전에 **테마 · 타입 · DB 스키마 · 라우트 골격**을 모두 확정한다.
 
@@ -120,48 +120,48 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 ---
 
-#### Task 004: Supabase 스키마 · RLS · 스토리지 구축 `F001`~`F009`
+#### Task 004: Supabase 스키마 · RLS · 스토리지 구축 ✅ - 완료 `F001`~`F009`
 
-- [ ] `supabase/migrations/` 디렉토리 생성 및 초기 마이그레이션 파일 작성
-- [ ] `outfits` 테이블 생성 (id, user_id, record_date, photo_url, memo, created_at) + `UNIQUE(user_id, record_date)` 제약 `F001` `F013`
-- [ ] `clothing_items` 테이블 생성 (id, user_id, category, name, photo_url, created_at) + category CHECK 제약 `F003`
-- [ ] `outfit_items` 테이블 생성 (id, outfit_id, clothing_item_id) + FK `ON DELETE CASCADE` + `UNIQUE(outfit_id, clothing_item_id)` `F002`
-- [ ] 인덱스 추가: `outfits(user_id, record_date)`, `clothing_items(user_id, category)`, `outfit_items(outfit_id)`, `outfit_items(clothing_item_id)` `F007` `F009`
-- [ ] 3개 테이블 RLS 활성화 및 `auth.uid() = user_id` 기반 SELECT/INSERT/UPDATE/DELETE 정책 작성 (outfit_items는 상위 outfit 소유권 EXISTS 검사)
-- [ ] Storage 버킷 `outfit-photos`, `item-photos` 생성 및 사용자별 경로(`{user_id}/...`) 접근 정책 설정
-- [ ] `mcp__supabase__generate_typescript_types`로 `lib/supabase/types.ts` 재생성 (기존 instruments/profiles 템플릿 제거)
+- ✅ `supabase/migrations/` 디렉토리 생성 및 초기 마이그레이션 파일 작성
+- ✅ `outfits` 테이블 생성 (id, user_id, record_date, photo_url, memo, created_at) + `UNIQUE(user_id, record_date)` 제약 `F001` `F013`
+- ✅ `clothing_items` 테이블 생성 (id, user_id, category, name, photo_url, created_at) + category CHECK 제약 `F003`
+- ✅ `outfit_items` 테이블 생성 (id, outfit_id, clothing_item_id) + FK `ON DELETE CASCADE` + `UNIQUE(outfit_id, clothing_item_id)` `F002`
+- ✅ 인덱스 추가: `outfits(user_id, record_date)`, `clothing_items(user_id, category)`, `outfit_items(outfit_id)`, `outfit_items(clothing_item_id)` `F007` `F009`
+- ✅ 3개 테이블 RLS 활성화 및 `auth.uid() = user_id` 기반 SELECT/INSERT/UPDATE/DELETE 정책 작성 (outfit_items는 상위 outfit 소유권 EXISTS 검사)
+- ✅ Storage 버킷 `outfit-photos`, `item-photos` 생성 및 사용자별 경로(`{user_id}/...`) 접근 정책 설정
+- ✅ `mcp__supabase__generate_typescript_types`로 `lib/supabase/types.ts` 재생성 (기존 instruments/profiles 템플릿 제거)
 
 **완료 기준 (DoD)**
-- [ ] `list_tables`에서 3개 테이블과 RLS 활성 상태가 확인됨
-- [ ] `get_advisors(security)` 결과에 RLS 미적용·정책 누락 경고가 없음
-- [ ] 다른 사용자 토큰으로 타인의 outfits/clothing_items 조회 시 0건 반환됨
-- [ ] 재생성된 `Database` 타입이 도메인 타입(Task 003)과 정합함
+- ✅ `list_tables`에서 3개 테이블과 RLS 활성 상태가 확인됨
+- ✅ `get_advisors(security)` 결과에 RLS 미적용·정책 누락 경고가 없음
+- ✅ 다른 사용자 토큰으로 타인의 outfits/clothing_items 조회 시 0건 반환됨
+- ✅ 재생성된 `Database` 타입이 도메인 타입(Task 003)과 정합함
 
 **테스트 체크리스트**
-- [ ] SQL로 A 사용자 데이터 삽입 → B 사용자 세션에서 SELECT 시 0건 확인
-- [ ] 같은 `user_id` + 같은 `record_date` 중복 INSERT 시 제약 위반 발생 확인
-- [ ] `outfits` 삭제 시 연결된 `outfit_items`가 CASCADE 삭제되는지 확인
-- [ ] 타 사용자 경로(`{other_user_id}/`)로 Storage 업로드 시 거부되는지 확인
+- ✅ SQL로 A 사용자 데이터 삽입 → B 사용자 세션에서 SELECT 시 0건 확인
+- ✅ 같은 `user_id` + 같은 `record_date` 중복 INSERT 시 제약 위반 발생 확인
+- ✅ `outfits` 삭제 시 연결된 `outfit_items`가 CASCADE 삭제되는지 확인
+- ✅ 타 사용자 경로(`{other_user_id}/`)로 Storage 업로드 시 거부되는지 확인
 
 ---
 
-#### Task 005: 라우트 골격 및 하단 탭바 레이아웃 구성 `F013`
+#### Task 005: 라우트 골격 및 하단 탭바 레이아웃 구성 ✅ - 완료 `F013`
 
-- [ ] 라우트 그룹 `app/(tabs)/` 생성 — `layout.tsx`에 세션 검증 + 하단 탭바 슬롯 배치
-- [ ] 빈 페이지 골격 생성: `(tabs)/page.tsx`(홈) `F013`, `(tabs)/closet/page.tsx` `F006`, `(tabs)/calendar/page.tsx` `F007`, `(tabs)/stats/page.tsx` `F009`, `(tabs)/my/page.tsx` `F012`
-- [ ] 탭 외 라우트 골격 생성: `app/outfits/new/page.tsx` `F001`, `app/outfits/[date]/page.tsx` `F008`, `app/closet/new/page.tsx` `F003`, `app/closet/[id]/edit/page.tsx` `F004`
-- [ ] 각 라우트에 `loading.tsx`, `error.tsx`, `not-found.tsx` 골격 배치
-- [ ] `proxy.ts` 보호 대상 경로를 신규 라우트 기준으로 갱신, 로그인 성공 후 리다이렉트 목적지를 `/`(홈)으로 조정
-- [ ] 스타터킷 잔여 코드 정리: `app/protected/`, `components/tutorial/`, `hero.tsx`, `next-logo.tsx`, `supabase-logo.tsx`, `deploy-button.tsx` 제거
+- ✅ 라우트 그룹 `app/(tabs)/` 생성 — `layout.tsx`에 세션 검증 + 하단 탭바 슬롯 배치
+- ✅ 빈 페이지 골격 생성: `(tabs)/page.tsx`(홈) `F013`, `(tabs)/closet/page.tsx` `F006`, `(tabs)/calendar/page.tsx` `F007`, `(tabs)/stats/page.tsx` `F009`, `(tabs)/my/page.tsx` `F012`
+- ✅ 탭 외 라우트 골격 생성: `app/outfits/new/page.tsx` `F001`, `app/outfits/[date]/page.tsx` `F008`, `app/closet/new/page.tsx` `F003`, `app/closet/[id]/edit/page.tsx` `F004`
+- ✅ 각 라우트에 `loading.tsx`, `error.tsx`, `not-found.tsx` 골격 배치
+- ✅ `proxy.ts` 보호 대상 경로를 신규 라우트 기준으로 갱신, 로그인 성공 후 리다이렉트 목적지를 `/`(홈)으로 조정
+- ✅ 스타터킷 잔여 코드 정리: `app/protected/`, `components/tutorial/`, `hero.tsx`, `next-logo.tsx`, `supabase-logo.tsx`, `deploy-button.tsx`(+ `auth-button.tsx`, `env-var-warning.tsx`) 제거
 
 **완료 기준 (DoD)**
-- [ ] 로그인 상태에서 5개 탭 경로가 모두 200으로 응답하고 하단 탭바가 노출됨
-- [ ] 비로그인 상태에서 모든 신규 라우트가 `/auth/login`으로 리다이렉트됨
-- [ ] 사용하지 않는 스타터 페이지·컴포넌트가 저장소에 남아 있지 않고 빌드 경고가 없음
+- ✅ 로그인 상태에서 5개 탭 경로가 모두 200으로 응답함 (하단 탭바는 이번 Task에서 placeholder `<nav>` 슬롯만 배치, 실제 탭 링크·활성 하이라이트는 Task 007에서 구현 예정)
+- ✅ 비로그인 상태에서 모든 신규 라우트(5개 탭 + 4개 동적)가 `/auth/login`으로 리다이렉트됨
+- ✅ 사용하지 않는 스타터 페이지·컴포넌트가 저장소에 남아 있지 않고(`git grep` 0건) 빌드 경고 없음
 
 **테스트 체크리스트**
-- [ ] Playwright MCP로 비로그인 접속 → `/auth/login` 리다이렉트 확인
-- [ ] 로그인 후 탭바 5개 항목 클릭 → 각 경로 이동 및 활성 탭 표시 확인
+- ✅ Playwright MCP로 비로그인 접속 → 9개 라우트 전부 `/auth/login` 리다이렉트 확인
+- ✅ 로그인 후 5개 탭 + 4개 동적 라우트 경로 이동 확인 (탭바 링크는 Task 005에 없어 직접 URL 이동으로 검증, 클릭 기반 활성 탭 표시 검증은 Task 007에서 수행)
 
 ---
 
@@ -572,10 +572,10 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 | Phase | 범위 | Task 수 | 상태 |
 |-------|------|---------|------|
-| Phase 1 | 프로젝트 초기 설정(골격 구축) | 5 | 3/5 완료 |
+| Phase 1 | 프로젝트 초기 설정(골격 구축) | 5 | 5/5 완료 ✅ |
 | Phase 2 | 공통 모듈/컴포넌트 개발 | 5 | 대기 |
 | Phase 3 | 핵심 기능 개발 (F001~F009, F013) | 7 | 대기 |
 | Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4 | 대기 |
 | Phase 5 | 최적화 및 배포 | 4 | 대기 |
 
-**다음 실행 작업**: `Task 004 — Supabase 스키마 · RLS · 스토리지 구축`
+**다음 실행 작업**: `Task 006 — shadcn/ui 컴포넌트 확충 및 디자인 프리미티브 정리` (Phase 2 시작)
