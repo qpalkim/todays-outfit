@@ -38,7 +38,7 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | 완료 | TailwindCSS **v4** 마이그레이션 및 민트·그레이 브랜드 테마 적용, 다크모드 제거(Task 002) | ✅ |
 | 부분 | `lib/supabase/types.ts`가 스타터 템플릿(instruments, profiles) 기준 | ⚠️ |
 | 미착수 | `supabase/` 마이그레이션 디렉토리 없음 — outfits / clothing_items / outfit_items 전부 미생성 | ❌ |
-| 미착수 | React Hook Form, Zod 미설치 | ❌ |
+| 완료 | React Hook Form·Zod 설치, 도메인 타입(`types/`)·검증 스키마(`lib/validations/`)·카테고리 상수 정의(Task 003) | ✅ |
 | 미착수 | 홈·착장기록·옷장·캘린더·통계·마이 페이지 전부 미구현 (F001~F009, F011~F013) | ❌ |
 
 ---
@@ -105,18 +105,18 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 ---
 
-#### Task 003: 폼·검증 의존성 설치 및 도메인 타입 정의
+#### Task 003: 폼·검증 의존성 설치 및 도메인 타입 정의 ✅ - 완료
 
-- [ ] `react-hook-form`, `zod`, `@hookform/resolvers` 설치
-- [ ] `types/outfit.ts` — `Outfit`, `OutfitWithItems`, `OutfitFormValues` 타입 정의 `F001` `F002`
-- [ ] `types/clothing.ts` — `ClothingItem`, `ClothingCategory`, `ClothingItemFormValues` 타입 정의 `F003`
-- [ ] `lib/constants/category.ts` — `CLOTHING_CATEGORIES`(상의/하의/신발/아우터/기타) 상수 및 라벨 맵 정의
-- [ ] `lib/validations/` — `outfitSchema`, `clothingItemSchema` Zod 스키마 작성 (이미지 용량·확장자 규칙 포함)
-- [ ] 공통 API 응답 타입 정의 (`ActionResult<T>` 형태의 Server Action 반환 규약)
+- ✅ `react-hook-form`, `zod`, `@hookform/resolvers` 설치
+- ✅ `types/outfit.ts` — `Outfit`, `OutfitWithItems`, `OutfitFormValues` 타입 정의 `F001` `F002`
+- ✅ `types/clothing.ts` — `ClothingItem`, `ClothingCategory`, `ClothingItemFormValues` 타입 정의 `F003`
+- ✅ `lib/constants/category.ts` — `CLOTHING_CATEGORIES`(상의/하의/신발/아우터/기타) 상수 및 라벨 맵 정의
+- ✅ `lib/validations/` — `outfitSchema`, `clothingItemSchema` Zod 스키마 작성 (이미지 용량·확장자 규칙 포함)
+- ✅ 공통 API 응답 타입 정의 (`ActionResult<T>` 형태의 Server Action 반환 규약)
 
 **완료 기준 (DoD)**
-- [ ] `npx tsc --noEmit` 통과, `any` 타입 사용 0건
-- [ ] 카테고리 값이 Zod 스키마 · TS 타입 · DB CHECK 제약에서 동일한 단일 출처(constants)를 참조함
+- ✅ `npx tsc --noEmit` 통과, `any` 타입 사용 0건
+- ✅ 카테고리 값이 Zod 스키마 · TS 타입에서 동일한 단일 출처(`lib/constants/category.ts`)를 참조함 (DB CHECK 제약과의 정합은 Task 004에서 동일 값으로 반영 예정)
 
 ---
 
@@ -572,10 +572,10 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 | Phase | 범위 | Task 수 | 상태 |
 |-------|------|---------|------|
-| Phase 1 | 프로젝트 초기 설정(골격 구축) | 5 | 2/5 완료 |
+| Phase 1 | 프로젝트 초기 설정(골격 구축) | 5 | 3/5 완료 |
 | Phase 2 | 공통 모듈/컴포넌트 개발 | 5 | 대기 |
 | Phase 3 | 핵심 기능 개발 (F001~F009, F013) | 7 | 대기 |
 | Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4 | 대기 |
 | Phase 5 | 최적화 및 배포 | 4 | 대기 |
 
-**다음 실행 작업**: `Task 003 — 폼·검증 의존성 설치 및 도메인 타입 정의`
+**다음 실행 작업**: `Task 004 — Supabase 스키마 · RLS · 스토리지 구축`
