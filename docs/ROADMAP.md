@@ -41,6 +41,7 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | 완료   | `app/(tabs)/` 라우트 그룹 + 탭 외 라우트 골격 9종, 인증 재검증 레이아웃, 스타터킷 잔재 전면 정리(Task 005)                    | ✅   |
 | 완료   | 하단 탭바 실제 링크 및 활성 하이라이트(`components/layout/bottom-tab-bar.tsx`), 공통 헤더·모바일 셸(Task 007)               | ✅   |
 | 완료   | 이미지 업로드 공통 컴포넌트(`components/common/image-uploader.tsx`) + Storage 헬퍼(`lib/storage/upload.ts`, 리사이즈/WebP 변환, 고아 파일 정리)(Task 008) | ✅   |
+| 완료   | 카테고리 필터/선택 및 아이템 다중 선택 공통 컴포넌트(`category-tabs`, `category-select`, `item-card`, `item-picker`, `useItemSelection`)(Task 009) | ✅   |
 | 미착수 | 홈·착장기록·옷장·캘린더·통계·마이 페이지 실제 기능 미구현 (F001~F009, F011~F013)                                             | ❌   |
 
 ---
@@ -230,18 +231,18 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 ---
 
-#### Task 009: 카테고리 · 아이템 선택 공통 컴포넌트 구현 `F002` `F006`
+#### Task 009: 카테고리 · 아이템 선택 공통 컴포넌트 구현 `F002` `F006` ✅ - 완료
 
-- [ ] `components/common/category-tabs.tsx` — 카테고리 필터 탭 (전체/상의/하의/신발/아우터)
-- [ ] `components/common/category-select.tsx` — 폼용 카테고리 Select (RHF 연동)
-- [ ] `components/common/item-picker.tsx` — 옷장 아이템 다중 선택 시트(카테고리별 그룹, 선택 개수 표시)
-- [ ] `components/common/item-card.tsx` — 아이템 썸네일 카드 (선택/기본/편집 variant)
-- [ ] 선택 상태 관리 훅 `useItemSelection` 작성
+- [x] `components/common/category-tabs.tsx` — 카테고리 필터 탭 (전체/상의/하의/신발/아우터)
+- [x] `components/common/category-select.tsx` — 폼용 카테고리 Select (RHF 연동)
+- [x] `components/common/item-picker.tsx` — 옷장 아이템 다중 선택 시트(카테고리별 그룹, 선택 개수 표시)
+- [x] `components/common/item-card.tsx` — 아이템 썸네일 카드 (선택/기본/편집 variant)
+- [x] 선택 상태 관리 훅 `useItemSelection` 작성
 
 **완료 기준 (DoD)**
 
-- [ ] 아이템 다중 선택 후 선택 목록이 폼 값(`clothingItemIds`)으로 정확히 전달됨
-- [ ] 카테고리 필터 전환 시에도 기존 선택 상태가 유지됨
+- [x] 아이템 다중 선택 후 선택 목록이 폼 값(`clothingItemIds`)으로 정확히 전달됨
+- [x] 카테고리 필터 전환 시에도 기존 선택 상태가 유지됨
 
 ---
 
@@ -616,9 +617,9 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | Phase   | 범위                                | Task 수 | 상태        |
 | ------- | ----------------------------------- | ------- | ----------- |
 | Phase 1 | 프로젝트 초기 설정(골격 구축)       | 5       | 5/5 완료 ✅ |
-| Phase 2 | 공통 모듈/컴포넌트 개발             | 5       | 3/5 진행 중 |
+| Phase 2 | 공통 모듈/컴포넌트 개발             | 5       | 4/5 진행 중 |
 | Phase 3 | 핵심 기능 개발 (F001~F009, F013)    | 7       | 대기        |
 | Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4       | 대기        |
 | Phase 5 | 최적화 및 배포                      | 4       | 대기        |
 
-**다음 실행 작업**: `Task 009 — 카테고리 · 아이템 선택 공통 컴포넌트 구현` (Phase 2 진행 중)
+**다음 실행 작업**: `Task 010 — 데이터 액세스 계층 및 상태 컴포넌트 구축` (Phase 2 진행 중)
