@@ -35,10 +35,10 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | 완료 | 인증 전체(F010) — 로그인/회원가입/구글 OAuth/비밀번호 재설정, 라우트 보호(`proxy.ts`) | ✅ |
 | 완료 | Supabase 클라이언트(`lib/supabase/client.ts`, `server.ts`), shadcn/ui 설정(`components.json`) | ✅ |
 | 부분 | `components/ui/` 7종만 설치(badge, button, card, checkbox, dropdown-menu, input, label) | ⚠️ |
-| 부분 | TailwindCSS **v3.4.1** 설치 (PRD는 v4 요구) | ⚠️ |
+| 완료 | TailwindCSS **v4** 마이그레이션 및 민트·그레이 브랜드 테마 적용, 다크모드 제거(Task 002) | ✅ |
 | 부분 | `lib/supabase/types.ts`가 스타터 템플릿(instruments, profiles) 기준 | ⚠️ |
 | 미착수 | `supabase/` 마이그레이션 디렉토리 없음 — outfits / clothing_items / outfit_items 전부 미생성 | ❌ |
-| 미착수 | React Hook Form, Zod 미설치 / 민트·그레이 테마 미반영 | ❌ |
+| 미착수 | React Hook Form, Zod 미설치 | ❌ |
 | 미착수 | 홈·착장기록·옷장·캘린더·통계·마이 페이지 전부 미구현 (F001~F009, F011~F013) | ❌ |
 
 ---
@@ -88,20 +88,20 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 ---
 
-#### Task 002: TailwindCSS v4 마이그레이션 및 브랜드 테마 설정 - 우선순위
+#### Task 002: TailwindCSS v4 마이그레이션 및 브랜드 테마 설정 ✅ - 완료
 
-- [ ] `tailwindcss@4`, `@tailwindcss/postcss` 설치 및 `tailwindcss@3.4.1`, `autoprefixer`, `postcss` 구성 정리
-- [ ] `postcss.config.mjs`를 v4 플러그인 방식으로 교체하고 `tailwind.config.ts` 제거(설정 파일 없는 엔진 전환)
-- [ ] `app/globals.css`를 `@import "tailwindcss"` + `@theme` 기반으로 재작성
-- [ ] 민트(Primary) / 그레이(Neutral) 브랜드 팔레트를 CSS 변수(`--color-primary`, `--color-muted` 등)로 정의
-- [ ] `tailwindcss-animate` → `tw-animate-css` 대체 및 기존 shadcn 컴포넌트 클래스 정상 동작 확인
-- [ ] 다크 모드 제거: `next-themes`·`components/theme-switcher.tsx` 제거, `.dark` 토큰 블록 삭제
-- [ ] 모바일 전용 뷰포트 설정 (`app/layout.tsx`의 `viewport` export, `max-width` 컨테이너 셸)
+- ✅ `tailwindcss@4`, `@tailwindcss/postcss` 설치 및 `tailwindcss@3.4.1`, `autoprefixer`, `postcss` 구성 정리
+- ✅ `postcss.config.mjs`를 v4 플러그인 방식으로 교체하고 `tailwind.config.ts` 제거(설정 파일 없는 엔진 전환)
+- ✅ `app/globals.css`를 `@import "tailwindcss"` + `@theme` 기반으로 재작성
+- ✅ 민트(Primary) / 그레이(Neutral) 브랜드 팔레트를 CSS 변수(`--color-primary`, `--color-muted` 등)로 정의
+- ✅ `tailwindcss-animate` → `tw-animate-css` 대체 및 기존 shadcn 컴포넌트 클래스 정상 동작 확인
+- ✅ 다크 모드 제거: `next-themes`·`components/theme-switcher.tsx` 제거, `.dark` 토큰 블록 삭제
+- ✅ 모바일 전용 뷰포트 설정 (`app/layout.tsx`의 `viewport` export, `max-width` 컨테이너 셸)
 
 **완료 기준 (DoD)**
-- [ ] `npm run build` 성공, Tailwind v4가 적용된 상태로 기존 인증 화면이 깨짐 없이 렌더링됨
-- [ ] 버튼/카드/인풋에 민트 계열 브랜드 컬러가 반영되고, 다크 모드 토글 흔적이 코드베이스에 남아 있지 않음
-- [ ] 375px(모바일) 뷰포트에서 가로 스크롤이 발생하지 않음
+- ✅ `npm run build` 성공, Tailwind v4가 적용된 상태로 기존 인증 화면이 깨짐 없이 렌더링됨
+- ✅ 버튼/카드/인풋에 민트 계열 브랜드 컬러가 반영되고, 다크 모드 토글 흔적이 코드베이스에 남아 있지 않음
+- ✅ 375px(모바일) 뷰포트에서 가로 스크롤이 발생하지 않음
 
 ---
 
@@ -572,10 +572,10 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 | Phase | 범위 | Task 수 | 상태 |
 |-------|------|---------|------|
-| Phase 1 | 프로젝트 초기 설정(골격 구축) | 5 | 1/5 완료 |
+| Phase 1 | 프로젝트 초기 설정(골격 구축) | 5 | 2/5 완료 |
 | Phase 2 | 공통 모듈/컴포넌트 개발 | 5 | 대기 |
 | Phase 3 | 핵심 기능 개발 (F001~F009, F013) | 7 | 대기 |
 | Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4 | 대기 |
 | Phase 5 | 최적화 및 배포 | 4 | 대기 |
 
-**다음 실행 작업**: `Task 002 — TailwindCSS v4 마이그레이션 및 브랜드 테마 설정`
+**다음 실행 작업**: `Task 003 — 폼·검증 의존성 설치 및 도메인 타입 정의`
