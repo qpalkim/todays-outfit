@@ -109,6 +109,7 @@ export async function createOutfit(
 
   revalidatePath("/");
   revalidatePath("/calendar");
+  revalidatePath("/stats");
   revalidatePath(`/outfits/${parsed.data.record_date}`);
 
   return { success: true, data: outfit };

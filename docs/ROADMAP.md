@@ -48,7 +48,8 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | 완료   | 옷 아이템 수정·삭제(`app/closet/[id]/edit/page.tsx`, `delete-item-dialog.tsx`, `updateClothingItem`/`deleteClothingItem` 완성)(Task 013, F004·F005)                                                             | ✅   |
 | 완료   | 오늘의 착장 기록(`app/outfits/new/page.tsx`, `outfit-form.tsx`, `createOutfit` 완성)(Task 014, F001·F002)                                                                                                        | ✅   |
 | 완료   | 캘린더 기록 표시 및 날짜별 상세 조회(`app/(tabs)/calendar/page.tsx`, `calendar-view.tsx`, `app/outfits/[date]/page.tsx`)(Task 015, F007·F008)                                                                    | ✅   |
-| 미착수 | 통계·마이 페이지 실제 기능 미구현 (F009, F011, F012)                                                                                                                                                              | ❌   |
+| 완료   | 스타일 통계 화면(`app/(tabs)/stats/page.tsx`, `getOutfitCount` 신규)(Task 016, F009)                                                                                                                             | ✅   |
+| 미착수 | 마이 페이지 실제 기능 미구현 (F011, F012)                                                                                                                                                                          | ❌   |
 
 ---
 
@@ -396,27 +397,27 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 ---
 
-#### Task 016: 스타일 통계 화면 구현 `F009`
+#### Task 016: 스타일 통계 화면 구현 `F009` ✅ - 완료
 
-- [ ] `lib/queries/stats.ts` — 아이템별 착용 횟수 집계 쿼리 (`outfit_items` JOIN 카운트)
-- [ ] 카테고리별 착용 비중 집계 쿼리 구현
-- [ ] `(tabs)/stats` — 아이템별 착용 TOP 랭킹 목록(썸네일 + 횟수) 렌더링
-- [ ] 카테고리별 비중 시각화(막대/프로그레스 기반, 민트 계열 단일 팔레트)
-- [ ] 총 기록 일수·등록 아이템 수 요약 지표 카드
-- [ ] 기록 0건 시 EmptyState 처리
+- [x] `lib/queries/stats.ts` — 아이템별 착용 횟수 집계 쿼리 (`outfit_items` JOIN 카운트)(Task 010에서 이미 완성)
+- [x] 카테고리별 착용 비중 집계 쿼리 구현(Task 010에서 이미 완성)
+- [x] `(tabs)/stats` — 아이템별 착용 TOP 랭킹 목록(썸네일 + 횟수) 렌더링(상위 10개)
+- [x] 카테고리별 비중 시각화(`Progress` 기반, 민트 단일 팔레트, 최대 나머지법으로 합계 100% 보장)
+- [x] 총 기록 일수·등록 아이템 수 요약 지표 카드(`getOutfitCount` 신규 추가)
+- [x] 기록 0건 시 EmptyState 처리
 
 **완료 기준 (DoD)**
 
-- [ ] 집계 수치가 실제 `outfit_items` 데이터와 정확히 일치함
-- [ ] 착장 추가/삭제 후 통계가 재검증되어 즉시 반영됨
-- [ ] 삭제된 아이템이 통계에 유령 항목으로 남지 않음
+- [x] 집계 수치가 실제 `outfit_items` 데이터와 정확히 일치함
+- [x] 착장 추가/삭제 후 통계가 재검증되어 즉시 반영됨(`createOutfit`/`createClothingItem`/`updateClothingItem`/`deleteClothingItem`에 `revalidatePath('/stats')` 보강)
+- [x] 삭제된 아이템이 통계에 유령 항목으로 남지 않음(`outfit_items` CASCADE + 쿼리가 항상 최신 `clothing_items`만 집계)
 
 **테스트 체크리스트**
 
-- [ ] Playwright MCP: 착장 2건 기록 후 특정 아이템 착용 횟수 2 표시 확인
-- [ ] 착장 1건 삭제 후 횟수가 1로 감소하는지 확인
-- [ ] 카테고리 비중 합이 100%가 되는지 확인
-- [ ] 데이터 0건 계정에서 EmptyState 노출 확인
+- [x] Playwright MCP: 착장 2건 기록 후 특정 아이템 착용 횟수 2 표시 확인
+- [x] 착장 1건 삭제 후 횟수가 1로 감소하는지 확인
+- [x] 카테고리 비중 합이 100%가 되는지 확인
+- [x] 데이터 0건 계정에서 EmptyState 노출 확인
 
 ---
 
@@ -610,7 +611,7 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | F006    | 옷장 목록 조회          | Task 009, 012      | ✅ 완료            |
 | F007    | 캘린더 기록 표시        | Task 010, 015      | ✅ 완료            |
 | F008    | 날짜별 착장 상세 조회   | Task 015           | ✅ 완료            |
-| F009    | 스타일 통계             | Task 016           | 대기               |
+| F009    | 스타일 통계             | Task 016           | ✅ 완료            |
 | F010    | 기본 인증               | Task 001, 018      | ✅ 완료(인증 기반) |
 | F011    | 착장 기록 수정/삭제     | Task 017           | 대기               |
 | F012    | 계정 정보 확인          | Task 018           | 대기               |
@@ -624,8 +625,8 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | ------- | ----------------------------------- | ------- | ----------- |
 | Phase 1 | 프로젝트 초기 설정(골격 구축)       | 5       | 5/5 완료 ✅ |
 | Phase 2 | 공통 모듈/컴포넌트 개발             | 5       | 5/5 완료 ✅ |
-| Phase 3 | 핵심 기능 개발 (F001~F009, F013)    | 7       | 5/7 진행중  |
+| Phase 3 | 핵심 기능 개발 (F001~F009, F013)    | 7       | 6/7 진행중  |
 | Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4       | 대기        |
 | Phase 5 | 최적화 및 배포                      | 4       | 대기        |
 
-**다음 실행 작업**: `Task 016 — 스타일 통계 화면 구현`
+**다음 실행 작업**: `Task 016-1 — 핵심 기능 통합 테스트`

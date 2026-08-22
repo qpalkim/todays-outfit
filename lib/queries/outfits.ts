@@ -88,3 +88,18 @@ export async function getRecentOutfitDates(
 
   return data.map((row) => row.record_date);
 }
+
+/** 로그인 사용자의 총 착장 기록 일수를 반환한다 */
+export async function getOutfitCount(userId: string): Promise<number> {
+  const supabase = await createClient();
+  const { count, error } = await supabase
+    .from("outfits")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", userId);
+
+  if (error || count === null) {
+    return 0;
+  }
+
+  return count;
+}

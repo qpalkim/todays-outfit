@@ -50,6 +50,7 @@ export async function createClothingItem(
   }
 
   revalidatePath("/closet");
+  revalidatePath("/stats");
   return { success: true, data: data as ClothingItem };
 }
 
@@ -106,6 +107,7 @@ export async function updateClothingItem(
 
   revalidatePath("/closet");
   revalidatePath(`/closet/${id}/edit`);
+  revalidatePath("/stats");
   return { success: true, data: data as ClothingItem };
 }
 
@@ -135,5 +137,6 @@ export async function deleteClothingItem(id: string): Promise<ActionResult> {
   }
 
   revalidatePath("/closet");
+  revalidatePath("/stats");
   return { success: true, data: undefined };
 }
