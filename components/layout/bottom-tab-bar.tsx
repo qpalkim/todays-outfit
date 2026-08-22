@@ -34,7 +34,7 @@ export function BottomTabBar() {
 
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-40 border-t bg-background"
+      className="fixed inset-x-0 bottom-0 z-40 mx-auto w-full max-w-md border-t bg-background"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
       <div className="flex h-16 items-stretch">
