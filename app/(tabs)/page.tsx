@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { Camera } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/server";
 import { getOutfitByDate, getRecentOutfitDates } from "@/lib/queries/outfits";
@@ -73,6 +74,7 @@ export default async function HomePage() {
         </div>
       ) : (
         <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed py-10 text-center">
+          <Camera className="size-10 text-muted-foreground" />
           <p className="text-sm font-medium">
             아직 오늘의 착장을 기록하지 않았어요
           </p>
