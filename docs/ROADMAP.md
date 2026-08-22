@@ -44,12 +44,13 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | 완료   | 카테고리 필터/선택 및 아이템 다중 선택 공통 컴포넌트(`category-tabs`, `category-select`, `item-card`, `item-picker`, `useItemSelection`)(Task 009)                                                               | ✅   |
 | 완료   | 서버 조회 계층(`lib/queries/*`), Server Action 골격(`app/outfits/actions.ts`, `app/closet/actions.ts`), 에러 매핑·날짜 유틸·공통 상태 컴포넌트(Task 010)                                                         | ✅   |
 | 완료   | 홈 화면 — 오늘 기록 여부 안내(`app/(tabs)/page.tsx`), `getRecentOutfitDates`(Task 011, F013)                                                                                                                     | ✅   |
-| 완료   | 옷장 목록 조회 및 아이템 등록(`app/(tabs)/closet/page.tsx`, `closet-list.tsx`, `app/closet/clothing-item-form.tsx`, `createClothingItem` 완성)(Task 012, F003·F006)                                             | ✅   |
-| 완료   | 옷 아이템 수정·삭제(`app/closet/[id]/edit/page.tsx`, `delete-item-dialog.tsx`, `updateClothingItem`/`deleteClothingItem` 완성)(Task 013, F004·F005)                                                             | ✅   |
+| 완료   | 옷장 목록 조회 및 아이템 등록(`app/(tabs)/closet/page.tsx`, `closet-list.tsx`, `app/closet/clothing-item-form.tsx`, `createClothingItem` 완성)(Task 012, F003·F006)                                              | ✅   |
+| 완료   | 옷 아이템 수정·삭제(`app/closet/[id]/edit/page.tsx`, `delete-item-dialog.tsx`, `updateClothingItem`/`deleteClothingItem` 완성)(Task 013, F004·F005)                                                              | ✅   |
 | 완료   | 오늘의 착장 기록(`app/outfits/new/page.tsx`, `outfit-form.tsx`, `createOutfit` 완성)(Task 014, F001·F002)                                                                                                        | ✅   |
 | 완료   | 캘린더 기록 표시 및 날짜별 상세 조회(`app/(tabs)/calendar/page.tsx`, `calendar-view.tsx`, `app/outfits/[date]/page.tsx`)(Task 015, F007·F008)                                                                    | ✅   |
 | 완료   | 스타일 통계 화면(`app/(tabs)/stats/page.tsx`, `getOutfitCount` 신규)(Task 016, F009)                                                                                                                             | ✅   |
-| 미착수 | 마이 페이지 실제 기능 미구현 (F011, F012)                                                                                                                                                                          | ❌   |
+| 완료   | Phase 3 핵심 기능 통합 테스트(신규가입~통계 전체 여정, RLS 교차 계정 검증, 375px/414px)(Task 016-1)                                                                                                              | ✅   |
+| 미착수 | 착장 기록 수정/삭제, 마이 페이지 실제 기능 미구현 (F011, F012)                                                                                                                                                   | ❌   |
 
 ---
 
@@ -274,7 +275,7 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 ---
 
-### Phase 3: 핵심 기능 개발
+### Phase 3: 핵심 기능 개발 ✅
 
 > 목표: PRD 핵심 기능 F001~F009를 **화면 단위**로 완성한다. 각 화면 완료 시 Playwright MCP E2E 검증 필수.
 
@@ -421,20 +422,20 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 ---
 
-#### Task 016-1: 핵심 기능 통합 테스트
+#### Task 016-1: 핵심 기능 통합 테스트 ✅ - 완료
 
-- [ ] Playwright MCP로 신규 가입 → 아이템 등록 → 착장 기록 → 캘린더 확인 → 통계 확인 전체 플로우 E2E 실행
-- [ ] 각 화면 간 데이터 정합성 검증(옷장 ↔ 착장 ↔ 캘린더 ↔ 통계)
-- [ ] RLS 격리 검증: 두 계정 교차 접근 시 데이터 노출 없음 확인
-- [ ] 엣지 케이스 검증: 데이터 0건, 대용량 이미지, 동일 날짜 중복 기록, 아이템 미선택 저장, 과거 날짜 신규 기록, 아이템 삭제 후 기록 조회
-- [ ] `browser_console_messages`로 런타임 에러/경고 0건 확인
-- [ ] 375px / 414px 뷰포트에서 전체 플로우 재실행
+- [x] Playwright MCP로 신규 가입 → 아이템 등록 → 착장 기록 → 캘린더 확인 → 통계 확인 전체 플로우 E2E 실행
+- [x] 각 화면 간 데이터 정합성 검증(옷장 ↔ 착장 ↔ 캘린더 ↔ 통계)
+- [x] RLS 격리 검증: 두 계정 교차 접근 시 데이터 노출 없음 확인(원래 계정 ↔ 신규 testa 계정으로 검증 — `/closet/[id]/edit` 직접 접근 시 notFound, 옷장/홈/통계 모두 격리 확인)
+- [x] 엣지 케이스 검증: 데이터 0건(이번 Task에서 재확인), 대용량 이미지(Task008), 동일 날짜 중복 기록(Task014), 아이템 미선택 저장(Task014), 과거 날짜 신규 기록(Task015), 아이템 삭제 후 기록 조회(Task013) — 각 Task에서 이미 개별 검증 완료, 이번 Task는 화면 간 통합 흐름에 집중
+- [x] `browser_console_messages`로 런타임 에러/경고 0건 확인
+- [x] 375px / 414px 뷰포트에서 전체 플로우 재실행
 
 **완료 기준 (DoD)**
 
-- [ ] 전체 사용자 여정(PRD 4절) 시나리오가 중단 없이 완주됨
-- [ ] 콘솔 에러 및 실패한 네트워크 요청 0건
-- [ ] 발견된 결함이 모두 수정 또는 이슈로 등록됨
+- [x] 전체 사용자 여정(PRD 4절) 시나리오가 중단 없이 완주됨
+- [x] 콘솔 에러 및 실패한 네트워크 요청 0건
+- [x] 발견된 결함이 모두 수정 또는 이슈로 등록됨(Task014 검증 중 네트워크 실패 예외 처리 결함 발견 후 즉시 수정 완료, 이번 Task에서는 신규 결함 없음)
 
 ---
 
@@ -625,8 +626,8 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | ------- | ----------------------------------- | ------- | ----------- |
 | Phase 1 | 프로젝트 초기 설정(골격 구축)       | 5       | 5/5 완료 ✅ |
 | Phase 2 | 공통 모듈/컴포넌트 개발             | 5       | 5/5 완료 ✅ |
-| Phase 3 | 핵심 기능 개발 (F001~F009, F013)    | 7       | 6/7 진행중  |
+| Phase 3 | 핵심 기능 개발 (F001~F009, F013)    | 7       | 7/7 완료 ✅ |
 | Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4       | 대기        |
 | Phase 5 | 최적화 및 배포                      | 4       | 대기        |
 
-**다음 실행 작업**: `Task 016-1 — 핵심 기능 통합 테스트`
+**다음 실행 작업**: `Task 017 — 착장 기록 수정 및 삭제` (Phase 4 시작)
