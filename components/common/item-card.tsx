@@ -1,6 +1,6 @@
 "use client";
 
-import { Check } from "lucide-react";
+import { Check, ImageIcon } from "lucide-react";
 
 import type { ClothingItem } from "@/types/clothing";
 import { CLOTHING_CATEGORY_LABELS } from "@/lib/constants/category";
@@ -33,12 +33,18 @@ export function ItemCard({
       )}
     >
       <div className="relative aspect-square w-full overflow-hidden rounded-sm bg-muted">
-        {/* eslint-disable-next-line @next/next/no-img-element -- Storage 공개 URL은 next/image remotePatterns 미등록 상태(Task 022에서 전환 예정) */}
-        <img
-          src={item.photo_url}
-          alt={item.name}
-          className="size-full object-cover"
-        />
+        {item.photo_url ? (
+          // eslint-disable-next-line @next/next/no-img-element -- Storage 공개 URL은 next/image remotePatterns 미등록 상태(Task 022에서 전환 예정)
+          <img
+            src={item.photo_url}
+            alt={item.name}
+            className="size-full object-cover"
+          />
+        ) : (
+          <div className="flex size-full items-center justify-center">
+            <ImageIcon className="size-6 text-muted-foreground" />
+          </div>
+        )}
         {isSelected && (
           <span className="absolute top-1 right-1 flex size-5 items-center justify-center rounded-full bg-primary text-primary-foreground">
             <Check className="size-3" />

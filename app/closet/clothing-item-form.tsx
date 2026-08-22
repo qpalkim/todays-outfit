@@ -49,12 +49,11 @@ export function ClothingItemForm({
       name: initialValues?.name ?? "",
       category: initialValues?.category,
       photo_file: null,
-      existing_photo_url: initialValues?.photo_url,
+      existing_photo_url: initialValues?.photo_url ?? undefined,
     },
   });
 
   const isSubmitting = form.formState.isSubmitting;
-  const photoError = form.formState.errors.photo_file?.message;
 
   async function onSubmit(values: ClothingItemInput) {
     let result;
@@ -89,7 +88,7 @@ export function ClothingItemForm({
         className="flex flex-col gap-6 p-4"
       >
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium">사진</label>
+          <label className="text-sm font-medium">사진(선택)</label>
           <ImageUploader
             bucket="item-photos"
             userId={userId}
@@ -102,9 +101,6 @@ export function ClothingItemForm({
             }}
             disabled={isSubmitting}
           />
-          {photoError && (
-            <p className="text-sm text-destructive">{photoError}</p>
-          )}
         </div>
 
         <FormField
@@ -115,7 +111,7 @@ export function ClothingItemForm({
               <FormLabel>이름</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="예: 흰색 반팔 티셔츠"
+                  placeholder="예: 나이키 화이트 반팔티"
                   disabled={isSubmitting}
                   {...field}
                 />

@@ -5,7 +5,7 @@ export interface ClothingItem {
   user_id: string;
   category: ClothingCategory;
   name: string;
-  photo_url: string;
+  photo_url: string | null;
   created_at: string;
 }
 

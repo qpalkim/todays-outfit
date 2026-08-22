@@ -30,17 +30,13 @@ export async function createClothingItem(
     return { success: false, error: "로그인이 필요합니다" };
   }
 
-  if (!parsed.data.existing_photo_url) {
-    return { success: false, error: "사진을 먼저 업로드해주세요" };
-  }
-
   const { data, error } = await supabase
     .from("clothing_items")
     .insert({
       user_id: claims.claims.sub,
       name: parsed.data.name,
       category: parsed.data.category,
-      photo_url: parsed.data.existing_photo_url,
+      photo_url: parsed.data.existing_photo_url ?? null,
     })
     .select()
     .single();
@@ -80,16 +76,12 @@ export async function updateClothingItem(
     return { success: false, error: "로그인이 필요합니다" };
   }
 
-  if (!parsed.data.existing_photo_url) {
-    return { success: false, error: "사진을 먼저 업로드해주세요" };
-  }
-
   const { data, error } = await supabase
     .from("clothing_items")
     .update({
       name: parsed.data.name,
       category: parsed.data.category,
-      photo_url: parsed.data.existing_photo_url,
+      photo_url: parsed.data.existing_photo_url ?? null,
     })
     .eq("id", id)
     .eq("user_id", claims.claims.sub)

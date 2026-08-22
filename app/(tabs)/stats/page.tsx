@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { BarChart3, ImageIcon } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/server";
 import { getItemWearCounts, getCategoryDistribution } from "@/lib/queries/stats";
@@ -86,6 +87,7 @@ export default async function StatsPage() {
         <EmptyState
           title="아직 통계를 낼 기록이 없어요"
           description="오늘의 착장을 기록하면 통계를 볼 수 있어요"
+          icon={<BarChart3 className="size-10 text-muted-foreground" />}
         />
       ) : (
         <>
@@ -115,13 +117,17 @@ export default async function StatsPage() {
                   <span className="w-5 text-sm font-medium text-muted-foreground">
                     {index + 1}
                   </span>
-                  <div className="size-11 shrink-0 overflow-hidden rounded-sm bg-muted">
-                    {/* eslint-disable-next-line @next/next/no-img-element -- Storage 공개 URL은 next/image remotePatterns 미등록 상태(Task 022에서 전환 예정) */}
-                    <img
-                      src={item.photo_url}
-                      alt={item.name}
-                      className="size-full object-cover"
-                    />
+                  <div className="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-sm bg-muted">
+                    {item.photo_url ? (
+                      // eslint-disable-next-line @next/next/no-img-element -- Storage 공개 URL은 next/image remotePatterns 미등록 상태(Task 022에서 전환 예정)
+                      <img
+                        src={item.photo_url}
+                        alt={item.name}
+                        className="size-full object-cover"
+                      />
+                    ) : (
+                      <ImageIcon className="size-4 text-muted-foreground" />
+                    )}
                   </div>
                   <p className="flex-1 truncate text-sm">{item.name}</p>
                   <span className="text-sm text-muted-foreground">

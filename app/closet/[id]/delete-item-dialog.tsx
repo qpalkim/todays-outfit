@@ -22,7 +22,7 @@ import {
 
 interface DeleteItemDialogProps {
   itemId: string;
-  photoUrl: string;
+  photoUrl: string | null;
   connectedOutfitCount: number;
 }
 
@@ -52,7 +52,9 @@ export function DeleteItemDialog({
       return;
     }
 
-    const path = getStoragePathFromPublicUrl("item-photos", photoUrl);
+    const path = photoUrl
+      ? getStoragePathFromPublicUrl("item-photos", photoUrl)
+      : null;
     if (path) {
       void deleteImage({ bucket: "item-photos", path });
     }
