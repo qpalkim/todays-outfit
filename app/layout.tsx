@@ -35,11 +35,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body
-        className={`${geistSans.className} antialiased mx-auto min-h-screen w-full max-w-md bg-background`}
-      >
-        {children}
-        <Toaster />
+      <body className={`${geistSans.className} antialiased bg-background`}>
+        <div className="mx-auto min-h-screen w-full max-w-md">
+          {children}
+          <Toaster />
+        </div>
       </body>
     </html>
   );
