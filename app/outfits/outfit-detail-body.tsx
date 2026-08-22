@@ -5,6 +5,7 @@ import type { OutfitWithItems } from "@/types/outfit";
 import { formatRecordDate } from "@/lib/utils/date";
 import { Button } from "@/components/ui/button";
 import { ItemCard } from "@/components/common/item-card";
+import { SafeImage } from "@/components/common/safe-image";
 import { DeleteOutfitDialog } from "@/app/outfits/[date]/delete-outfit-dialog";
 
 interface OutfitDetailBodyProps {
@@ -21,6 +22,9 @@ export function OutfitDetailBody({ outfit, date }: OutfitDetailBodyProps) {
         <p className="text-sm font-medium">
           {formatRecordDate(date)} 기록이 없어요
         </p>
+        <p className="text-sm text-muted-foreground">
+          이 날짜에 입은 옷을 사진으로 남겨보세요
+        </p>
         <Button asChild>
           <Link href={`/outfits/new?date=${date}`}>이 날짜로 기록하기</Link>
         </Button>
@@ -31,8 +35,7 @@ export function OutfitDetailBody({ outfit, date }: OutfitDetailBodyProps) {
   return (
     <>
       <div className="overflow-hidden rounded-md">
-        {/* eslint-disable-next-line @next/next/no-img-element -- Storage 공개 URL은 next/image remotePatterns 미등록 상태(Task 022에서 전환 예정) */}
-        <img
+        <SafeImage
           src={outfit.photo_url}
           alt="착장 사진"
           className="aspect-square w-full object-cover"

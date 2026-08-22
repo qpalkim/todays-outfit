@@ -24,6 +24,10 @@ export function mapSupabaseErrorToMessage(error: unknown): string {
       return "입력값이 조건을 만족하지 않습니다";
     case "42501": // insufficient_privilege (RLS 위반 포함)
       return "접근 권한이 없습니다";
+    case "23502": // not_null_violation
+      return "필수 입력값이 누락되었습니다";
+    case "22P02": // invalid_text_representation (잘못된 형식의 id/날짜 등)
+      return "요청 값의 형식이 올바르지 않습니다";
     default:
       return "요청을 처리하지 못했습니다. 잠시 후 다시 시도해주세요";
   }

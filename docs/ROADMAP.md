@@ -30,28 +30,29 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 ## 현재 코드베이스 상태 (2026-08-20 기준)
 
-| 구분   | 항목                                                                                                                                                                                                             | 상태 |
-| ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- |
-| 완료   | 인증 전체(F010) — 로그인/회원가입/구글 OAuth/비밀번호 재설정, 라우트 보호(`proxy.ts`)                                                                                                                            | ✅   |
-| 완료   | Supabase 클라이언트(`lib/supabase/client.ts`, `server.ts`), shadcn/ui 설정(`components.json`)                                                                                                                    | ✅   |
-| 완료   | `components/ui/` 20종 설치 완료(기존 7종 + form/select/dialog/alert-dialog/tabs/calendar/textarea/avatar/sonner/skeleton/separator/sheet/progress), 모바일 터치 타깃(44px) 보정, `Toaster` 전역 마운트(Task 006) | ✅   |
-| 완료   | TailwindCSS **v4** 마이그레이션 및 민트·그레이 브랜드 테마 적용, 다크모드 제거(Task 002)                                                                                                                         | ✅   |
-| 완료   | `outfits`/`clothing_items`/`outfit_items` 테이블 + RLS 12종 + Storage 버킷 2종 생성, `lib/supabase/types.ts` 재생성(Task 004)                                                                                    | ✅   |
-| 완료   | React Hook Form·Zod 설치, 도메인 타입(`types/`)·검증 스키마(`lib/validations/`)·카테고리 상수 정의(Task 003)                                                                                                     | ✅   |
-| 완료   | `app/(tabs)/` 라우트 그룹 + 탭 외 라우트 골격 9종, 인증 재검증 레이아웃, 스타터킷 잔재 전면 정리(Task 005)                                                                                                       | ✅   |
-| 완료   | 하단 탭바 실제 링크 및 활성 하이라이트(`components/layout/bottom-tab-bar.tsx`), 공통 헤더·모바일 셸(Task 007)                                                                                                    | ✅   |
-| 완료   | 이미지 업로드 공통 컴포넌트(`components/common/image-uploader.tsx`) + Storage 헬퍼(`lib/storage/upload.ts`, 리사이즈/WebP 변환, 고아 파일 정리)(Task 008)                                                        | ✅   |
-| 완료   | 카테고리 필터/선택 및 아이템 다중 선택 공통 컴포넌트(`category-tabs`, `category-select`, `item-card`, `item-picker`, `useItemSelection`)(Task 009)                                                               | ✅   |
-| 완료   | 서버 조회 계층(`lib/queries/*`), Server Action 골격(`app/outfits/actions.ts`, `app/closet/actions.ts`), 에러 매핑·날짜 유틸·공통 상태 컴포넌트(Task 010)                                                         | ✅   |
-| 완료   | 홈 화면 — 오늘 기록 여부 안내(`app/(tabs)/page.tsx`), `getRecentOutfitDates`(Task 011, F013)                                                                                                                     | ✅   |
-| 완료   | 옷장 목록 조회 및 아이템 등록(`app/(tabs)/closet/page.tsx`, `closet-list.tsx`, `app/closet/clothing-item-form.tsx`, `createClothingItem` 완성)(Task 012, F003·F006)                                              | ✅   |
-| 완료   | 옷 아이템 수정·삭제(`app/closet/[id]/edit/page.tsx`, `delete-item-dialog.tsx`, `updateClothingItem`/`deleteClothingItem` 완성)(Task 013, F004·F005)                                                              | ✅   |
-| 완료   | 오늘의 착장 기록(`app/outfits/new/page.tsx`, `outfit-form.tsx`, `createOutfit` 완성)(Task 014, F001·F002)                                                                                                        | ✅   |
-| 완료   | 캘린더 기록 표시 및 날짜별 상세 조회(`app/(tabs)/calendar/page.tsx`, `calendar-view.tsx`, `app/outfits/[date]/page.tsx`)(Task 015, F007·F008)                                                                    | ✅   |
-| 완료   | 스타일 통계 화면(`app/(tabs)/stats/page.tsx`, `getOutfitCount` 신규)(Task 016, F009)                                                                                                                             | ✅   |
-| 완료   | Phase 3 핵심 기능 통합 테스트(신규가입~통계 전체 여정, RLS 교차 계정 검증, 375px/414px)(Task 016-1)                                                                                                              | ✅   |
-| 완료   | 착장 기록 삭제(`app/outfits/[date]/delete-outfit-dialog.tsx`, `deleteOutfit` 완성) + 수정 플로우 회귀 검증(Task 017, F011)                                                                                       | ✅   |
-| 완료   | 마이 페이지(`app/(tabs)/my/page.tsx`) — 계정 정보·가입 경로·기록 요약 지표·로그아웃(Task 018, F010·F012)                                                                                                        | ✅   |
+| 구분 | 항목                                                                                                                                                                                                             | 상태 |
+| ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---- |
+| 완료 | 인증 전체(F010) — 로그인/회원가입/구글 OAuth/비밀번호 재설정, 라우트 보호(`proxy.ts`)                                                                                                                            | ✅   |
+| 완료 | Supabase 클라이언트(`lib/supabase/client.ts`, `server.ts`), shadcn/ui 설정(`components.json`)                                                                                                                    | ✅   |
+| 완료 | `components/ui/` 20종 설치 완료(기존 7종 + form/select/dialog/alert-dialog/tabs/calendar/textarea/avatar/sonner/skeleton/separator/sheet/progress), 모바일 터치 타깃(44px) 보정, `Toaster` 전역 마운트(Task 006) | ✅   |
+| 완료 | TailwindCSS **v4** 마이그레이션 및 민트·그레이 브랜드 테마 적용, 다크모드 제거(Task 002)                                                                                                                         | ✅   |
+| 완료 | `outfits`/`clothing_items`/`outfit_items` 테이블 + RLS 12종 + Storage 버킷 2종 생성, `lib/supabase/types.ts` 재생성(Task 004)                                                                                    | ✅   |
+| 완료 | React Hook Form·Zod 설치, 도메인 타입(`types/`)·검증 스키마(`lib/validations/`)·카테고리 상수 정의(Task 003)                                                                                                     | ✅   |
+| 완료 | `app/(tabs)/` 라우트 그룹 + 탭 외 라우트 골격 9종, 인증 재검증 레이아웃, 스타터킷 잔재 전면 정리(Task 005)                                                                                                       | ✅   |
+| 완료 | 하단 탭바 실제 링크 및 활성 하이라이트(`components/layout/bottom-tab-bar.tsx`), 공통 헤더·모바일 셸(Task 007)                                                                                                    | ✅   |
+| 완료 | 이미지 업로드 공통 컴포넌트(`components/common/image-uploader.tsx`) + Storage 헬퍼(`lib/storage/upload.ts`, 리사이즈/WebP 변환, 고아 파일 정리)(Task 008)                                                        | ✅   |
+| 완료 | 카테고리 필터/선택 및 아이템 다중 선택 공통 컴포넌트(`category-tabs`, `category-select`, `item-card`, `item-picker`, `useItemSelection`)(Task 009)                                                               | ✅   |
+| 완료 | 서버 조회 계층(`lib/queries/*`), Server Action 골격(`app/outfits/actions.ts`, `app/closet/actions.ts`), 에러 매핑·날짜 유틸·공통 상태 컴포넌트(Task 010)                                                         | ✅   |
+| 완료 | 홈 화면 — 오늘 기록 여부 안내(`app/(tabs)/page.tsx`), `getRecentOutfitDates`(Task 011, F013)                                                                                                                     | ✅   |
+| 완료 | 옷장 목록 조회 및 아이템 등록(`app/(tabs)/closet/page.tsx`, `closet-list.tsx`, `app/closet/clothing-item-form.tsx`, `createClothingItem` 완성)(Task 012, F003·F006)                                              | ✅   |
+| 완료 | 옷 아이템 수정·삭제(`app/closet/[id]/edit/page.tsx`, `delete-item-dialog.tsx`, `updateClothingItem`/`deleteClothingItem` 완성)(Task 013, F004·F005)                                                              | ✅   |
+| 완료 | 오늘의 착장 기록(`app/outfits/new/page.tsx`, `outfit-form.tsx`, `createOutfit` 완성)(Task 014, F001·F002)                                                                                                        | ✅   |
+| 완료 | 캘린더 기록 표시 및 날짜별 상세 조회(`app/(tabs)/calendar/page.tsx`, `calendar-view.tsx`, `app/outfits/[date]/page.tsx`)(Task 015, F007·F008)                                                                    | ✅   |
+| 완료 | 스타일 통계 화면(`app/(tabs)/stats/page.tsx`, `getOutfitCount` 신규)(Task 016, F009)                                                                                                                             | ✅   |
+| 완료 | Phase 3 핵심 기능 통합 테스트(신규가입~통계 전체 여정, RLS 교차 계정 검증, 375px/414px)(Task 016-1)                                                                                                              | ✅   |
+| 완료 | 착장 기록 삭제(`app/outfits/[date]/delete-outfit-dialog.tsx`, `deleteOutfit` 완성) + 수정 플로우 회귀 검증(Task 017, F011)                                                                                       | ✅   |
+| 완료 | 마이 페이지(`app/(tabs)/my/page.tsx`) — 계정 정보·가입 경로·기록 요약 지표·로그아웃(Task 018, F010·F012)                                                                                                         | ✅   |
+| 완료 | 에러(`error.tsx` 9종 통일)·빈 상태(EmptyState 톤 일관화)·로딩(`loading.tsx` grid/form variant 보강)·이미지 로드 실패 폴백(`safe-image.tsx`)(Task 019)                                                            | ✅   |
 
 ---
 
@@ -485,19 +486,26 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 ---
 
-#### Task 019: 에러 · 빈 상태 · 로딩 경험 개선
+#### Task 019: 에러 · 빈 상태 · 로딩 경험 개선 ✅ - 완료
 
-- [ ] 전 화면 EmptyState 문구/CTA 일관화 (옷장, 캘린더, 통계, 홈)
-- [ ] `loading.tsx` 스켈레톤을 실제 레이아웃과 동일한 형태로 정교화
-- [ ] `error.tsx` 재시도 버튼 및 사용자 친화 메시지 적용
-- [ ] Server Action 에러 코드 → 한국어 메시지 매핑 정리 (`lib/errors.ts`)
-- [ ] 네트워크 오프라인·이미지 로드 실패 폴백 처리
-- [ ] 폼 제출 중 버튼 비활성화 및 중복 제출 방지 전역 적용
+- [x] 전 화면 EmptyState 문구/CTA 일관화 (옷장, 캘린더, 통계, 홈, 착장 상세) — 기존 호출부는 이미 '~없어요'/'~보세요' 톤으로 일관돼 있었고, `outfit-detail-body.tsx`의 미기록 안내에만 설명 문구가 빠져 있어 추가
+- [x] `loading.tsx` 스켈레톤을 실제 레이아웃과 동일한 형태로 정교화 — `LoadingSkeleton`에 `grid`(옷장 3열 그리드)·`form`(사진+입력+버튼) variant를 추가하고, 라우트 9종의 `loading.tsx`를 실제 화면 구조(그리드/카드/캘린더/폼/헤더)에 맞춰 재작성
+- [x] `error.tsx` 재시도 버튼 및 사용자 친화 메시지 적용 — 라우트 9종 모두 원시 `<button>` 대신 공용 `components/common/error-message.tsx`(AlertTriangle 아이콘 + `onRetry={reset}`)로 통일
+- [x] Server Action 에러 코드 → 한국어 메시지 매핑 정리 (`lib/errors.ts`) — 마이그레이션의 실제 제약조건(unique/check/FK/RLS)은 이미 커버돼 있었고, 방어적으로 `23502`(not_null_violation)·`22P02`(invalid_text_representation) 매핑 추가
+- [x] 네트워크 오프라인·이미지 로드 실패 폴백 처리 — Server Action 호출부는 이미 전부 `try/catch` + "네트워크 연결을 확인해주세요" 토스트 패턴을 따르고 있어 변경 없음. 이미지 로드 실패는 `components/common/safe-image.tsx`(`onError` 시 플레이스홀더 아이콘으로 대체)를 신규 작성해 `item-card.tsx`/`outfit-detail-body.tsx`/홈/통계 랭킹의 `<img>` 4곳에 적용
+- [x] 폼 제출 중 버튼 비활성화 및 중복 제출 방지 전역 적용 — `outfit-form.tsx`/`clothing-item-form.tsx`/삭제 다이얼로그 2종 모두 이미 `isSubmitting`/`isDeleting` 기반으로 비활성화돼 있음을 코드 검증만 수행(누락 없음)
 
 **완료 기준 (DoD)**
 
-- [ ] 모든 화면이 로딩·빈 상태·에러 3가지 상태를 빠짐없이 처리함
-- [ ] 사용자에게 원문 에러 스택이 노출되지 않음
+- [x] 모든 화면이 로딩·빈 상태·에러 3가지 상태를 빠짐없이 처리함
+- [x] 사용자에게 원문 에러 스택이 노출되지 않음(`error.tsx`가 항상 한국어 안내 문구만 노출, `error` prop의 message/stack 미출력)
+
+**테스트 체크리스트**
+
+- [x] Playwright MCP: testa 테스트 계정(데이터 0건)으로 홈/옷장/통계/착장 상세의 빈 상태 문구·아이콘이 일관된 톤으로 노출됨을 확인
+- [x] `/stats` 라우트에 임시로 강제 에러를 발생시켜(검증 후 원복) `error.tsx`가 재시도 버튼과 함께 노출되고, URL의 에러 조건 제거 후 정상 화면으로 복구됨을 확인
+- [x] `/closet` 라우트에 임시 지연을 추가해(검증 후 원복) 데이터 페칭 중 `grid` variant 스켈레톤(34개 요소)이 실제 3열 그리드 레이아웃과 동일한 형태로 렌더링됨을 DOM 카운트로 확인
+- [x] `npx tsc --noEmit`, `npm run lint` 통과
 
 ---
 
@@ -603,21 +611,21 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 ## 기능 ID 추적 매트릭스
 
-| 기능 ID | 기능명                  | 담당 Task          | 상태               |
-| ------- | ----------------------- | ------------------ | ------------------ |
-| F001    | 오늘의 착장 사진 업로드 | Task 004, 008, 014 | ✅ 완료            |
-| F002    | 착장-아이템 연결        | Task 004, 009, 014 | ✅ 완료            |
-| F003    | 옷 아이템 등록          | Task 003, 008, 012 | ✅ 완료            |
-| F004    | 옷 아이템 수정          | Task 013           | ✅ 완료            |
-| F005    | 옷 아이템 삭제          | Task 013           | ✅ 완료            |
-| F006    | 옷장 목록 조회          | Task 009, 012      | ✅ 완료            |
-| F007    | 캘린더 기록 표시        | Task 010, 015      | ✅ 완료            |
-| F008    | 날짜별 착장 상세 조회   | Task 015           | ✅ 완료            |
-| F009    | 스타일 통계             | Task 016           | ✅ 완료            |
-| F010    | 기본 인증               | Task 001, 018      | ✅ 완료            |
-| F011    | 착장 기록 수정/삭제     | Task 017           | ✅ 완료            |
-| F012    | 계정 정보 확인          | Task 018           | ✅ 완료            |
-| F013    | 오늘 기록 여부 안내     | Task 005, 011      | ✅ 완료            |
+| 기능 ID | 기능명                  | 담당 Task          | 상태    |
+| ------- | ----------------------- | ------------------ | ------- |
+| F001    | 오늘의 착장 사진 업로드 | Task 004, 008, 014 | ✅ 완료 |
+| F002    | 착장-아이템 연결        | Task 004, 009, 014 | ✅ 완료 |
+| F003    | 옷 아이템 등록          | Task 003, 008, 012 | ✅ 완료 |
+| F004    | 옷 아이템 수정          | Task 013           | ✅ 완료 |
+| F005    | 옷 아이템 삭제          | Task 013           | ✅ 완료 |
+| F006    | 옷장 목록 조회          | Task 009, 012      | ✅ 완료 |
+| F007    | 캘린더 기록 표시        | Task 010, 015      | ✅ 완료 |
+| F008    | 날짜별 착장 상세 조회   | Task 015           | ✅ 완료 |
+| F009    | 스타일 통계             | Task 016           | ✅ 완료 |
+| F010    | 기본 인증               | Task 001, 018      | ✅ 완료 |
+| F011    | 착장 기록 수정/삭제     | Task 017           | ✅ 완료 |
+| F012    | 계정 정보 확인          | Task 018           | ✅ 완료 |
+| F013    | 오늘 기록 여부 안내     | Task 005, 011      | ✅ 완료 |
 
 ---
 
@@ -628,7 +636,7 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | Phase 1 | 프로젝트 초기 설정(골격 구축)       | 5       | 5/5 완료 ✅ |
 | Phase 2 | 공통 모듈/컴포넌트 개발             | 5       | 5/5 완료 ✅ |
 | Phase 3 | 핵심 기능 개발 (F001~F009, F013)    | 7       | 7/7 완료 ✅ |
-| Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4       | 2/4 진행 중 |
+| Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4       | 3/4 진행 중 |
 | Phase 5 | 최적화 및 배포                      | 4       | 대기        |
 
-**다음 실행 작업**: `Task 019 — 에러·빈 상태·로딩 경험 개선`
+**다음 실행 작업**: `Task 020 — 폼 검증 강화 및 입력 UX 개선`

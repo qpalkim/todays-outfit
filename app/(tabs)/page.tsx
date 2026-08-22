@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getOutfitByDate, getRecentOutfitDates } from "@/lib/queries/outfits";
 import { getTodayInKst } from "@/lib/utils/date";
 import { Button } from "@/components/ui/button";
+import { SafeImage } from "@/components/common/safe-image";
 import { cn } from "@/lib/utils";
 
 const WEEKDAY_LABELS = ["일", "월", "화", "수", "목", "금", "토"];
@@ -54,8 +55,7 @@ export default async function HomePage() {
             오늘의 착장을 기록했어요
           </p>
           <div className="overflow-hidden rounded-md">
-            {/* eslint-disable-next-line @next/next/no-img-element -- Storage 공개 URL은 next/image remotePatterns 미등록 상태(Task 022에서 전환 예정) */}
-            <img
+            <SafeImage
               src={todayOutfit.photo_url}
               alt="오늘의 착장 사진"
               className="aspect-square w-full object-cover"

@@ -4,6 +4,7 @@ import { Check, ImageIcon } from "lucide-react";
 
 import type { ClothingItem } from "@/types/clothing";
 import { CLOTHING_CATEGORY_LABELS } from "@/lib/constants/category";
+import { SafeImage } from "@/components/common/safe-image";
 import { cn } from "@/lib/utils";
 
 interface ItemCardProps {
@@ -34,8 +35,7 @@ export function ItemCard({
     >
       <div className="relative aspect-square w-full overflow-hidden rounded-sm bg-muted">
         {item.photo_url ? (
-          // eslint-disable-next-line @next/next/no-img-element -- Storage 공개 URL은 next/image remotePatterns 미등록 상태(Task 022에서 전환 예정)
-          <img
+          <SafeImage
             src={item.photo_url}
             alt={item.name}
             className="size-full object-cover"

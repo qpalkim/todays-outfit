@@ -1,5 +1,7 @@
 "use client";
 
+import { ErrorMessage } from "@/components/common/error-message";
+
 export default function Error({
   reset,
 }: {
@@ -7,14 +9,11 @@ export default function Error({
   reset: () => void;
 }) {
   return (
-    <div className="flex flex-col items-center gap-3 p-4 text-center">
-      <p className="text-sm text-muted-foreground">문제가 발생했습니다.</p>
-      <button
-        onClick={reset}
-        className="rounded-md border px-4 py-2 text-sm font-medium"
-      >
-        다시 시도
-      </button>
+    <div className="p-4">
+      <ErrorMessage
+        message="문제가 발생했어요. 잠시 후 다시 시도해주세요"
+        onRetry={reset}
+      />
     </div>
   );
 }

@@ -12,6 +12,7 @@ import {
 } from "@/lib/constants/category";
 import { Progress } from "@/components/ui/progress";
 import { EmptyState } from "@/components/common/empty-state";
+import { SafeImage } from "@/components/common/safe-image";
 
 const TOP_RANKING_LIMIT = 10;
 
@@ -119,8 +120,7 @@ export default async function StatsPage() {
                   </span>
                   <div className="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-sm bg-muted">
                     {item.photo_url ? (
-                      // eslint-disable-next-line @next/next/no-img-element -- Storage 공개 URL은 next/image remotePatterns 미등록 상태(Task 022에서 전환 예정)
-                      <img
+                      <SafeImage
                         src={item.photo_url}
                         alt={item.name}
                         className="size-full object-cover"
