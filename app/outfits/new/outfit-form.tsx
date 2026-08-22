@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,6 +11,7 @@ import type { z } from "zod";
 import type { ClothingItem } from "@/types/clothing";
 import type { OutfitWithItems } from "@/types/outfit";
 import { outfitSchema } from "@/lib/validations/outfit";
+import { deleteImage, getStoragePathFromPublicUrl } from "@/lib/storage/upload";
 
 /**
  * clothing_item_ids가 `.default([])`를 사용해 zod의 input/output 타입이 갈리므로,
@@ -39,6 +41,11 @@ export function OutfitForm({
 }: OutfitFormProps) {
   const router = useRouter();
 
+  /** 수정 모드 진입 시 원래 저장돼 있던 사진 — 저장 실패해도 절대 지우면 안 된다 */
+  const initialPhotoUrl = existingOutfit?.photo_url ?? null;
+  /** 이번 세션에 새로 업로드했지만 아직 저장이 확정되지 않은 사진 URL(저장 실패 시 정리 대상) */
+  const pendingUploadUrlRef = useRef<string | null>(null);
+
   const form = useForm<OutfitFormFields>({
     resolver: zodResolver(outfitSchema),
     defaultValues: {
@@ -55,16 +62,37 @@ export function OutfitForm({
   const photoError = form.formState.errors.photo_file?.message;
   const selectedIds = form.watch("clothing_item_ids") ?? [];
 
+  /**
+   * 이번 세션에 새로 업로드했지만 DB에 저장되지 못한 사진을 Storage에서 정리하고
+   * 폼을 원래 사진으로 되돌린다(저장 실패 시에만 호출되는 베스트에포트 롤백).
+   */
+  function cleanupPendingUpload() {
+    const pendingUrl = pendingUploadUrlRef.current;
+    if (!pendingUrl) {
+      return;
+    }
+
+    const path = getStoragePathFromPublicUrl("outfit-photos", pendingUrl);
+    if (path) {
+      void deleteImage({ bucket: "outfit-photos", path });
+    }
+
+    pendingUploadUrlRef.current = null;
+    form.setValue("existing_photo_url", initialPhotoUrl ?? undefined);
+  }
+
   async function onSubmit(values: OutfitFormFields) {
     let result;
     try {
       result = await createOutfit(values);
     } catch {
+      cleanupPendingUpload();
       toast.error("네트워크 연결을 확인해주세요");
       return;
     }
 
     if (!result.success) {
+      cleanupPendingUpload();
       if (result.fieldErrors) {
         for (const [field, messages] of Object.entries(result.fieldErrors)) {
           form.setError(field as keyof OutfitFormFields, {
@@ -76,6 +104,7 @@ export function OutfitForm({
       return;
     }
 
+    pendingUploadUrlRef.current = null;
     toast.success(
       existingOutfit ? "착장 기록을 수정했어요" : "오늘의 착장을 기록했어요",
     );
@@ -99,6 +128,8 @@ export function OutfitForm({
           userId={userId}
           value={form.watch("existing_photo_url") ?? null}
           onChange={(url) => {
+            pendingUploadUrlRef.current =
+              url && url !== initialPhotoUrl ? url : null;
             form.setValue("existing_photo_url", url ?? undefined, {
               shouldValidate: true,
             });
