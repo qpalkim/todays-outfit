@@ -1,10 +1,25 @@
-export default function NewClothingItemPage() {
+import { redirect } from "next/navigation";
+
+import { createClient } from "@/lib/supabase/server";
+import { createClothingItem } from "@/app/closet/actions";
+import { ClothingItemForm } from "@/app/closet/clothing-item-form";
+
+export default async function NewClothingItemPage() {
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.getClaims();
+
+  if (error || !data) {
+    redirect("/auth/login");
+  }
+
   return (
-    <div className="p-4">
-      <h1 className="text-xl font-semibold">옷 아이템 등록</h1>
-      <p className="text-sm text-muted-foreground">
-        사진·이름·카테고리 입력 화면 (Task 012에서 구현)
-      </p>
+    <div className="flex flex-col gap-4">
+      <h1 className="p-4 pb-0 text-xl font-semibold">옷 아이템 등록</h1>
+      <ClothingItemForm
+        mode="create"
+        userId={data.claims.sub}
+        onSubmitAction={createClothingItem}
+      />
     </div>
   );
 }

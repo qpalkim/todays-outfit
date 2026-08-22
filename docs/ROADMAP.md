@@ -44,7 +44,8 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | 완료   | 카테고리 필터/선택 및 아이템 다중 선택 공통 컴포넌트(`category-tabs`, `category-select`, `item-card`, `item-picker`, `useItemSelection`)(Task 009)                                                               | ✅   |
 | 완료   | 서버 조회 계층(`lib/queries/*`), Server Action 골격(`app/outfits/actions.ts`, `app/closet/actions.ts`), 에러 매핑·날짜 유틸·공통 상태 컴포넌트(Task 010)                                                         | ✅   |
 | 완료   | 홈 화면 — 오늘 기록 여부 안내(`app/(tabs)/page.tsx`), `getRecentOutfitDates`(Task 011, F013)                                                                                                                     | ✅   |
-| 미착수 | 착장기록·옷장·캘린더·통계·마이 페이지 실제 기능 미구현 (F001~F009, F011, F012)                                                                                                                                   | ❌   |
+| 완료   | 옷장 목록 조회 및 아이템 등록(`app/(tabs)/closet/page.tsx`, `closet-list.tsx`, `app/closet/clothing-item-form.tsx`, `createClothingItem` 완성)(Task 012, F003·F006)                                             | ✅   |
+| 미착수 | 착장기록·옷 아이템 수정삭제·캘린더·통계·마이 페이지 실제 기능 미구현 (F001, F002, F004, F005, F007~F009, F011, F012)                                                                                             | ❌   |
 
 ---
 
@@ -294,26 +295,26 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 ---
 
-#### Task 012: 옷장 목록 조회 및 아이템 등록 `F003` `F006`
+#### Task 012: 옷장 목록 조회 및 아이템 등록 `F003` `F006` ✅ - 완료
 
-- [ ] `(tabs)/closet` — 카테고리 탭 + 그리드 목록 렌더링 (서버 컴포넌트 조회)
-- [ ] 아이템 0건 시 EmptyState + "첫 아이템 등록하기" CTA
-- [ ] `closet/new` — 사진 업로드 + 이름 + 카테고리 입력 폼 (RHF + Zod)
-- [ ] `createClothingItem` Server Action 구현 (Storage 업로드 → DB insert 트랜잭션 처리)
-- [ ] 등록 성공 시 토스트 + 옷장 목록 복귀 + 캐시 재검증
-- [ ] 카테고리별 아이템 개수 표시 및 최신순 정렬
+- [x] `(tabs)/closet` — 카테고리 탭 + 그리드 목록 렌더링 (서버 컴포넌트 조회)
+- [x] 아이템 0건 시 EmptyState + "첫 아이템 등록하기" CTA
+- [x] `closet/new` — 사진 업로드 + 이름 + 카테고리 입력 폼 (RHF + Zod)
+- [x] `createClothingItem` Server Action 구현(ImageUploader가 Storage 업로드를 이미 끝낸 URL을 받아 DB insert)
+- [x] 등록 성공 시 토스트 + 옷장 목록 복귀 + 캐시 재검증
+- [x] 카테고리별 아이템 개수 표시 및 최신순 정렬(`getClothingItems`가 이미 최신순 정렬)
 
 **완료 기준 (DoD)**
 
-- [ ] 등록한 아이템이 즉시 목록에 반영되고 카테고리 필터에서도 정확히 조회됨
-- [ ] 필수값 누락 시 폼 제출이 차단되고 필드별 에러 메시지가 노출됨
+- [x] 등록한 아이템이 즉시 목록에 반영되고 카테고리 필터에서도 정확히 조회됨
+- [x] 필수값 누락 시 폼 제출이 차단되고 필드별 에러 메시지가 노출됨
 
 **테스트 체크리스트**
 
-- [ ] Playwright MCP: 아이템 등록 전체 플로우(사진 선택 → 이름 → 카테고리 → 저장 → 목록 확인)
-- [ ] 이름 미입력 / 사진 미선택 상태 제출 시 검증 에러 확인
-- [ ] 카테고리 탭 전환 시 해당 카테고리 아이템만 표시되는지 확인
-- [ ] 타 사용자 아이템이 목록에 노출되지 않는지 확인(RLS 검증)
+- [x] Playwright MCP: 아이템 등록 전체 플로우(사진 선택 → 이름 → 카테고리 → 저장 → 목록 확인)
+- [x] 이름 미입력 / 사진 미선택 상태 제출 시 검증 에러 확인
+- [x] 카테고리 탭 전환 시 해당 카테고리 아이템만 표시되는지 확인
+- [x] 타 사용자 아이템이 목록에 노출되지 않는지 확인(RLS 검증 — `relrowsecurity=true` 확인 및 Task 004에서 검증된 정책 재사용)
 
 ---
 
@@ -600,10 +601,10 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | ------- | ----------------------- | ------------------ | ------------------ |
 | F001    | 오늘의 착장 사진 업로드 | Task 004, 008, 014 | 대기               |
 | F002    | 착장-아이템 연결        | Task 004, 009, 014 | 대기               |
-| F003    | 옷 아이템 등록          | Task 003, 008, 012 | 대기               |
+| F003    | 옷 아이템 등록          | Task 003, 008, 012 | ✅ 완료            |
 | F004    | 옷 아이템 수정          | Task 013           | 대기               |
 | F005    | 옷 아이템 삭제          | Task 013           | 대기               |
-| F006    | 옷장 목록 조회          | Task 009, 012      | 대기               |
+| F006    | 옷장 목록 조회          | Task 009, 012      | ✅ 완료            |
 | F007    | 캘린더 기록 표시        | Task 010, 015      | 대기               |
 | F008    | 날짜별 착장 상세 조회   | Task 015           | 대기               |
 | F009    | 스타일 통계             | Task 016           | 대기               |
@@ -620,8 +621,8 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | ------- | ----------------------------------- | ------- | ----------- |
 | Phase 1 | 프로젝트 초기 설정(골격 구축)       | 5       | 5/5 완료 ✅ |
 | Phase 2 | 공통 모듈/컴포넌트 개발             | 5       | 5/5 완료 ✅ |
-| Phase 3 | 핵심 기능 개발 (F001~F009, F013)    | 7       | 1/7 진행중  |
+| Phase 3 | 핵심 기능 개발 (F001~F009, F013)    | 7       | 2/7 진행중  |
 | Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4       | 대기        |
 | Phase 5 | 최적화 및 배포                      | 4       | 대기        |
 
-**다음 실행 작업**: `Task 012 — 옷장 목록 조회 및 아이템 등록`
+**다음 실행 작업**: `Task 013 — 옷 아이템 수정 및 삭제`

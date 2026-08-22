@@ -1,10 +1,23 @@
-export default function ClosetPage() {
+import { redirect } from "next/navigation";
+
+import { createClient } from "@/lib/supabase/server";
+import { getClothingItems } from "@/lib/queries/clothing-items";
+import { ClosetList } from "@/app/(tabs)/closet/closet-list";
+
+export default async function ClosetPage() {
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.getClaims();
+
+  if (error || !data) {
+    redirect("/auth/login");
+  }
+
+  const items = await getClothingItems(data.claims.sub);
+
   return (
     <div className="p-4">
-      <h1 className="text-xl font-semibold">옷장</h1>
-      <p className="text-sm text-muted-foreground">
-        옷장 목록 조회 화면 (Task 012에서 구현)
-      </p>
+      <h1 className="mb-4 text-xl font-semibold">옷장</h1>
+      <ClosetList items={items} />
     </div>
   );
 }
