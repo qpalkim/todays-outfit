@@ -4,13 +4,14 @@ import { createClient } from "@/lib/supabase/server";
 import { getOutfitCount } from "@/lib/queries/outfits";
 import { getClothingItemCount } from "@/lib/queries/clothing-items";
 import { LogoutButton } from "@/components/logout-button";
+import packageJson from "@/package.json";
 
 const SIGN_UP_PROVIDER_LABELS: Record<string, string> = {
   email: "이메일 계정",
   google: "구글 계정",
 };
 
-const APP_VERSION = "0.1.0";
+const APP_VERSION = packageJson.version;
 
 export default async function MyPage() {
   const supabase = await createClient();

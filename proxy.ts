@@ -12,9 +12,10 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
+     * - icon, apple-icon, opengraph-image (next/og로 생성되는 확장자 없는 공개 메타데이터 라우트 — 비로그인 크롤러·브라우저 탭도 접근해야 함)
      * - images - .svg, .png, .jpg, .jpeg, .gif, .webp
      * Feel free to modify this pattern to include more paths.
      */
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/((?!_next/static|_next/image|favicon.ico|icon$|apple-icon$|opengraph-image$|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };

@@ -12,6 +12,17 @@ export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
   title: "오늘 뭐 입었지?",
   description: "매일의 착장을 기록하는 개인 옷장 로그",
+  openGraph: {
+    title: "오늘 뭐 입었지?",
+    description: "매일의 착장을 기록하는 개인 옷장 로그",
+    locale: "ko_KR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "오늘 뭐 입었지?",
+    description: "매일의 착장을 기록하는 개인 옷장 로그",
+  },
 };
 
 export const viewport: Viewport = {
