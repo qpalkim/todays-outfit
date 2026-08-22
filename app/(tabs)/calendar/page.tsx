@@ -1,10 +1,53 @@
-export default function CalendarPage() {
+import { Suspense } from "react";
+import { redirect } from "next/navigation";
+
+import { createClient } from "@/lib/supabase/server";
+import { getOutfitDatesInMonth } from "@/lib/queries/outfits";
+import { getTodayInKst } from "@/lib/utils/date";
+import { LoadingSkeleton } from "@/components/common/loading-skeleton";
+import { CalendarView } from "@/app/(tabs)/calendar/calendar-view";
+
+async function CalendarData({
+  userId,
+  year,
+  month,
+}: {
+  userId: string;
+  year: number;
+  month: number;
+}) {
+  const markedDates = await getOutfitDatesInMonth(userId, year, month);
+
+  return <CalendarView year={year} month={month} markedDates={markedDates} />;
+}
+
+export default async function CalendarPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ year?: string; month?: string }>;
+}) {
+  const { year: yearParam, month: monthParam } = await searchParams;
+
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.getClaims();
+
+  if (error || !data) {
+    redirect("/auth/login");
+  }
+
+  const [todayYear, todayMonth] = getTodayInKst().split("-").map(Number);
+  const year = yearParam ? Number(yearParam) : todayYear;
+  const month = monthParam ? Number(monthParam) : todayMonth;
+
   return (
-    <div className="p-4">
+    <div className="flex flex-col gap-4 p-4">
       <h1 className="text-xl font-semibold">캘린더</h1>
-      <p className="text-sm text-muted-foreground">
-        기록 캘린더 및 날짜별 상세 화면 (Task 015에서 구현)
-      </p>
+      <Suspense
+        key={`${year}-${month}`}
+        fallback={<LoadingSkeleton variant="calendar" />}
+      >
+        <CalendarData userId={data.claims.sub} year={year} month={month} />
+      </Suspense>
     </div>
   );
 }

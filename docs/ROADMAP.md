@@ -47,7 +47,8 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | 완료   | 옷장 목록 조회 및 아이템 등록(`app/(tabs)/closet/page.tsx`, `closet-list.tsx`, `app/closet/clothing-item-form.tsx`, `createClothingItem` 완성)(Task 012, F003·F006)                                             | ✅   |
 | 완료   | 옷 아이템 수정·삭제(`app/closet/[id]/edit/page.tsx`, `delete-item-dialog.tsx`, `updateClothingItem`/`deleteClothingItem` 완성)(Task 013, F004·F005)                                                             | ✅   |
 | 완료   | 오늘의 착장 기록(`app/outfits/new/page.tsx`, `outfit-form.tsx`, `createOutfit` 완성)(Task 014, F001·F002)                                                                                                        | ✅   |
-| 미착수 | 캘린더·통계·마이 페이지 실제 기능 미구현 (F007~F009, F011, F012)                                                                                                                                                  | ❌   |
+| 완료   | 캘린더 기록 표시 및 날짜별 상세 조회(`app/(tabs)/calendar/page.tsx`, `calendar-view.tsx`, `app/outfits/[date]/page.tsx`)(Task 015, F007·F008)                                                                    | ✅   |
+| 미착수 | 통계·마이 페이지 실제 기능 미구현 (F009, F011, F012)                                                                                                                                                              | ❌   |
 
 ---
 
@@ -370,28 +371,28 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 ---
 
-#### Task 015: 캘린더 기록 표시 및 날짜별 상세 조회 `F007` `F008`
+#### Task 015: 캘린더 기록 표시 및 날짜별 상세 조회 `F007` `F008` ✅ - 완료
 
-- [ ] `(tabs)/calendar` — shadcn `calendar` 기반 월 단위 뷰 구현
-- [ ] 해당 월 기록 날짜 조회 후 기록 있는 날짜에 마커(민트 도트) 표시 `F007`
-- [ ] 월 이동 시 데이터 재조회 및 로딩 스켈레톤 처리
-- [ ] 날짜 선택 → 착장 상세(대표 사진, 메모, 연결 아이템 목록) 표시 `F008`
-- [ ] 상세를 `outfits/[date]` 라우트 또는 Sheet로 노출하고 뒤로가기 동작 정리
-- [ ] 기록 없는 날짜(과거 포함) 선택 시 안내 + 해당 날짜로 신규 착장 기록 생성 가능 (정책 확정: 과거 날짜 신규 기록 허용)
+- [x] `(tabs)/calendar` — shadcn `calendar` 기반 월 단위 뷰 구현(`calendar-view.tsx`, mode="single" + 컨트롤드 month)
+- [x] 해당 월 기록 날짜 조회 후 기록 있는 날짜에 마커(민트 도트) 표시 `F007`(`modifiers`/`modifiersClassNames` 활용)
+- [x] 월 이동 시 데이터 재조회(`?year&month` URL 갱신) 및 로딩 스켈레톤 처리(`Suspense key={year-month}`)
+- [x] 날짜 선택 → 착장 상세(대표 사진, 메모, 연결 아이템 목록) 표시 `F008`
+- [x] 상세를 `outfits/[date]` 라우트로 노출하고 뒤로가기 동작 정리(Task007의 미사용 `app-header.tsx`를 처음 실사용에 연결)
+- [x] 기록 없는 날짜(과거 포함) 선택 시 안내 + 해당 날짜로 신규 착장 기록 생성 가능 (정책 확정: 과거 날짜 신규 기록 허용)
 
 **완료 기준 (DoD)**
 
-- [ ] 기록된 날짜만 마커가 표시되고 월 이동 시에도 정확함
-- [ ] 상세에서 연결 아이템 썸네일·이름·카테고리가 모두 표시됨
-- [ ] 타임존 경계에서 날짜가 하루 밀리지 않음
-- [ ] 과거 미기록 날짜 선택 시 해당 날짜로 신규 기록 생성 화면으로 정상 진입함
+- [x] 기록된 날짜만 마커가 표시되고 월 이동 시에도 정확함
+- [x] 상세에서 연결 아이템 썸네일·이름·카테고리가 모두 표시됨(`ItemCard` 재사용)
+- [x] 타임존 경계에서 날짜가 하루 밀리지 않음(DayPicker의 로컬 Date를 그대로 Y/M/D 추출 — 별도 UTC 변환 없이 시각적 날짜와 항상 일치)
+- [x] 과거 미기록 날짜 선택 시 해당 날짜로 신규 기록 생성 화면으로 정상 진입함
 
 **테스트 체크리스트**
 
-- [ ] Playwright MCP: 기록 있는 날짜 마커 확인 → 클릭 → 상세 정보 일치 확인
-- [ ] 이전/다음 달 이동 시 마커 갱신 확인
-- [ ] 기록 없는 과거 날짜 선택 → 신규 기록 생성 진입 및 저장 후 마커 반영 확인
-- [ ] 상세에서 뒤로가기 시 캘린더의 선택 월이 유지되는지 확인
+- [x] Playwright MCP: 기록 있는 날짜 마커 확인 → 클릭 → 상세 정보 일치 확인
+- [x] 이전/다음 달 이동 시 마커 갱신 확인
+- [x] 기록 없는 과거 날짜 선택 → 신규 기록 생성 진입 및 저장 후 마커 반영 확인
+- [x] 상세에서 뒤로가기 시 캘린더의 선택 월이 유지되는지 확인
 
 ---
 
@@ -607,8 +608,8 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | F004    | 옷 아이템 수정          | Task 013           | ✅ 완료            |
 | F005    | 옷 아이템 삭제          | Task 013           | ✅ 완료            |
 | F006    | 옷장 목록 조회          | Task 009, 012      | ✅ 완료            |
-| F007    | 캘린더 기록 표시        | Task 010, 015      | 대기               |
-| F008    | 날짜별 착장 상세 조회   | Task 015           | 대기               |
+| F007    | 캘린더 기록 표시        | Task 010, 015      | ✅ 완료            |
+| F008    | 날짜별 착장 상세 조회   | Task 015           | ✅ 완료            |
 | F009    | 스타일 통계             | Task 016           | 대기               |
 | F010    | 기본 인증               | Task 001, 018      | ✅ 완료(인증 기반) |
 | F011    | 착장 기록 수정/삭제     | Task 017           | 대기               |
@@ -623,8 +624,8 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | ------- | ----------------------------------- | ------- | ----------- |
 | Phase 1 | 프로젝트 초기 설정(골격 구축)       | 5       | 5/5 완료 ✅ |
 | Phase 2 | 공통 모듈/컴포넌트 개발             | 5       | 5/5 완료 ✅ |
-| Phase 3 | 핵심 기능 개발 (F001~F009, F013)    | 7       | 4/7 진행중  |
+| Phase 3 | 핵심 기능 개발 (F001~F009, F013)    | 7       | 5/7 진행중  |
 | Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4       | 대기        |
 | Phase 5 | 최적화 및 배포                      | 4       | 대기        |
 
-**다음 실행 작업**: `Task 015 — 캘린더 기록 표시 및 날짜별 상세 조회`
+**다음 실행 작업**: `Task 016 — 스타일 통계 화면 구현`
