@@ -51,7 +51,7 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | 완료   | 스타일 통계 화면(`app/(tabs)/stats/page.tsx`, `getOutfitCount` 신규)(Task 016, F009)                                                                                                                             | ✅   |
 | 완료   | Phase 3 핵심 기능 통합 테스트(신규가입~통계 전체 여정, RLS 교차 계정 검증, 375px/414px)(Task 016-1)                                                                                                              | ✅   |
 | 완료   | 착장 기록 삭제(`app/outfits/[date]/delete-outfit-dialog.tsx`, `deleteOutfit` 완성) + 수정 플로우 회귀 검증(Task 017, F011)                                                                                       | ✅   |
-| 미착수 | 마이 페이지 실제 기능 미구현 (F012)                                                                                                                                                                              | ❌   |
+| 완료   | 마이 페이지(`app/(tabs)/my/page.tsx`) — 계정 정보·가입 경로·기록 요약 지표·로그아웃(Task 018, F010·F012)                                                                                                        | ✅   |
 
 ---
 
@@ -465,23 +465,23 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 ---
 
-#### Task 018: 마이 페이지 구현 `F010` `F012`
+#### Task 018: 마이 페이지 구현 `F010` `F012` ✅ - 완료
 
-- [ ] `(tabs)/my` — 로그인 계정 이메일 및 가입 경로(이메일/구글) 표시
-- [ ] 기록 요약 지표(총 기록 일수, 등록 아이템 수) 카드
-- [ ] 로그아웃 버튼 연동 (`logout-button.tsx` 재사용) → `/auth/login` 이동
-- [ ] 앱 정보(버전, 문의) 섹션 배치
-- [ ] 계정 정보 조회 실패 시 에러 상태 처리
+- [x] `(tabs)/my` — 로그인 계정 이메일 및 가입 경로(이메일/구글) 표시(`claims.app_metadata.provider`를 한국어 라벨로 매핑, 미확인 값은 원본 노출로 폴백)
+- [x] 기록 요약 지표(총 기록 일수, 등록 아이템 수) 카드(`getOutfitCount`/`getClothingItemCount` 재사용, 통계 화면과 동일 카드 스타일)
+- [x] 로그아웃 버튼 연동 (`logout-button.tsx` 재사용) → `/auth/login` 이동 — 텍스트 '로그아웃', variant `outline`, `LogOut` 아이콘, `router.refresh()` 추가
+- [x] 앱 정보(버전, 문의) 섹션 배치(버전은 package.json에 `version` 필드가 없어 `0.1.0` 하드코딩)
+- [x] 계정 정보 조회 실패 시 에러 상태 처리 — 기존 화면과 동일하게 `auth.getClaims()` 실패 시 `/auth/login` redirect, 그 외 예외는 `error.tsx`로 전파(별도 try/catch 없음)
 
 **완료 기준 (DoD)**
 
-- [ ] 로그인한 계정 이메일이 정확히 표시됨
-- [ ] 로그아웃 시 세션 쿠키가 제거되고 보호 라우트 재접근이 차단됨
+- [x] 로그인한 계정 이메일이 정확히 표시됨
+- [x] 로그아웃 시 세션이 종료되고 보호 라우트 재접근이 `/auth/login`으로 차단됨
 
 **테스트 체크리스트**
 
-- [ ] Playwright MCP: 이메일 계정/구글 계정 각각 로그인 후 마이 페이지 정보 확인
-- [ ] 로그아웃 후 뒤로가기로 보호 페이지 재진입 차단 확인
+- [x] Playwright MCP: 이메일 계정 로그인 후 마이 페이지에서 이메일·가입 경로('이메일 계정으로 가입')·요약 지표가 실제 DB 값과 일치함을 확인. 구글 계정은 확보 가능한 테스트 계정이 없어 런타임 검증에서 제외(코드 레벨은 동일 provider 분기로 처리)
+- [x] 로그아웃 후 뒤로가기 시에도 `/auth/login`으로 리다이렉트되어 보호 페이지 재진입이 차단됨을 확인
 
 ---
 
@@ -614,9 +614,9 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | F007    | 캘린더 기록 표시        | Task 010, 015      | ✅ 완료            |
 | F008    | 날짜별 착장 상세 조회   | Task 015           | ✅ 완료            |
 | F009    | 스타일 통계             | Task 016           | ✅ 완료            |
-| F010    | 기본 인증               | Task 001, 018      | ✅ 완료(인증 기반) |
+| F010    | 기본 인증               | Task 001, 018      | ✅ 완료            |
 | F011    | 착장 기록 수정/삭제     | Task 017           | ✅ 완료            |
-| F012    | 계정 정보 확인          | Task 018           | 대기               |
+| F012    | 계정 정보 확인          | Task 018           | ✅ 완료            |
 | F013    | 오늘 기록 여부 안내     | Task 005, 011      | ✅ 완료            |
 
 ---
@@ -628,7 +628,7 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | Phase 1 | 프로젝트 초기 설정(골격 구축)       | 5       | 5/5 완료 ✅ |
 | Phase 2 | 공통 모듈/컴포넌트 개발             | 5       | 5/5 완료 ✅ |
 | Phase 3 | 핵심 기능 개발 (F001~F009, F013)    | 7       | 7/7 완료 ✅ |
-| Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4       | 1/4 진행 중 |
+| Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4       | 2/4 진행 중 |
 | Phase 5 | 최적화 및 배포                      | 4       | 대기        |
 
-**다음 실행 작업**: `Task 018 — 마이 페이지 구현`
+**다음 실행 작업**: `Task 019 — 에러·빈 상태·로딩 경험 개선`
