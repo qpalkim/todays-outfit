@@ -1,0 +1,55 @@
+import Link from "next/link";
+import { Calendar as CalendarIcon } from "lucide-react";
+
+import type { OutfitWithItems } from "@/types/outfit";
+import { formatRecordDate } from "@/lib/utils/date";
+import { Button } from "@/components/ui/button";
+import { ItemCard } from "@/components/common/item-card";
+
+interface OutfitDetailBodyProps {
+  outfit: OutfitWithItems | null;
+  date: string;
+}
+
+/** 착장 상세 본문 — 사진/메모/연결 아이템 또는 미기록 안내를 렌더링한다(데이터 조회는 호출부 책임) */
+export function OutfitDetailBody({ outfit, date }: OutfitDetailBodyProps) {
+  if (!outfit) {
+    return (
+      <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed py-10 text-center">
+        <CalendarIcon className="size-10 text-muted-foreground" />
+        <p className="text-sm font-medium">
+          {formatRecordDate(date)} 기록이 없어요
+        </p>
+        <Button asChild>
+          <Link href={`/outfits/new?date=${date}`}>이 날짜로 기록하기</Link>
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <div className="overflow-hidden rounded-md">
+        {/* eslint-disable-next-line @next/next/no-img-element -- Storage 공개 URL은 next/image remotePatterns 미등록 상태(Task 022에서 전환 예정) */}
+        <img
+          src={outfit.photo_url}
+          alt="착장 사진"
+          className="aspect-square w-full object-cover"
+        />
+      </div>
+      {outfit.memo && (
+        <p className="text-sm text-muted-foreground">{outfit.memo}</p>
+      )}
+      {outfit.items.length > 0 && (
+        <div className="grid grid-cols-3 gap-2">
+          {outfit.items.map((item) => (
+            <ItemCard key={item.id} item={item.clothing_item} variant="default" />
+          ))}
+        </div>
+      )}
+      <Button asChild variant="outline">
+        <Link href={`/outfits/new?date=${date}`}>수정하기</Link>
+      </Button>
+    </>
+  );
+}
