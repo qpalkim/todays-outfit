@@ -48,6 +48,25 @@ export async function getClothingItemById(
   return data as ClothingItem;
 }
 
+/** 특정 아이템이 연결된 착장 기록 개수를 반환한다(본인 소유 착장만 집계) */
+export async function getOutfitCountUsingItem(
+  itemId: string,
+  userId: string,
+): Promise<number> {
+  const supabase = await createClient();
+  const { count, error } = await supabase
+    .from("outfit_items")
+    .select("id, outfits!inner(user_id)", { count: "exact", head: true })
+    .eq("clothing_item_id", itemId)
+    .eq("outfits.user_id", userId);
+
+  if (error || count === null) {
+    return 0;
+  }
+
+  return count;
+}
+
 /** 로그인 사용자가 등록한 옷 아이템 총 개수를 반환한다 */
 export async function getClothingItemCount(userId: string): Promise<number> {
   const supabase = await createClient();

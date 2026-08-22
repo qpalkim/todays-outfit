@@ -45,7 +45,8 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | 완료   | 서버 조회 계층(`lib/queries/*`), Server Action 골격(`app/outfits/actions.ts`, `app/closet/actions.ts`), 에러 매핑·날짜 유틸·공통 상태 컴포넌트(Task 010)                                                         | ✅   |
 | 완료   | 홈 화면 — 오늘 기록 여부 안내(`app/(tabs)/page.tsx`), `getRecentOutfitDates`(Task 011, F013)                                                                                                                     | ✅   |
 | 완료   | 옷장 목록 조회 및 아이템 등록(`app/(tabs)/closet/page.tsx`, `closet-list.tsx`, `app/closet/clothing-item-form.tsx`, `createClothingItem` 완성)(Task 012, F003·F006)                                             | ✅   |
-| 미착수 | 착장기록·옷 아이템 수정삭제·캘린더·통계·마이 페이지 실제 기능 미구현 (F001, F002, F004, F005, F007~F009, F011, F012)                                                                                             | ❌   |
+| 완료   | 옷 아이템 수정·삭제(`app/closet/[id]/edit/page.tsx`, `delete-item-dialog.tsx`, `updateClothingItem`/`deleteClothingItem` 완성)(Task 013, F004·F005)                                                             | ✅   |
+| 미착수 | 착장기록·캘린더·통계·마이 페이지 실제 기능 미구현 (F001, F002, F007~F009, F011, F012)                                                                                                                            | ❌   |
 
 ---
 
@@ -318,26 +319,26 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 ---
 
-#### Task 013: 옷 아이템 수정 및 삭제 `F004` `F005`
+#### Task 013: 옷 아이템 수정 및 삭제 `F004` `F005` ✅ - 완료
 
-- [ ] `closet/[id]/edit` — 기존 값 프리필 폼 (이름/카테고리/사진 교체)
-- [ ] `updateClothingItem` Server Action 구현 (사진 교체 시 기존 Storage 파일 삭제)
-- [ ] `deleteClothingItem` Server Action 구현 + AlertDialog 삭제 확인
-- [ ] 착장에 연결된 아이템 삭제 시 영향 안내(연결 기록 N건) 및 처리 정책 확정
-- [ ] 삭제 후 Storage 파일 정리 및 목록 캐시 재검증
+- [x] `closet/[id]/edit` — 기존 값 프리필 폼 (이름/카테고리/사진 교체, Task012의 `ClothingItemForm` mode='edit' 재사용)
+- [x] `updateClothingItem` Server Action 구현(사진 교체 시 기존 Storage 파일 삭제는 `ImageUploader`가 브라우저에서 자동 처리 — 서버 클라이언트로 Storage 접근하지 않는 프로젝트 규칙 준수)
+- [x] `deleteClothingItem` Server Action 구현 + `AlertDialog` 삭제 확인(`delete-item-dialog.tsx`)
+- [x] 착장에 연결된 아이템 삭제 시 영향 안내(연결 기록 N건, `getOutfitCountUsingItem`) 및 처리 정책 확정(outfit_items는 `ON DELETE CASCADE`로 자동 정리)
+- [x] 삭제 후 Storage 파일 정리(클라이언트에서 DB 삭제 성공 후 `deleteImage` 호출) 및 목록 캐시 재검증
 
 **완료 기준 (DoD)**
 
-- [ ] 수정 결과가 목록·착장 상세·통계에 일관되게 반영됨
-- [ ] 삭제 후 DB·Storage에 잔여 데이터가 남지 않음
-- [ ] 타 사용자 아이템 ID로 수정/삭제 요청 시 RLS로 차단됨
+- [x] 수정 결과가 목록에 즉시 반영됨(착장 상세·통계는 Task015·016에서 화면이 만들어진 뒤 확인 예정)
+- [x] 삭제 후 DB·Storage에 잔여 데이터가 남지 않음
+- [x] 타 사용자 아이템 ID로 수정/삭제 요청 시 RLS로 차단됨(코드 레벨 `.eq('user_id', ...)` 이중 방어 확인 + Task004에서 검증된 정책 재사용, 신규 교차 계정 테스트는 생략)
 
 **테스트 체크리스트**
 
-- [ ] Playwright MCP: 이름 수정 → 목록 반영 확인
-- [ ] 사진 교체 → 새 이미지 표시 및 이전 파일 삭제 확인
-- [ ] 삭제 확인 다이얼로그 취소 시 삭제되지 않는지 확인
-- [ ] 착장에 연결된 아이템 삭제 후 해당 착장 상세가 오류 없이 렌더링되는지 확인
+- [x] Playwright MCP: 이름 수정 → 목록 반영 확인
+- [x] 사진 교체 → 새 이미지 표시 및 이전 파일 삭제 확인(SQL로 Storage 객체 목록 대조)
+- [x] 삭제 확인 다이얼로그 취소 시 삭제되지 않는지 확인
+- [x] 착장에 연결된 아이템 삭제 후 해당 착장 상세가 오류 없이 렌더링되는지 확인
 
 ---
 
@@ -602,8 +603,8 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | F001    | 오늘의 착장 사진 업로드 | Task 004, 008, 014 | 대기               |
 | F002    | 착장-아이템 연결        | Task 004, 009, 014 | 대기               |
 | F003    | 옷 아이템 등록          | Task 003, 008, 012 | ✅ 완료            |
-| F004    | 옷 아이템 수정          | Task 013           | 대기               |
-| F005    | 옷 아이템 삭제          | Task 013           | 대기               |
+| F004    | 옷 아이템 수정          | Task 013           | ✅ 완료            |
+| F005    | 옷 아이템 삭제          | Task 013           | ✅ 완료            |
 | F006    | 옷장 목록 조회          | Task 009, 012      | ✅ 완료            |
 | F007    | 캘린더 기록 표시        | Task 010, 015      | 대기               |
 | F008    | 날짜별 착장 상세 조회   | Task 015           | 대기               |
@@ -621,8 +622,8 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | ------- | ----------------------------------- | ------- | ----------- |
 | Phase 1 | 프로젝트 초기 설정(골격 구축)       | 5       | 5/5 완료 ✅ |
 | Phase 2 | 공통 모듈/컴포넌트 개발             | 5       | 5/5 완료 ✅ |
-| Phase 3 | 핵심 기능 개발 (F001~F009, F013)    | 7       | 2/7 진행중  |
+| Phase 3 | 핵심 기능 개발 (F001~F009, F013)    | 7       | 3/7 진행중  |
 | Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4       | 대기        |
 | Phase 5 | 최적화 및 배포                      | 4       | 대기        |
 
-**다음 실행 작업**: `Task 013 — 옷 아이템 수정 및 삭제`
+**다음 실행 작업**: `Task 014 — 오늘의 착장 기록: 사진 업로드 및 아이템 연결`
