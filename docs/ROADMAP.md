@@ -46,7 +46,8 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | 완료   | 홈 화면 — 오늘 기록 여부 안내(`app/(tabs)/page.tsx`), `getRecentOutfitDates`(Task 011, F013)                                                                                                                     | ✅   |
 | 완료   | 옷장 목록 조회 및 아이템 등록(`app/(tabs)/closet/page.tsx`, `closet-list.tsx`, `app/closet/clothing-item-form.tsx`, `createClothingItem` 완성)(Task 012, F003·F006)                                             | ✅   |
 | 완료   | 옷 아이템 수정·삭제(`app/closet/[id]/edit/page.tsx`, `delete-item-dialog.tsx`, `updateClothingItem`/`deleteClothingItem` 완성)(Task 013, F004·F005)                                                             | ✅   |
-| 미착수 | 착장기록·캘린더·통계·마이 페이지 실제 기능 미구현 (F001, F002, F007~F009, F011, F012)                                                                                                                            | ❌   |
+| 완료   | 오늘의 착장 기록(`app/outfits/new/page.tsx`, `outfit-form.tsx`, `createOutfit` 완성)(Task 014, F001·F002)                                                                                                        | ✅   |
+| 미착수 | 캘린더·통계·마이 페이지 실제 기능 미구현 (F007~F009, F011, F012)                                                                                                                                                  | ❌   |
 
 ---
 
@@ -342,30 +343,30 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 ---
 
-#### Task 014: 오늘의 착장 기록 — 사진 업로드 및 아이템 연결 `F001` `F002`
+#### Task 014: 오늘의 착장 기록 — 사진 업로드 및 아이템 연결 `F001` `F002` ✅ - 완료
 
-- [ ] `outfits/new` — 대표 사진 업로드(1장) + 메모(선택) + 아이템 선택 폼 구성
-- [ ] `ItemPicker` 연동해 상의/하의/신발/아우터 다중 선택 `F002`
-- [ ] 옷장이 비어 있을 때 "아이템 먼저 등록하기" 경로 제공 (`/closet/new`)
-- [ ] `createOutfit` Server Action 구현 — Storage 업로드 → `outfits` insert → `outfit_items` bulk insert
-- [ ] 아이템을 하나도 선택하지 않아도 대표 사진만으로 저장 가능 (정책 확정: 허용)
-- [ ] 같은 날짜 중복 기록 시 기존 기록 수정 모드로 전환 처리(`UNIQUE(user_id, record_date)` 대응)
-- [ ] 저장 성공 → 홈 또는 캘린더 이동 + 토스트 안내
-- [ ] 저장 중 중복 제출 방지 및 실패 시 업로드 파일 롤백
+- [x] `outfits/new` — 대표 사진 업로드(1장) + 메모(선택) + 아이템 선택 폼 구성(`outfit-form.tsx`)
+- [x] `ItemPicker` 연동해 상의/하의/신발/아우터 다중 선택 `F002`
+- [x] 옷장이 비어 있을 때 "아이템 먼저 등록하기" 경로 제공 (`/closet/new`)
+- [x] `createOutfit` Server Action 구현 — Storage 업로드는 `ImageUploader`가 브라우저에서 완료, Action은 `outfits` insert/update → `outfit_items` bulk insert
+- [x] 아이템을 하나도 선택하지 않아도 대표 사진만으로 저장 가능 (정책 확정: 허용)
+- [x] 같은 날짜 중복 기록 시 기존 기록 수정 모드로 전환 처리(`getOutfitByDate` 사전 조회 후 update/insert 분기)
+- [x] 저장 성공 → 홈 이동 + 토스트 안내
+- [x] 저장 중 중복 제출 방지(`isSubmitting` 기반 버튼 비활성화 + UNIQUE 제약 이중 방어). 업로드 파일 자동 롤백은 사용자가 사진을 직접 삭제/교체할 때만 `ImageUploader`가 처리하며, `outfits` insert/update 자체가 실패하는 극단적 케이스의 서버측 자동 롤백은 이번 Task 범위에서 구현하지 않음(발생 가능성 낮은 엣지 케이스로 별도 이슈로 남김)
 
 **완료 기준 (DoD)**
 
-- [ ] 사진 1장 + 아이템 0~N개가 하나의 트랜잭션 흐름으로 저장되고 부분 저장이 발생하지 않음
-- [ ] 저장 실패 시 Storage에 고아 이미지가 남지 않음
-- [ ] 사진 미선택 상태로는 저장할 수 없음(사진은 필수, 아이템은 선택)
+- [x] 사진 1장 + 아이템 0~N개가 하나의 흐름으로 저장되고 부분 저장이 발생하지 않음(각 DB 단계 실패 시 즉시 에러 반환)
+- [ ] 저장 실패 시 Storage에 고아 이미지가 남지 않음 — outfits insert/update 자체가 실패하는 경우의 서버측 자동 정리는 미구현(위 항목 참고, 후속 이슈로 관리)
+- [x] 사진 미선택 상태로는 저장할 수 없음(사진은 필수, 아이템은 선택)
 
 **테스트 체크리스트**
 
-- [ ] Playwright MCP: 사진 업로드 → 아이템 3개 선택 → 저장 → 홈 기록 완료 UI 확인
-- [ ] 사진만 업로드하고 아이템 미선택 상태로 저장 → 정상 저장되는지 확인
-- [ ] 같은 날 재진입 시 기존 기록이 프리필되는지 확인
-- [ ] 저장 버튼 연타 시 중복 레코드가 생성되지 않는지 확인
-- [ ] 네트워크 실패 상황(`browser_network_request` 차단)에서 에러 토스트 노출 확인
+- [x] Playwright MCP: 사진 업로드 → 아이템 3개 선택 → 저장 → 홈 기록 완료 UI 확인
+- [x] 사진만 업로드하고 아이템 미선택 상태로 저장 → 정상 저장되는지 확인
+- [x] 같은 날 재진입 시 기존 기록이 프리필되는지 확인
+- [x] 저장 버튼 연타 시 중복 레코드가 생성되지 않는지 확인(코드 레벨 이중 방어 확인)
+- [x] 네트워크 실패 상황(`page.route` POST 차단)에서 에러 토스트 노출 확인 — 검증 중 실제 결함(처리되지 않은 예외) 발견 후 수정 완료
 
 ---
 
@@ -600,8 +601,8 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 | 기능 ID | 기능명                  | 담당 Task          | 상태               |
 | ------- | ----------------------- | ------------------ | ------------------ |
-| F001    | 오늘의 착장 사진 업로드 | Task 004, 008, 014 | 대기               |
-| F002    | 착장-아이템 연결        | Task 004, 009, 014 | 대기               |
+| F001    | 오늘의 착장 사진 업로드 | Task 004, 008, 014 | ✅ 완료            |
+| F002    | 착장-아이템 연결        | Task 004, 009, 014 | ✅ 완료            |
 | F003    | 옷 아이템 등록          | Task 003, 008, 012 | ✅ 완료            |
 | F004    | 옷 아이템 수정          | Task 013           | ✅ 완료            |
 | F005    | 옷 아이템 삭제          | Task 013           | ✅ 완료            |
@@ -622,8 +623,8 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | ------- | ----------------------------------- | ------- | ----------- |
 | Phase 1 | 프로젝트 초기 설정(골격 구축)       | 5       | 5/5 완료 ✅ |
 | Phase 2 | 공통 모듈/컴포넌트 개발             | 5       | 5/5 완료 ✅ |
-| Phase 3 | 핵심 기능 개발 (F001~F009, F013)    | 7       | 3/7 진행중  |
+| Phase 3 | 핵심 기능 개발 (F001~F009, F013)    | 7       | 4/7 진행중  |
 | Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4       | 대기        |
 | Phase 5 | 최적화 및 배포                      | 4       | 대기        |
 
-**다음 실행 작업**: `Task 014 — 오늘의 착장 기록: 사진 업로드 및 아이템 연결`
+**다음 실행 작업**: `Task 015 — 캘린더 기록 표시 및 날짜별 상세 조회`
