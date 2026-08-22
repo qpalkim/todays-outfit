@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/form";
 import { CategorySelect } from "@/components/common/category-select";
 import { ImageUploader } from "@/components/common/image-uploader";
+import { useUnsavedChangesWarning } from "@/hooks/use-unsaved-changes-warning";
 
 interface ClothingItemFormProps {
   mode: "create" | "edit";
@@ -54,6 +55,8 @@ export function ClothingItemForm({
   });
 
   const isSubmitting = form.formState.isSubmitting;
+
+  useUnsavedChangesWarning(form.formState.isDirty && !isSubmitting);
 
   async function onSubmit(values: ClothingItemInput) {
     let result;
@@ -113,6 +116,8 @@ export function ClothingItemForm({
                 <Input
                   placeholder="예: 나이키 화이트 반팔티"
                   disabled={isSubmitting}
+                  inputMode="text"
+                  autoComplete="off"
                   {...field}
                 />
               </FormControl>

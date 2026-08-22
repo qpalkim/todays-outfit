@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageUploader } from "@/components/common/image-uploader";
 import { ItemPicker } from "@/components/common/item-picker";
+import { useUnsavedChangesWarning } from "@/hooks/use-unsaved-changes-warning";
 
 interface OutfitFormProps {
   userId: string;
@@ -60,7 +61,10 @@ export function OutfitForm({
 
   const isSubmitting = form.formState.isSubmitting;
   const photoError = form.formState.errors.photo_file?.message;
+  const memoError = form.formState.errors.memo?.message;
   const selectedIds = form.watch("clothing_item_ids") ?? [];
+
+  useUnsavedChangesWarning(form.formState.isDirty && !isSubmitting);
 
   /**
    * 이번 세션에 새로 업로드했지만 DB에 저장되지 못한 사진을 Storage에서 정리하고
@@ -173,8 +177,11 @@ export function OutfitForm({
           id="memo"
           placeholder="오늘의 착장에 대한 메모를 남겨보세요"
           disabled={isSubmitting}
+          inputMode="text"
+          autoComplete="off"
           {...form.register("memo")}
         />
+        {memoError && <p className="text-sm text-destructive">{memoError}</p>}
       </div>
 
       <Button type="submit" disabled={isSubmitting}>

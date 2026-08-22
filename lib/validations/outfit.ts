@@ -4,9 +4,7 @@ import { imageFileSchema } from "@/lib/validations/image";
 
 export const outfitSchema = z
   .object({
-    record_date: z
-      .string()
-      .regex(/^\d{4}-\d{2}-\d{2}$/, { error: "날짜 형식이 올바르지 않습니다" }),
+    record_date: z.iso.date({ error: "날짜 형식이 올바르지 않습니다" }),
     photo_file: imageFileSchema.nullable(),
     existing_photo_url: z.url().optional(),
     memo: z

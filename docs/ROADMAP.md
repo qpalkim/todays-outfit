@@ -53,6 +53,7 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | 완료 | 착장 기록 삭제(`app/outfits/[date]/delete-outfit-dialog.tsx`, `deleteOutfit` 완성) + 수정 플로우 회귀 검증(Task 017, F011)                                                                                       | ✅   |
 | 완료 | 마이 페이지(`app/(tabs)/my/page.tsx`) — 계정 정보·가입 경로·기록 요약 지표·로그아웃(Task 018, F010·F012)                                                                                                         | ✅   |
 | 완료 | 에러(`error.tsx` 9종 통일)·빈 상태(EmptyState 톤 일관화)·로딩(`loading.tsx` grid/form variant 보강)·이미지 로드 실패 폴백(`safe-image.tsx`)(Task 019)                                                            | ✅   |
+| 완료 | 폼 검증 강화(`record_date` 실날짜 검증, `category` 한국어 에러 추가, 메모 에러 표시 누락 수정) 및 미저장 이탈 경고(`hooks/use-unsaved-changes-warning.ts`)(Task 020)                                              | ✅   |
 
 ---
 
@@ -509,23 +510,24 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 ---
 
-#### Task 020: 폼 검증 강화 및 입력 UX 개선
+#### Task 020: 폼 검증 강화 및 입력 UX 개선 ✅ - 완료
 
-- [ ] Zod 스키마 보강 — 이름 길이, 메모 길이, 파일 MIME/용량, 날짜 범위
-- [ ] 필드별 실시간 검증 및 에러 메시지 한국어화
-- [ ] 서버 측 재검증 추가 (Server Action 진입 시 스키마 재검사)
-- [ ] 모바일 입력 최적화 (`inputMode`, `autoComplete`, 키보드 대응 스크롤)
-- [ ] 미저장 상태 이탈 시 확인 다이얼로그
+- [x] Zod 스키마 보강 — 이름(1~30자)·메모(최대 200자)·이미지(5MB, jpg/png/webp)는 기존 값이 이미 적절함을 재확인. `record_date`를 형식만 확인하던 정규식에서 `z.iso.date()`로 교체해 존재하지 않는 날짜(예: 2월 30일)까지 차단하도록 강화. `category` enum에 누락돼 있던 한국어 에러 메시지("카테고리를 선택해주세요") 추가
+- [x] 필드별 실시간 검증 및 에러 메시지 한국어화 — 점검 중 `outfit-form.tsx`의 메모(200자) 필드에 에러 메시지를 표시하는 UI가 아예 없던 실결함을 발견해 `memoError` 표시를 추가(대표 사진 필드는 이미 표시되고 있었음)
+- [x] 서버 측 재검증 확인 — `createClothingItem`/`updateClothingItem`/`createOutfit` 모두 `schema.safeParse(input)`으로 이미 재검증하고 있음을 코드로 재확인, 신규 구현 없음(과잉 구현 방지)
+- [x] 모바일 입력 최적화 (`inputMode`, `autoComplete`) — 아이템 이름 `Input`과 착장 메모 `Textarea`에 `inputMode="text"` `autoComplete="off"` 적용
+- [x] 미저장 상태 이탈 시 확인 다이얼로그 — `hooks/use-unsaved-changes-warning.ts` 신규 작성(`beforeunload` 기반)해 아이템 등록/수정, 착장 기록 등록/수정 폼에 공통 적용. Next.js App Router는 클라이언트 사이드 라우팅(Link 이동)을 가로채는 공식 API를 제공하지 않아 Link 기반 이탈 확인은 범위에서 제외하고 브라우저 탭 닫기/새로고침/주소 직접 이동(진짜 `beforeunload` 이벤트)만 1차 범위로 한정함
 
 **완료 기준 (DoD)**
 
-- [ ] 클라이언트 검증을 우회한 직접 Server Action 호출도 서버에서 차단됨
-- [ ] 모든 검증 메시지가 한국어이며 필드 옆에 정확히 표시됨
+- [x] 클라이언트 검증을 우회한 직접 Server Action 호출도 서버에서 차단됨
+- [x] 모든 검증 메시지가 한국어이며 필드 옆에 정확히 표시됨(메모 필드 표시 누락 수정 포함)
 
 **테스트 체크리스트**
 
-- [ ] Playwright MCP: 경계값(최대 길이, 최대 용량) 입력 검증 확인
-- [ ] 검증 우회 요청 시 서버 거부 응답 확인
+- [x] Playwright MCP: 이름 30자 초과("이름은 최대 30자까지 입력 가능합니다"), 카테고리 미선택("카테고리를 선택해주세요"), 메모 200자 초과("메모는 최대 200자까지 입력 가능합니다"), 이미지 5MB 초과("이미지 용량은 5MB 이하여야 합니다") 각각 한국어 메시지 노출 확인
+- [x] 서버측 safeParse 거부 로직 코드 확인(런타임 우회 재현은 별도 HTTP 클라이언트가 필요해 생략, Server Action 코드 자체가 매 호출 진입 시 safeParse를 거치는 구조임을 확인)
+- [x] 폼 작성 중(이름 입력으로 `isDirty=true`) 다른 라우트로 이동 시 브라우저 네이티브 이탈 확인 다이얼로그가 실제로 내비게이션을 차단함을 확인(다이얼로그 수락 후에만 이동됨)
 
 ---
 
@@ -636,7 +638,7 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | Phase 1 | 프로젝트 초기 설정(골격 구축)       | 5       | 5/5 완료 ✅ |
 | Phase 2 | 공통 모듈/컴포넌트 개발             | 5       | 5/5 완료 ✅ |
 | Phase 3 | 핵심 기능 개발 (F001~F009, F013)    | 7       | 7/7 완료 ✅ |
-| Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4       | 3/4 진행 중 |
+| Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4       | 4/4 완료 ✅ |
 | Phase 5 | 최적화 및 배포                      | 4       | 대기        |
 
-**다음 실행 작업**: `Task 020 — 폼 검증 강화 및 입력 UX 개선`
+**다음 실행 작업**: `Task 021 — 모바일 최적화 및 접근성 점검` (Phase 5 시작)
