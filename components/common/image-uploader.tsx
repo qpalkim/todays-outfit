@@ -26,6 +26,8 @@ interface ImageUploaderProps {
   onChange: (url: string | null) => void;
   disabled?: boolean;
   className?: string;
+  /** 상위 폼의 <label htmlFor>와 연결하기 위한 숨김 파일 입력의 id */
+  id?: string;
 }
 
 /** 파일 선택 → 미리보기 → 리사이즈/WebP 변환 → Storage 업로드까지 처리하는 이미지 업로더 */
@@ -36,6 +38,7 @@ export function ImageUploader({
   onChange,
   disabled = false,
   className,
+  id,
 }: ImageUploaderProps) {
   const [previewUrl, setPreviewUrl] = useState<string | null>(value);
   const [isUploading, setIsUploading] = useState(false);
@@ -152,6 +155,7 @@ export function ImageUploader({
     <div className={cn("flex flex-col gap-2", className)}>
       <input
         ref={inputRef}
+        id={id}
         type="file"
         accept="image/*"
         className="sr-only"
@@ -161,7 +165,7 @@ export function ImageUploader({
 
       {previewUrl ? (
         <div className="relative overflow-hidden rounded-md border">
-          {/* eslint-disable-next-line @next/next/no-img-element -- Storage 공개 URL은 next/image remotePatterns 미등록 상태(Task 022에서 전환 예정) */}
+          {/* eslint-disable-next-line @next/next/no-img-element -- blob: 로컬 미리보기 URL이라 next/image로 최적화할 수 없음 */}
           <img
             src={previewUrl}
             alt="업로드한 이미지 미리보기"

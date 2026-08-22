@@ -126,8 +126,11 @@ export function OutfitForm({
       </p>
 
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium">대표 사진</label>
+        <label htmlFor="outfit-photo" className="text-sm font-medium">
+          대표 사진
+        </label>
         <ImageUploader
+          id="outfit-photo"
           bucket="outfit-photos"
           userId={userId}
           value={form.watch("existing_photo_url") ?? null}
@@ -147,7 +150,7 @@ export function OutfitForm({
       </div>
 
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium">아이템 선택(선택)</label>
+        <span className="text-sm font-medium">아이템 선택(선택)</span>
         {clothingItems.length === 0 ? (
           <div className="flex flex-col items-start gap-2 rounded-md border border-dashed p-4 text-sm text-muted-foreground">
             아직 등록한 옷이 없어요.

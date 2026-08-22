@@ -91,8 +91,11 @@ export function ClothingItemForm({
         className="flex flex-col gap-6 p-4"
       >
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium">사진(선택)</label>
+          <label htmlFor="item-photo" className="text-sm font-medium">
+            사진(선택)
+          </label>
           <ImageUploader
+            id="item-photo"
             bucket="item-photos"
             userId={userId}
             value={form.watch("existing_photo_url") ?? null}
