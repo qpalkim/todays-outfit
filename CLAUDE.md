@@ -58,3 +58,13 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 ### shadcn/ui
 
 `components.json` 기준 style은 `new-york`, baseColor는 `neutral`이다. `components/ui/`에는 현재 badge, button, card, checkbox, dropdown-menu, input, label 7종만 설치되어 있다. 다른 컴포넌트가 필요하면 `npx shadcn@latest add <name>`으로 추가한다.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
