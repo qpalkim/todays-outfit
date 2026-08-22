@@ -46,3 +46,10 @@ next-env.d.ts
 
 # playwright MCP test artifacts
 .playwright-mcp/
+
+# shrimp-task-manager local cache (own .git, machine-specific)
+/shrimp_data/
+
+# claude code local config (machine/session-specific)
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
