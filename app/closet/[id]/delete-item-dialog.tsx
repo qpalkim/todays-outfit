@@ -37,7 +37,14 @@ export function DeleteItemDialog({
 
   async function handleDelete() {
     setIsDeleting(true);
-    const result = await deleteClothingItem(itemId);
+    let result;
+    try {
+      result = await deleteClothingItem(itemId);
+    } catch {
+      setIsDeleting(false);
+      toast.error("네트워크 연결을 확인해주세요");
+      return;
+    }
 
     if (!result.success) {
       setIsDeleting(false);

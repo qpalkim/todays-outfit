@@ -57,7 +57,13 @@ export function ClothingItemForm({
   const photoError = form.formState.errors.photo_file?.message;
 
   async function onSubmit(values: ClothingItemInput) {
-    const result = await onSubmitAction(values);
+    let result;
+    try {
+      result = await onSubmitAction(values);
+    } catch {
+      toast.error("네트워크 연결을 확인해주세요");
+      return;
+    }
 
     if (!result.success) {
       if (result.fieldErrors) {
