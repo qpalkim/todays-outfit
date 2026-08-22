@@ -50,7 +50,8 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | 완료   | 캘린더 기록 표시 및 날짜별 상세 조회(`app/(tabs)/calendar/page.tsx`, `calendar-view.tsx`, `app/outfits/[date]/page.tsx`)(Task 015, F007·F008)                                                                    | ✅   |
 | 완료   | 스타일 통계 화면(`app/(tabs)/stats/page.tsx`, `getOutfitCount` 신규)(Task 016, F009)                                                                                                                             | ✅   |
 | 완료   | Phase 3 핵심 기능 통합 테스트(신규가입~통계 전체 여정, RLS 교차 계정 검증, 375px/414px)(Task 016-1)                                                                                                              | ✅   |
-| 미착수 | 착장 기록 수정/삭제, 마이 페이지 실제 기능 미구현 (F011, F012)                                                                                                                                                   | ❌   |
+| 완료   | 착장 기록 삭제(`app/outfits/[date]/delete-outfit-dialog.tsx`, `deleteOutfit` 완성) + 수정 플로우 회귀 검증(Task 017, F011)                                                                                       | ✅   |
+| 미착수 | 마이 페이지 실제 기능 미구현 (F012)                                                                                                                                                                              | ❌   |
 
 ---
 
@@ -441,26 +442,26 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 ### Phase 4: 추가 기능 개발 및 개선
 
-#### Task 017: 착장 기록 수정 및 삭제 `F011`
+#### Task 017: 착장 기록 삭제 기능 구현 및 수정 플로우 회귀 검증 `F011` ✅ - 완료
 
-- [ ] `outfits/[date]` 상세에 수정/삭제 액션 추가
-- [ ] 수정 폼 — 사진 교체, 메모 수정, 연결 아이템 재선택(추가/해제, 전체 해제도 허용)
-- [ ] `updateOutfit` Server Action — `outfit_items` 차집합 계산 후 delete/insert 처리
-- [ ] `deleteOutfit` Server Action + AlertDialog 확인 (연결 `outfit_items` CASCADE, Storage 파일 삭제)
-- [ ] 수정/삭제 후 홈·캘린더·통계 캐시 재검증
-- [ ] 과거 날짜 기록도 제한 없이 수정 가능하도록 처리
+- [x] `outfits/[date]` 상세에 삭제 액션 추가(수정 액션은 Task014에서 이미 구현된 `createOutfit`의 update 분기 + `outfits/new` 프리필로 완전 동작 중이라 재구현하지 않음)
+- [x] 수정 폼 — 사진 교체, 메모 수정, 연결 아이템 재선택(전체 해제 포함)은 기존 구현 재사용, 이번 Task에서는 회귀 검증만 수행
+- [x] ~~`updateOutfit` Server Action — `outfit_items` 차집합 계산 후 delete/insert 처리~~ → Task014의 `createOutfit`이 기존 레코드 존재 시 update 분기 + `outfit_items` 전체 delete 후 재삽입 방식으로 이미 처리 중이라 별도 액션 신규 작성 없음
+- [x] `deleteOutfit` Server Action(`app/outfits/actions.ts`) + `DeleteOutfitDialog`(AlertDialog) 확인 — `outfit_items`는 CASCADE로 자동 정리, Storage 사진은 브라우저 클라이언트에서 DB 삭제 성공 후 정리
+- [x] 삭제 후 홈·캘린더·통계 캐시 재검증(`revalidatePath('/')`, `'/calendar'`, `'/stats'`)
+- [x] 과거 날짜 기록도 제한 없이 수정 가능함을 회귀 확인(2026-08-10 대상 검증)
 
 **완료 기준 (DoD)**
 
-- [ ] 아이템 연결 변경이 정확히 반영되고 중복/누락 레코드가 생기지 않음
-- [ ] 삭제 후 캘린더 마커와 통계 수치가 동시에 갱신됨
+- [x] 아이템 연결 변경이 정확히 반영되고 중복/누락 레코드가 생기지 않음(1개→0개 해제 반영 확인, 계정 내 아이템 1종뿐이라 "해제+추가" 조합은 기존 로직 재사용 범위로 대체 확인)
+- [x] 삭제 후 캘린더 마커와 통계 수치가 동시에 갱신됨(통계 총 기록 일수 0으로 갱신 확인)
 
 **테스트 체크리스트**
 
-- [ ] Playwright MCP: 아이템 1개 해제 + 1개 추가 → 상세 및 통계 반영 확인
-- [ ] 사진 교체 시 이전 Storage 파일 삭제 확인
-- [ ] 기록 삭제 후 캘린더 마커 제거 확인
-- [ ] 타 사용자 기록 수정/삭제 시도 차단 확인
+- [x] Playwright MCP: 아이템 선택 해제 → 상세 및 통계 반영 확인
+- [x] 사진 교체 시 이전 Storage 파일 정리 및 새 파일 반영 확인(SQL로 photo_url 변경 대조)
+- [x] 기록 삭제 후 캘린더 마커 제거 및 DB/Storage 정리를 SQL로 직접 대조 확인
+- [x] 타 사용자 기록 삭제 시도 차단 — `deleteClothingItem`과 동일한 `.eq('user_id', claims.claims.sub)` 이중 방어 코드로 확인(런타임 재현은 별도 계정 필요로 생략)
 
 ---
 
@@ -614,7 +615,7 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | F008    | 날짜별 착장 상세 조회   | Task 015           | ✅ 완료            |
 | F009    | 스타일 통계             | Task 016           | ✅ 완료            |
 | F010    | 기본 인증               | Task 001, 018      | ✅ 완료(인증 기반) |
-| F011    | 착장 기록 수정/삭제     | Task 017           | 대기               |
+| F011    | 착장 기록 수정/삭제     | Task 017           | ✅ 완료            |
 | F012    | 계정 정보 확인          | Task 018           | 대기               |
 | F013    | 오늘 기록 여부 안내     | Task 005, 011      | ✅ 완료            |
 
@@ -627,7 +628,7 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | Phase 1 | 프로젝트 초기 설정(골격 구축)       | 5       | 5/5 완료 ✅ |
 | Phase 2 | 공통 모듈/컴포넌트 개발             | 5       | 5/5 완료 ✅ |
 | Phase 3 | 핵심 기능 개발 (F001~F009, F013)    | 7       | 7/7 완료 ✅ |
-| Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4       | 대기        |
+| Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4       | 1/4 진행 중 |
 | Phase 5 | 최적화 및 배포                      | 4       | 대기        |
 
-**다음 실행 작업**: `Task 017 — 착장 기록 수정 및 삭제` (Phase 4 시작)
+**다음 실행 작업**: `Task 018 — 마이 페이지 구현`

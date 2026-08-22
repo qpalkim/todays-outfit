@@ -5,6 +5,7 @@ import type { OutfitWithItems } from "@/types/outfit";
 import { formatRecordDate } from "@/lib/utils/date";
 import { Button } from "@/components/ui/button";
 import { ItemCard } from "@/components/common/item-card";
+import { DeleteOutfitDialog } from "@/app/outfits/[date]/delete-outfit-dialog";
 
 interface OutfitDetailBodyProps {
   outfit: OutfitWithItems | null;
@@ -47,9 +48,12 @@ export function OutfitDetailBody({ outfit, date }: OutfitDetailBodyProps) {
           ))}
         </div>
       )}
-      <Button asChild variant="outline">
-        <Link href={`/outfits/new?date=${date}`}>수정하기</Link>
-      </Button>
+      <div className="flex gap-2">
+        <Button asChild variant="outline" className="flex-1">
+          <Link href={`/outfits/new?date=${date}`}>수정하기</Link>
+        </Button>
+        <DeleteOutfitDialog outfitId={outfit.id} photoUrl={outfit.photo_url} />
+      </div>
     </>
   );
 }

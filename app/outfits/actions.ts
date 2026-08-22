@@ -114,3 +114,34 @@ export async function createOutfit(
 
   return { success: true, data: outfit };
 }
+
+/**
+ * 착장 기록을 삭제한다 — outfit_items는 ON DELETE CASCADE로 자동 정리되며,
+ * Storage 사진 삭제는 브라우저 클라이언트에서 이 Action 성공 이후 수행해야 한다.
+ */
+export async function deleteOutfit(id: string): Promise<ActionResult> {
+  const supabase = await createClient();
+  const { data: claims, error: authError } = await supabase.auth.getClaims();
+  if (authError || !claims?.claims) {
+    return { success: false, error: "로그인이 필요합니다" };
+  }
+
+  const { error, count } = await supabase
+    .from("outfits")
+    .delete({ count: "exact" })
+    .eq("id", id)
+    .eq("user_id", claims.claims.sub);
+
+  if (error) {
+    return { success: false, error: mapSupabaseErrorToMessage(error) };
+  }
+
+  if (!count) {
+    return { success: false, error: "삭제할 기록을 찾을 수 없습니다" };
+  }
+
+  revalidatePath("/");
+  revalidatePath("/calendar");
+  revalidatePath("/stats");
+  return { success: true, data: undefined };
+}
