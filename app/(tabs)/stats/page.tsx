@@ -118,12 +118,12 @@ export default async function StatsPage() {
                   <span className="w-5 text-sm font-medium text-muted-foreground">
                     {index + 1}
                   </span>
-                  <div className="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-sm bg-muted">
+                  <div className="relative flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-sm bg-muted">
                     {item.photo_url ? (
                       <SafeImage
                         src={item.photo_url}
                         alt={item.name}
-                        className="size-full object-cover"
+                        sizes="44px"
                       />
                     ) : (
                       <ImageIcon className="size-4 text-muted-foreground" />

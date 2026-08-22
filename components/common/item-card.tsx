@@ -38,7 +38,7 @@ export function ItemCard({
           <SafeImage
             src={item.photo_url}
             alt={item.name}
-            className="size-full object-cover"
+            sizes="(max-width: 448px) 30vw, 150px"
           />
         ) : (
           <div className="flex size-full items-center justify-center">

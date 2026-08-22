@@ -54,11 +54,11 @@ export default async function HomePage() {
           <p className="text-sm font-medium text-primary">
             오늘의 착장을 기록했어요
           </p>
-          <div className="overflow-hidden rounded-md">
+          <div className="relative aspect-square w-full overflow-hidden rounded-md">
             <SafeImage
               src={todayOutfit.photo_url}
               alt="오늘의 착장 사진"
-              className="aspect-square w-full object-cover"
+              sizes="(max-width: 448px) 100vw, 448px"
             />
           </div>
           {todayOutfit.items.length > 0 && (

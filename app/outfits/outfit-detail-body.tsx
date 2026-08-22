@@ -34,11 +34,11 @@ export function OutfitDetailBody({ outfit, date }: OutfitDetailBodyProps) {
 
   return (
     <>
-      <div className="overflow-hidden rounded-md">
+      <div className="relative aspect-square w-full overflow-hidden rounded-md">
         <SafeImage
           src={outfit.photo_url}
           alt="착장 사진"
-          className="aspect-square w-full object-cover"
+          sizes="(max-width: 448px) 100vw, 448px"
         />
       </div>
       {outfit.memo && (
