@@ -1,6 +1,7 @@
 import "server-only";
 
 import { createClient } from "@/lib/supabase/server";
+import { getTodayInKst } from "@/lib/utils/date";
 import type { ClothingItem } from "@/types/clothing";
 import type { OutfitWithItems } from "@/types/outfit";
 
@@ -55,6 +56,31 @@ export async function getOutfitDatesInMonth(
     .eq("user_id", userId)
     .gte("record_date", startDate)
     .lt("record_date", endDate);
+
+  if (error || !data) {
+    return [];
+  }
+
+  return data.map((row) => row.record_date);
+}
+
+/** KST 기준 오늘부터 최근 days일 이내에 기록이 존재하는 record_date 목록을 반환한다(홈 화면 스트릭 요약용) */
+export async function getRecentOutfitDates(
+  userId: string,
+  days = 7,
+): Promise<string[]> {
+  const supabase = await createClient();
+  const today = getTodayInKst();
+  const [year, month, day] = today.split("-").map(Number);
+  const startDate = new Date(Date.UTC(year, month - 1, day));
+  startDate.setUTCDate(startDate.getUTCDate() - (days - 1));
+
+  const { data, error } = await supabase
+    .from("outfits")
+    .select("record_date")
+    .eq("user_id", userId)
+    .gte("record_date", startDate.toISOString().slice(0, 10))
+    .lte("record_date", today);
 
   if (error || !data) {
     return [];

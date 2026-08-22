@@ -53,3 +53,6 @@ next-env.d.ts
 # claude code local config (machine/session-specific)
 .claude/settings.local.json
 .claude/scheduled_tasks.lock
+
+# local test credentials (never commit)
+.claude/test-account.local.md
