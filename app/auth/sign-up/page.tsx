@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
+
 import { SignUpForm } from "@/components/sign-up-form";
 import { AuthBrandHeader } from "@/components/auth-brand-header";
+
+export const metadata: Metadata = {
+  title: "회원가입",
+};
 
 export default function Page() {
   return (
