@@ -47,7 +47,7 @@ async function InlineOutfitDetail({
         <CloseDetailButton />
       </div>
       <div className="flex flex-col gap-4">
-        <OutfitDetailBody outfit={outfit} date={date} />
+        <OutfitDetailBody outfit={outfit} date={date} origin="calendar" />
       </div>
     </div>
   );

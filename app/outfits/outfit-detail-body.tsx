@@ -11,10 +11,14 @@ import { DeleteOutfitDialog } from "@/app/outfits/[date]/delete-outfit-dialog";
 interface OutfitDetailBodyProps {
   outfit: OutfitWithItems | null;
   date: string;
+  /** "calendar"면 기록 완료 후 캘린더로 돌아가도록 등록/수정 링크에 표시를 남긴다 */
+  origin?: "calendar";
 }
 
 /** 착장 상세 본문 — 사진/메모/연결 아이템 또는 미기록 안내를 렌더링한다(데이터 조회는 호출부 책임) */
-export function OutfitDetailBody({ outfit, date }: OutfitDetailBodyProps) {
+export function OutfitDetailBody({ outfit, date, origin }: OutfitDetailBodyProps) {
+  const editHref = `/outfits/new?date=${date}${origin === "calendar" ? "&from=calendar" : ""}`;
+
   if (!outfit) {
     return (
       <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-border/60 py-10 text-center">
@@ -26,7 +30,7 @@ export function OutfitDetailBody({ outfit, date }: OutfitDetailBodyProps) {
           이 날짜에 입은 옷을 사진으로 남겨보세요
         </p>
         <Button asChild>
-          <Link href={`/outfits/new?date=${date}`}>이 날짜로 기록하기</Link>
+          <Link href={editHref}>이 날짜로 기록하기</Link>
         </Button>
       </div>
     );
@@ -53,7 +57,7 @@ export function OutfitDetailBody({ outfit, date }: OutfitDetailBodyProps) {
       )}
       <div className="flex gap-2">
         <Button asChild variant="outline" className="flex-1">
-          <Link href={`/outfits/new?date=${date}`}>수정하기</Link>
+          <Link href={editHref}>수정하기</Link>
         </Button>
         <DeleteOutfitDialog outfitId={outfit.id} photoUrl={outfit.photo_url} />
       </div>

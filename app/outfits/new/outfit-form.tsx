@@ -31,6 +31,17 @@ interface OutfitFormProps {
   recordDate: string;
   clothingItems: ClothingItem[];
   existingOutfit: OutfitWithItems | null;
+  /** 저장 성공 후 돌아갈 곳 — "calendar"면 이 날짜가 선택된 캘린더로, 아니면 홈으로 이동 */
+  returnTo: "home" | "calendar";
+}
+
+/** 저장 성공 후 이동할 경로를 만든다 — 캘린더는 해당 날짜가 속한 연/월과 함께 이동해야 그 달이 바로 보인다 */
+function buildReturnHref(returnTo: "home" | "calendar", recordDate: string): string {
+  if (returnTo !== "calendar") {
+    return "/";
+  }
+  const [year, month] = recordDate.split("-");
+  return `/calendar?year=${year}&month=${Number(month)}&date=${recordDate}`;
 }
 
 /** 오늘의 착장 기록 폼 — 같은 날짜에 기존 기록이 있으면 수정 모드로 프리필된다 */
@@ -39,6 +50,7 @@ export function OutfitForm({
   recordDate,
   clothingItems,
   existingOutfit,
+  returnTo,
 }: OutfitFormProps) {
   const router = useRouter();
   const isEditMode = !!existingOutfit;
@@ -126,7 +138,7 @@ export function OutfitForm({
     toast.success(
       existingOutfit ? "착장 기록을 수정했어요" : "오늘의 착장을 기록했어요",
     );
-    router.push("/");
+    router.push(buildReturnHref(returnTo, recordDate));
     router.refresh();
   }
 

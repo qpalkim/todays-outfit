@@ -172,19 +172,26 @@ export default async function HomePage() {
       <div className="flex flex-col gap-2">
         <p className="text-sm font-medium">최근 7일 기록</p>
         <div className="flex items-center justify-between">
-          {last7Days.map((date) => (
-            <div key={date} className="flex flex-col items-center gap-1">
-              <span
-                className={cn(
-                  "size-2.5 rounded-full",
-                  recordedDateSet.has(date) ? "bg-primary" : "bg-muted",
-                )}
-              />
-              <span className="text-[11px] text-muted-foreground">
-                {WEEKDAY_LABELS[new Date(`${date}T00:00:00Z`).getUTCDay()]}
-              </span>
-            </div>
-          ))}
+          {last7Days.map((date) => {
+            const [year, month] = date.split("-");
+            return (
+              <Link
+                key={date}
+                href={`/calendar?year=${year}&month=${Number(month)}&date=${date}`}
+                className="flex flex-col items-center gap-1"
+              >
+                <span
+                  className={cn(
+                    "size-2.5 rounded-full",
+                    recordedDateSet.has(date) ? "bg-primary" : "bg-muted",
+                  )}
+                />
+                <span className="text-[11px] text-muted-foreground">
+                  {WEEKDAY_LABELS[new Date(`${date}T00:00:00Z`).getUTCDay()]}
+                </span>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </div>

@@ -9,9 +9,9 @@ import { OutfitForm } from "@/app/outfits/new/outfit-form";
 export default async function NewOutfitPage({
   searchParams,
 }: {
-  searchParams: Promise<{ date?: string }>;
+  searchParams: Promise<{ date?: string; from?: string }>;
 }) {
-  const { date } = await searchParams;
+  const { date, from } = await searchParams;
 
   const supabase = await createClient();
   const { data, error } = await supabase.auth.getClaims();
@@ -37,6 +37,7 @@ export default async function NewOutfitPage({
         recordDate={recordDate}
         clothingItems={clothingItems}
         existingOutfit={existingOutfit}
+        returnTo={from === "calendar" ? "calendar" : "home"}
       />
     </div>
   );
