@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
 
-import { createClient } from "@/lib/supabase/server";
+import { getAuthClaims } from "@/lib/supabase/server";
 import { getOutfitByDate, getOutfitDatesInMonth } from "@/lib/queries/outfits";
 import { getTodayInKst } from "@/lib/utils/date";
 import { LoadingSkeleton } from "@/components/common/loading-skeleton";
@@ -60,8 +60,7 @@ export default async function CalendarPage({
 }) {
   const { year: yearParam, month: monthParam, date } = await searchParams;
 
-  const supabase = await createClient();
-  const { data, error } = await supabase.auth.getClaims();
+  const { data, error } = await getAuthClaims();
 
   if (error || !data) {
     redirect("/auth/login");

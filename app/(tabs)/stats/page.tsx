@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { ImageIcon } from "lucide-react";
 
-import { createClient } from "@/lib/supabase/server";
+import { getAuthClaims } from "@/lib/supabase/server";
 import { getItemWearCounts, getCategoryDistribution } from "@/lib/queries/stats";
 import { getOutfitCount } from "@/lib/queries/outfits";
 import { getClothingItemCount } from "@/lib/queries/clothing-items";
@@ -44,8 +44,7 @@ function toPercentages(counts: number[]): number[] {
 }
 
 export default async function StatsPage() {
-  const supabase = await createClient();
-  const { data, error } = await supabase.auth.getClaims();
+  const { data, error } = await getAuthClaims();
 
   if (error || !data) {
     redirect("/auth/login");

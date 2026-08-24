@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import { createClient } from "@/lib/supabase/server";
+import { getAuthClaims } from "@/lib/supabase/server";
 import { getOutfitCount } from "@/lib/queries/outfits";
 import { getClothingItemCount } from "@/lib/queries/clothing-items";
 import { LogoutButton } from "@/components/logout-button";
@@ -14,8 +14,7 @@ const SIGN_UP_PROVIDER_LABELS: Record<string, string> = {
 const APP_VERSION = packageJson.version;
 
 export default async function MyPage() {
-  const supabase = await createClient();
-  const { data, error } = await supabase.auth.getClaims();
+  const { data, error } = await getAuthClaims();
 
   if (error || !data) {
     redirect("/auth/login");

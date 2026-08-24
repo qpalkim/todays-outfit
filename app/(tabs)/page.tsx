@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { BarChart3, Calendar, Camera, Shirt } from "lucide-react";
 
-import { createClient } from "@/lib/supabase/server";
+import { getAuthClaims } from "@/lib/supabase/server";
 import { getOutfitByDate, getRecentOutfitDates } from "@/lib/queries/outfits";
 import { getTodayInKst } from "@/lib/utils/date";
 import { Button } from "@/components/ui/button";
@@ -102,8 +102,7 @@ function PublicHome() {
 }
 
 export default async function HomePage() {
-  const supabase = await createClient();
-  const { data, error } = await supabase.auth.getClaims();
+  const { data, error } = await getAuthClaims();
 
   if (error || !data) {
     return <PublicHome />;

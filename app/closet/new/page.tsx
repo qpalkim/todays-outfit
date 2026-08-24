@@ -1,12 +1,11 @@
 import { redirect } from "next/navigation";
 
-import { createClient } from "@/lib/supabase/server";
+import { getAuthClaims } from "@/lib/supabase/server";
 import { createClothingItem } from "@/app/closet/actions";
 import { ClothingItemForm } from "@/app/closet/clothing-item-form";
 
 export default async function NewClothingItemPage() {
-  const supabase = await createClient();
-  const { data, error } = await supabase.auth.getClaims();
+  const { data, error } = await getAuthClaims();
 
   if (error || !data) {
     redirect("/auth/login");

@@ -1,6 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 
-import { createClient } from "@/lib/supabase/server";
+import { getAuthClaims } from "@/lib/supabase/server";
 import {
   getClothingItemById,
   getOutfitCountUsingItem,
@@ -16,8 +16,7 @@ export default async function EditClothingItemPage({
 }) {
   const { id } = await params;
 
-  const supabase = await createClient();
-  const { data, error } = await supabase.auth.getClaims();
+  const { data, error } = await getAuthClaims();
 
   if (error || !data) {
     redirect("/auth/login");

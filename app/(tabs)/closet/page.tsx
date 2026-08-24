@@ -2,14 +2,13 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Plus } from "lucide-react";
 
-import { createClient } from "@/lib/supabase/server";
+import { getAuthClaims } from "@/lib/supabase/server";
 import { getClothingItems } from "@/lib/queries/clothing-items";
 import { ClosetList } from "@/app/(tabs)/closet/closet-list";
 import { Button } from "@/components/ui/button";
 
 export default async function ClosetPage() {
-  const supabase = await createClient();
-  const { data, error } = await supabase.auth.getClaims();
+  const { data, error } = await getAuthClaims();
 
   if (error || !data) {
     redirect("/auth/login");
