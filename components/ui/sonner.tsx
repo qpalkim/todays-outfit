@@ -17,11 +17,11 @@ const Toaster = ({ ...props }: ToasterProps) => {
       className="toaster group"
       mobileOffset={{ bottom: "calc(5rem + env(safe-area-inset-bottom))" }}
       icons={{
-        success: <CircleCheckIcon className="size-4" />,
-        info: <InfoIcon className="size-4" />,
-        warning: <TriangleAlertIcon className="size-4" />,
-        error: <OctagonXIcon className="size-4" />,
-        loading: <Loader2Icon className="size-4 animate-spin" />,
+        success: <CircleCheckIcon className="size-4" strokeWidth={1.5} />,
+        info: <InfoIcon className="size-4" strokeWidth={1.5} />,
+        warning: <TriangleAlertIcon className="size-4" strokeWidth={1.5} />,
+        error: <OctagonXIcon className="size-4" strokeWidth={1.5} />,
+        loading: <Loader2Icon className="size-4 animate-spin" strokeWidth={1.5} />,
       }}
       style={
         {

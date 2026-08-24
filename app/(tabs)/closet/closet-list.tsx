@@ -30,7 +30,7 @@ export function ClosetList({ items }: ClosetListProps) {
         description="옷장에 첫 아이템을 등록해보세요"
         actionLabel="첫 아이템 등록하기"
         onAction={() => router.push("/closet/new")}
-        icon={<Shirt className="size-10 text-muted-foreground" />}
+        icon={<Shirt className="size-10 text-muted-foreground" strokeWidth={1.5} />}
       />
     );
   }

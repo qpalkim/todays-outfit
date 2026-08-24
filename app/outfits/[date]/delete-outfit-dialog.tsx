@@ -64,7 +64,7 @@ export function DeleteOutfitDialog({
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button type="button" variant="destructive">
-          <Trash2 className="size-4" />
+          <Trash2 className="size-4" strokeWidth={1.5} />
           기록 삭제
         </Button>
       </AlertDialogTrigger>

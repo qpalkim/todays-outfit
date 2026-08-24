@@ -2,6 +2,7 @@
 
 import {
   CLOTHING_CATEGORIES,
+  CLOTHING_CATEGORY_EMOJIS,
   CLOTHING_CATEGORY_LABELS,
   type ClothingCategory,
 } from "@/lib/constants/category";
@@ -39,7 +40,7 @@ export function CategorySelect({
       <SelectContent>
         {CLOTHING_CATEGORIES.map((category) => (
           <SelectItem key={category} value={category}>
-            {CLOTHING_CATEGORY_LABELS[category]}
+            {CLOTHING_CATEGORY_EMOJIS[category]} {CLOTHING_CATEGORY_LABELS[category]}
           </SelectItem>
         ))}
       </SelectContent>

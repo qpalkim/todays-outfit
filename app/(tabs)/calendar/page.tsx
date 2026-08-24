@@ -42,7 +42,7 @@ async function InlineOutfitDetail({
   const outfit = await getOutfitByDate(userId, date);
 
   return (
-    <div className="rounded-lg border p-4">
+    <div className="rounded-2xl border border-border/60 bg-card p-4 shadow-md">
       <div className="mb-3 flex items-center justify-end">
         <CloseDetailButton />
       </div>
@@ -73,7 +73,7 @@ export default async function CalendarPage({
 
   return (
     <div className="flex flex-col gap-4 p-4">
-      <h1 className="text-xl font-semibold">캘린더</h1>
+      <h1 className="text-xl font-semibold font-point">캘린더</h1>
       <Suspense
         key={`${year}-${month}`}
         fallback={<LoadingSkeleton variant="calendar" />}

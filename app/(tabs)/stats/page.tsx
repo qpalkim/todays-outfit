@@ -7,6 +7,7 @@ import { getOutfitCount } from "@/lib/queries/outfits";
 import { getClothingItemCount } from "@/lib/queries/clothing-items";
 import {
   CLOTHING_CATEGORIES,
+  CLOTHING_CATEGORY_EMOJIS,
   CLOTHING_CATEGORY_LABELS,
   type ClothingCategory,
 } from "@/lib/constants/category";
@@ -71,15 +72,15 @@ export default async function StatsPage() {
 
   return (
     <div className="flex flex-col gap-6 p-4">
-      <h1 className="text-xl font-semibold">통계</h1>
+      <h1 className="text-xl font-semibold font-point">통계</h1>
 
       <div className="grid grid-cols-2 gap-2">
-        <div className="rounded-md border p-4">
-          <p className="text-2xl font-semibold">{outfitCount}</p>
+        <div className="rounded-2xl border border-border/60 bg-card p-4 shadow-md">
+          <p className="text-2xl font-semibold font-point">{outfitCount}</p>
           <p className="text-sm text-muted-foreground">총 기록 일수</p>
         </div>
-        <div className="rounded-md border p-4">
-          <p className="text-2xl font-semibold">{clothingItemCount}</p>
+        <div className="rounded-2xl border border-border/60 bg-card p-4 shadow-md">
+          <p className="text-2xl font-semibold font-point">{clothingItemCount}</p>
           <p className="text-sm text-muted-foreground">등록 아이템 수</p>
         </div>
       </div>
@@ -88,7 +89,7 @@ export default async function StatsPage() {
         <EmptyState
           title="아직 통계를 낼 기록이 없어요"
           description="오늘의 착장을 기록하면 통계를 볼 수 있어요"
-          icon={<BarChart3 className="size-10 text-muted-foreground" />}
+          icon={<BarChart3 className="size-10 text-muted-foreground" strokeWidth={1.5} />}
         />
       ) : (
         <>
@@ -97,7 +98,10 @@ export default async function StatsPage() {
             {CLOTHING_CATEGORIES.map((category) => (
               <div key={category} className="flex flex-col gap-1">
                 <div className="flex items-center justify-between text-sm">
-                  <span>{CLOTHING_CATEGORY_LABELS[category]}</span>
+                  <span>
+                    {CLOTHING_CATEGORY_EMOJIS[category]}{" "}
+                    {CLOTHING_CATEGORY_LABELS[category]}
+                  </span>
                   <span className="text-muted-foreground">
                     {categoryPercentageMap[category]}%
                   </span>
@@ -113,12 +117,12 @@ export default async function StatsPage() {
               {itemWearCounts.slice(0, TOP_RANKING_LIMIT).map(({ item, count }, index) => (
                 <div
                   key={item.id}
-                  className="flex items-center gap-3 rounded-md border p-2"
+                  className="flex items-center gap-3 rounded-xl border border-border/60 bg-card p-2 shadow-sm"
                 >
-                  <span className="w-5 text-sm font-medium text-muted-foreground">
+                  <span className="w-5 text-sm font-medium text-muted-foreground font-point">
                     {index + 1}
                   </span>
-                  <div className="relative flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-sm bg-muted">
+                  <div className="relative flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-md bg-muted">
                     {item.photo_url ? (
                       <SafeImage
                         src={item.photo_url}
@@ -126,7 +130,7 @@ export default async function StatsPage() {
                         sizes="44px"
                       />
                     ) : (
-                      <ImageIcon className="size-4 text-muted-foreground" />
+                      <ImageIcon className="size-4 text-muted-foreground" strokeWidth={1.5} />
                     )}
                   </div>
                   <p className="flex-1 truncate text-sm">{item.name}</p>

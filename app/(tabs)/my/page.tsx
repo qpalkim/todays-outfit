@@ -35,9 +35,9 @@ export default async function MyPage() {
 
   return (
     <div className="flex flex-col gap-6 p-4">
-      <h1 className="text-xl font-semibold">마이</h1>
+      <h1 className="text-xl font-semibold font-point">마이</h1>
 
-      <div className="flex flex-col gap-1 rounded-lg border p-4">
+      <div className="flex flex-col gap-1 rounded-2xl border border-border/60 bg-card p-4 shadow-md">
         <p className="truncate text-sm font-medium">
           {claims.email ?? "이메일 정보 없음"}
         </p>
@@ -47,19 +47,19 @@ export default async function MyPage() {
       </div>
 
       <div className="grid grid-cols-2 gap-2">
-        <div className="rounded-md border p-4">
-          <p className="text-2xl font-semibold">{outfitCount}</p>
+        <div className="rounded-2xl border border-border/60 bg-card p-4 shadow-md">
+          <p className="text-2xl font-semibold font-point">{outfitCount}</p>
           <p className="text-sm text-muted-foreground">총 기록 일수</p>
         </div>
-        <div className="rounded-md border p-4">
-          <p className="text-2xl font-semibold">{clothingItemCount}</p>
+        <div className="rounded-2xl border border-border/60 bg-card p-4 shadow-md">
+          <p className="text-2xl font-semibold font-point">{clothingItemCount}</p>
           <p className="text-sm text-muted-foreground">등록 아이템 수</p>
         </div>
       </div>
 
       <LogoutButton />
 
-      <div className="flex flex-col gap-1 rounded-md border p-4 text-sm text-muted-foreground">
+      <div className="flex flex-col gap-1 rounded-2xl border border-border/60 bg-card p-4 text-sm text-muted-foreground">
         <p>오늘 뭐 입었지? v{APP_VERSION}</p>
         <p>문의: qpalkim.dev@gmail.com</p>
       </div>

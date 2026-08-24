@@ -44,13 +44,13 @@ export default async function HomePage() {
     <div className="flex flex-col gap-6 p-4">
       <div>
         <p className="text-sm text-muted-foreground">안녕하세요</p>
-        <h1 className="truncate text-xl font-semibold">
+        <h1 className="truncate text-xl font-semibold font-point">
           {claims.email ?? "오늘 뭐 입었지?"}
         </h1>
       </div>
 
       {todayOutfit ? (
-        <div className="flex flex-col gap-3 rounded-lg border p-4">
+        <div className="flex flex-col gap-3 rounded-2xl border border-border/60 bg-card p-4 shadow-md">
           <p className="text-sm font-medium text-primary">
             오늘의 착장을 기록했어요
           </p>
@@ -73,8 +73,8 @@ export default async function HomePage() {
           </Button>
         </div>
       ) : (
-        <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed py-10 text-center">
-          <Camera className="size-10 text-muted-foreground" />
+        <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-border/60 py-10 text-center">
+          <Camera className="size-10 text-muted-foreground" strokeWidth={1.5} />
           <p className="text-sm font-medium">
             아직 오늘의 착장을 기록하지 않았어요
           </p>

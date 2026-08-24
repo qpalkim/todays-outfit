@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
-import { Geist } from "next/font/google";
 import "./globals.css";
 
 import { Toaster } from "@/components/ui/sonner";
+import { pointFont, pretendard } from "@/lib/fonts";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -33,12 +33,6 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  display: "swap",
-  subsets: ["latin"],
-});
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -46,7 +40,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${geistSans.className} antialiased bg-background`}>
+      <body
+        className={`${pretendard.variable} ${pointFont.variable} font-sans antialiased bg-background`}
+      >
         <div className="mx-auto min-h-screen w-full max-w-md">
           {children}
           <Toaster />

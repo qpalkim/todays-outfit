@@ -36,7 +36,7 @@ export default async function EditClothingItemPage({
 
   return (
     <div className="flex flex-col gap-6">
-      <h1 className="p-4 pb-0 text-xl font-semibold">옷 아이템 수정</h1>
+      <h1 className="p-4 pb-0 text-xl font-semibold font-point">옷 아이템 수정</h1>
       <ClothingItemForm
         mode="edit"
         userId={data.claims.sub}

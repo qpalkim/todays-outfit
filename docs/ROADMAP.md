@@ -54,10 +54,10 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 | 완료 | 마이 페이지(`app/(tabs)/my/page.tsx`) — 계정 정보·가입 경로·기록 요약 지표·로그아웃(Task 018, F010·F012)                                                                                                         | ✅   |
 | 완료 | 에러(`error.tsx` 9종 통일)·빈 상태(EmptyState 톤 일관화)·로딩(`loading.tsx` grid/form variant 보강)·이미지 로드 실패 폴백(`safe-image.tsx`)(Task 019)                                                            | ✅   |
 | 완료 | 폼 검증 강화(`record_date` 실날짜 검증, `category` 한국어 에러 추가, 메모 에러 표시 누락 수정) 및 미저장 이탈 경고(`hooks/use-unsaved-changes-warning.ts`)(Task 020)                                             | ✅   |
-| 완료 | 모바일 접근성 점검 및 민트 브랜드 컬러 대비 보정(`--primary` WCAG AA 위반 수정), 폼 라벨 연결, 토스트-탭바 겹침 수정(Task 021)                                                                                    | ✅   |
+| 완료 | 모바일 접근성 점검 및 민트 브랜드 컬러 대비 보정(`--primary` WCAG AA 위반 수정), 폼 라벨 연결, 토스트-탭바 겹침 수정(Task 021)                                                                                   | ✅   |
 | 완료 | `next/image` 전환(`safe-image.tsx` fill 모드), Storage `remotePatterns` 등록, 쿼리 인덱스 활용 확인(Task 022)                                                                                                    | ✅   |
 | 완료 | Supabase advisor 보안·성능 경고 해소(RLS `auth.uid()` 재평가 수정, `handle_new_user()` 권한 회수), RLS 재검증, `.env.example` 생성(Task 023)                                                                     | ✅   |
-| 진행 | Vercel 배포 및 운영 준비 — favicon/OG 이미지·metadata·README 코드 준비 완료, Vercel/Supabase Auth/Google OAuth 계정 연동은 사용자 진행 필요(Task 024)                                                            | ⏸   |
+| 진행 | Vercel 배포 및 운영 준비 — favicon/OG 이미지·metadata·README 코드 준비 완료, Vercel/Supabase Auth/Google OAuth 계정 연동은 사용자 진행 필요(Task 024)                                                            | ⏸    |
 
 ---
 
@@ -639,12 +639,12 @@ Next.js 15 (App Router) / React 19 / TypeScript 5.6+ / TailwindCSS v4 / shadcn/u
 
 ## 진행 현황 요약
 
-| Phase   | 범위                                | Task 수 | 상태        |
-| ------- | ----------------------------------- | ------- | ----------- |
-| Phase 1 | 프로젝트 초기 설정(골격 구축)       | 5       | 5/5 완료 ✅ |
-| Phase 2 | 공통 모듈/컴포넌트 개발             | 5       | 5/5 완료 ✅ |
-| Phase 3 | 핵심 기능 개발 (F001~F009, F013)    | 7       | 7/7 완료 ✅ |
-| Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4       | 4/4 완료 ✅ |
+| Phase   | 범위                                | Task 수 | 상태                   |
+| ------- | ----------------------------------- | ------- | ---------------------- |
+| Phase 1 | 프로젝트 초기 설정(골격 구축)       | 5       | 5/5 완료 ✅            |
+| Phase 2 | 공통 모듈/컴포넌트 개발             | 5       | 5/5 완료 ✅            |
+| Phase 3 | 핵심 기능 개발 (F001~F009, F013)    | 7       | 7/7 완료 ✅            |
+| Phase 4 | 추가 기능 개발 및 개선 (F011, F012) | 4       | 4/4 완료 ✅            |
 | Phase 5 | 최적화 및 배포                      | 4       | 3/4 완료, 1개 진행중 ⏸ |
 
 **다음 실행 작업**: `Task 024 — Vercel 배포 및 운영 준비` 잔여 항목(Vercel 프로젝트 연결·환경변수 등록, Supabase Auth Redirect URL 설정, 구글 OAuth 콘솔 등록, 배포 후 스모크 테스트) — 모두 사용자의 Vercel/Supabase/Google 계정 접근이 필요해 에이전트가 대행할 수 없음

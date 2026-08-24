@@ -14,7 +14,7 @@ export default async function NewClothingItemPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="p-4 pb-0 text-xl font-semibold">옷 아이템 등록</h1>
+      <h1 className="p-4 pb-0 text-xl font-semibold font-point">옷 아이템 등록</h1>
       <ClothingItemForm
         mode="create"
         userId={data.claims.sub}

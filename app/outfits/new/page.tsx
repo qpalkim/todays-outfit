@@ -29,7 +29,7 @@ export default async function NewOutfitPage({
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="p-4 pb-0 text-xl font-semibold">
+      <h1 className="p-4 pb-0 text-xl font-semibold font-point">
         {existingOutfit ? "오늘의 착장 수정" : "오늘의 착장 기록"}
       </h1>
       <OutfitForm

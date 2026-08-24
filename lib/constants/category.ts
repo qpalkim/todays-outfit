@@ -15,3 +15,11 @@ export const CLOTHING_CATEGORY_LABELS: Record<ClothingCategory, string> = {
   outer: "아우터",
   etc: "기타",
 };
+
+export const CLOTHING_CATEGORY_EMOJIS: Record<ClothingCategory, string> = {
+  top: "👕",
+  bottom: "👖",
+  shoes: "👟",
+  outer: "🧥",
+  etc: "🧢",
+};

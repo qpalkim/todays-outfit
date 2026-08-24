@@ -13,7 +13,7 @@ interface ErrorMessageProps {
 export function ErrorMessage({ message, onRetry }: ErrorMessageProps) {
   return (
     <div className="flex flex-col items-center gap-3 py-12 text-center">
-      <AlertTriangle className="size-8 text-destructive" />
+      <AlertTriangle className="size-8 text-destructive" strokeWidth={1.5} />
       <p className="text-sm text-muted-foreground">{message}</p>
       {onRetry && (
         <Button type="button" variant="outline" onClick={onRetry}>

@@ -65,11 +65,12 @@ export function ItemPicker({
         </SheetHeader>
         <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-4">
           <CategoryTabs value={categoryFilter} onChange={setCategoryFilter} />
-          <div className="grid grid-cols-3 gap-2 pb-4">
+          <div className="flex flex-col gap-2 pb-4">
             {filteredItems.map((item) => (
               <ItemCard
                 key={item.id}
                 item={item}
+                layout="list"
                 variant={isSelected(item.id) ? "selected" : "default"}
                 onClick={() => toggle(item.id)}
               />

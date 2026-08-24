@@ -34,7 +34,7 @@ export function BottomTabBar() {
 
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-40 mx-auto w-full max-w-md border-t bg-background"
+      className="fixed inset-x-0 bottom-0 z-40 mx-auto w-full max-w-md rounded-t-2xl border-t border-border/50 bg-background shadow-[0_-4px_16px_rgba(0,0,0,0.06)]"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
       <div className="flex h-16 items-stretch">
@@ -46,11 +46,18 @@ export function BottomTabBar() {
               href={href}
               aria-current={isActive ? "page" : undefined}
               className={cn(
-                "flex flex-1 flex-col items-center justify-center gap-1 text-xs font-medium transition-colors",
+                "flex flex-1 cursor-pointer flex-col items-center justify-center gap-1 text-xs font-medium transition-colors",
                 isActive ? "text-primary" : "text-muted-foreground",
               )}
             >
-              <Icon className="size-5" strokeWidth={isActive ? 2.5 : 2} />
+              <span
+                className={cn(
+                  "flex items-center justify-center rounded-full px-4 py-1 transition-colors",
+                  isActive && "bg-accent",
+                )}
+              >
+                <Icon className="size-5" strokeWidth={isActive ? 2 : 1.5} />
+              </span>
               <span>{label}</span>
             </Link>
           );

@@ -24,7 +24,7 @@ export function CloseDetailButton() {
       aria-label="닫기"
       onClick={handleClose}
     >
-      <X className="size-4" />
+      <X className="size-4" strokeWidth={1.5} />
     </Button>
   );
 }

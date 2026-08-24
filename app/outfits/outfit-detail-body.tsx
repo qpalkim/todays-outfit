@@ -17,8 +17,8 @@ interface OutfitDetailBodyProps {
 export function OutfitDetailBody({ outfit, date }: OutfitDetailBodyProps) {
   if (!outfit) {
     return (
-      <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed py-10 text-center">
-        <CalendarIcon className="size-10 text-muted-foreground" />
+      <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-border/60 py-10 text-center">
+        <CalendarIcon className="size-10 text-muted-foreground" strokeWidth={1.5} />
         <p className="text-sm font-medium">
           {formatRecordDate(date)} 기록이 없어요
         </p>

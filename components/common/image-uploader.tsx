@@ -181,7 +181,7 @@ export function ImageUploader({
               disabled={disabled}
               aria-label="이미지 삭제"
             >
-              <X className="size-4" />
+              <X className="size-4" strokeWidth={1.5} />
             </Button>
           )}
         </div>
@@ -190,9 +190,9 @@ export function ImageUploader({
           type="button"
           onClick={() => inputRef.current?.click()}
           disabled={disabled || isUploading}
-          className="flex aspect-square w-full flex-col items-center justify-center gap-2 rounded-md border border-dashed text-sm text-muted-foreground disabled:opacity-50"
+          className="flex aspect-square w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed text-sm text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
         >
-          <ImageIcon className="size-8" />
+          <ImageIcon className="size-8" strokeWidth={1.5} />
           사진 선택
         </button>
       )}
@@ -209,7 +209,7 @@ export function ImageUploader({
               size="sm"
               onClick={handleRetry}
             >
-              <RotateCcw className="size-4" />
+              <RotateCcw className="size-4" strokeWidth={1.5} />
               재시도
             </Button>
           )}

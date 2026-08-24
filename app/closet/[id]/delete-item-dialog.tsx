@@ -68,7 +68,7 @@ export function DeleteItemDialog({
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button type="button" variant="destructive">
-          <Trash2 className="size-4" />
+          <Trash2 className="size-4" strokeWidth={1.5} />
           아이템 삭제
         </Button>
       </AlertDialogTrigger>

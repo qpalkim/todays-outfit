@@ -25,7 +25,7 @@ export function SafeImage({ src, alt, sizes }: SafeImageProps) {
   if (hasError) {
     return (
       <div className="absolute inset-0 flex items-center justify-center bg-muted">
-        <ImageIcon className="size-6 text-muted-foreground" />
+        <ImageIcon className="size-6 text-muted-foreground" strokeWidth={1.5} />
       </div>
     );
   }

@@ -16,7 +16,7 @@ export default async function ClosetPage() {
 
   return (
     <div className="p-4">
-      <h1 className="mb-4 text-xl font-semibold">옷장</h1>
+      <h1 className="mb-4 text-xl font-semibold font-point">옷장</h1>
       <ClosetList items={items} />
     </div>
   );
