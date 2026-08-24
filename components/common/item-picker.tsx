@@ -3,6 +3,11 @@
 import { useEffect, useState } from "react";
 
 import type { ClothingItem } from "@/types/clothing";
+import {
+  CLOTHING_CATEGORIES,
+  CLOTHING_CATEGORY_EMOJIS,
+  CLOTHING_CATEGORY_LABELS,
+} from "@/lib/constants/category";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -25,7 +30,7 @@ interface ItemPickerProps {
   trigger: React.ReactNode;
 }
 
-/** 옷장 아이템 다중 선택 시트 — 카테고리별 필터링과 선택 개수 표시를 제공한다 */
+/** 옷장 아이템 다중 선택 시트 — 카테고리 탭 필터링과, 전체 보기 시 카테고리별 그룹 표시·선택 개수 표시를 제공한다 */
 export function ItemPicker({
   items,
   initialSelectedIds = [],
@@ -51,6 +56,15 @@ export function ItemPicker({
       ? items
       : items.filter((item) => item.category === categoryFilter);
 
+  /** "전체" 탭에서는 카테고리별로 묶어서 보여줘 원하는 아이템을 더 쉽게 찾을 수 있게 한다 */
+  const groupedItems =
+    categoryFilter === "all"
+      ? CLOTHING_CATEGORIES.map((category) => ({
+          category,
+          items: items.filter((item) => item.category === category),
+        })).filter((group) => group.items.length > 0)
+      : null;
+
   function handleConfirm() {
     onConfirm(selectedIds);
     setOpen(false);
@@ -65,17 +79,41 @@ export function ItemPicker({
         </SheetHeader>
         <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-4">
           <CategoryTabs value={categoryFilter} onChange={setCategoryFilter} />
-          <div className="flex flex-col gap-2 pb-4">
-            {filteredItems.map((item) => (
-              <ItemCard
-                key={item.id}
-                item={item}
-                layout="list"
-                variant={isSelected(item.id) ? "selected" : "default"}
-                onClick={() => toggle(item.id)}
-              />
-            ))}
-          </div>
+          {groupedItems ? (
+            <div className="flex flex-col gap-4 pb-4">
+              {groupedItems.map(({ category, items: categoryItems }) => (
+                <div key={category} className="flex flex-col gap-2">
+                  <p className="text-xs font-medium text-muted-foreground">
+                    {CLOTHING_CATEGORY_EMOJIS[category]}{" "}
+                    {CLOTHING_CATEGORY_LABELS[category]}
+                  </p>
+                  <div className="flex flex-col gap-2">
+                    {categoryItems.map((item) => (
+                      <ItemCard
+                        key={item.id}
+                        item={item}
+                        layout="list"
+                        variant={isSelected(item.id) ? "selected" : "default"}
+                        onClick={() => toggle(item.id)}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col gap-2 pb-4">
+              {filteredItems.map((item) => (
+                <ItemCard
+                  key={item.id}
+                  item={item}
+                  layout="list"
+                  variant={isSelected(item.id) ? "selected" : "default"}
+                  onClick={() => toggle(item.id)}
+                />
+              ))}
+            </div>
+          )}
         </div>
         <div className="flex items-center justify-between gap-2 border-t p-4">
           <span className="text-sm text-muted-foreground">

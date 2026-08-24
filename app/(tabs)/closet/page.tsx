@@ -1,8 +1,11 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
+import { Plus } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/server";
 import { getClothingItems } from "@/lib/queries/clothing-items";
 import { ClosetList } from "@/app/(tabs)/closet/closet-list";
+import { Button } from "@/components/ui/button";
 
 export default async function ClosetPage() {
   const supabase = await createClient();
@@ -16,7 +19,17 @@ export default async function ClosetPage() {
 
   return (
     <div className="p-4">
-      <h1 className="mb-4 text-xl font-semibold font-point">옷장</h1>
+      <div className="mb-4 flex items-center justify-between">
+        <h1 className="text-xl font-semibold font-point">옷장</h1>
+        {items.length > 0 && (
+          <Button asChild size="sm" variant="outline">
+            <Link href="/closet/new">
+              <Plus className="size-4" strokeWidth={1.5} />
+              추가
+            </Link>
+          </Button>
+        )}
+      </div>
       <ClosetList items={items} />
     </div>
   );

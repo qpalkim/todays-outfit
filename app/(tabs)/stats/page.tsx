@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { BarChart3, ImageIcon } from "lucide-react";
+import { ImageIcon } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/server";
 import { getItemWearCounts, getCategoryDistribution } from "@/lib/queries/stats";
@@ -14,8 +14,9 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { EmptyState } from "@/components/common/empty-state";
 import { SafeImage } from "@/components/common/safe-image";
+import { Mascot } from "@/components/common/mascot";
 
-const TOP_RANKING_LIMIT = 10;
+const TOP_RANKING_LIMIT = 5;
 
 /**
  * 정수 카운트 배열을 반올림 오차 없이 합이 정확히 100이 되는 백분율 배열로 변환한다
@@ -89,7 +90,7 @@ export default async function StatsPage() {
         <EmptyState
           title="아직 통계를 낼 기록이 없어요"
           description="오늘의 착장을 기록하면 통계를 볼 수 있어요"
-          icon={<BarChart3 className="size-10 text-muted-foreground" strokeWidth={1.5} />}
+          icon={<Mascot size={72} />}
         />
       ) : (
         <>
@@ -113,13 +114,13 @@ export default async function StatsPage() {
 
           <div className="flex flex-col gap-2">
             <p className="text-sm font-medium">아이템별 착용 순위</p>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2.5">
               {itemWearCounts.slice(0, TOP_RANKING_LIMIT).map(({ item, count }, index) => (
                 <div
                   key={item.id}
-                  className="flex items-center gap-3 rounded-xl border border-border/60 bg-card p-2 shadow-sm"
+                  className="flex items-center gap-3 rounded-xl bg-card px-3 py-2.5 shadow-sm"
                 >
-                  <span className="w-5 text-sm font-medium text-muted-foreground font-point">
+                  <span className="w-5 shrink-0 text-center text-sm font-medium text-muted-foreground font-point">
                     {index + 1}
                   </span>
                   <div className="relative flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-md bg-muted">
@@ -134,7 +135,7 @@ export default async function StatsPage() {
                     )}
                   </div>
                   <p className="flex-1 truncate text-sm">{item.name}</p>
-                  <span className="text-sm text-muted-foreground">
+                  <span className="shrink-0 text-sm text-muted-foreground">
                     {count}회
                   </span>
                 </div>
