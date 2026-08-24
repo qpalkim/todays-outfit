@@ -2,6 +2,7 @@ import "server-only";
 
 import { createClient } from "@/lib/supabase/server";
 import { getTodayInKst } from "@/lib/utils/date";
+import { CLOTHING_CATEGORIES } from "@/lib/constants/category";
 import type { ClothingItem } from "@/types/clothing";
 import type { OutfitWithItems } from "@/types/outfit";
 
@@ -33,7 +34,12 @@ export async function getOutfitByDate(
       .map((outfitItem) => {
         const { clothing_items, ...rest } = outfitItem;
         return { ...rest, clothing_item: clothing_items as ClothingItem };
-      }),
+      })
+      .sort(
+        (a, b) =>
+          CLOTHING_CATEGORIES.indexOf(a.clothing_item.category) -
+          CLOTHING_CATEGORIES.indexOf(b.clothing_item.category),
+      ),
   };
 }
 

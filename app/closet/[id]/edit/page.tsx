@@ -42,14 +42,14 @@ export default async function EditClothingItemPage({
         userId={data.claims.sub}
         initialValues={item}
         onSubmitAction={updateClothingItem.bind(null, id)}
+        deleteSlot={
+          <DeleteItemDialog
+            itemId={id}
+            photoUrl={item.photo_url}
+            connectedOutfitCount={connectedOutfitCount}
+          />
+        }
       />
-      <div className="px-4 pb-4">
-        <DeleteItemDialog
-          itemId={id}
-          photoUrl={item.photo_url}
-          connectedOutfitCount={connectedOutfitCount}
-        />
-      </div>
     </div>
   );
 }

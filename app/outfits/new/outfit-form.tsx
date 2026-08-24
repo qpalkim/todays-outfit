@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -41,22 +41,28 @@ export function OutfitForm({
   existingOutfit,
 }: OutfitFormProps) {
   const router = useRouter();
+  const isEditMode = !!existingOutfit;
 
   /** 수정 모드 진입 시 원래 저장돼 있던 사진 — 저장 실패해도 절대 지우면 안 된다 */
   const initialPhotoUrl = existingOutfit?.photo_url ?? null;
   /** 이번 세션에 새로 업로드했지만 아직 저장이 확정되지 않은 사진 URL(저장 실패 시 정리 대상) */
   const pendingUploadUrlRef = useRef<string | null>(null);
 
-  const form = useForm<OutfitFormFields>({
-    resolver: zodResolver(outfitSchema),
-    defaultValues: {
+  function buildDefaultValues(): OutfitFormFields {
+    return {
       record_date: recordDate,
       photo_file: null,
       existing_photo_url: existingOutfit?.photo_url,
       memo: existingOutfit?.memo ?? "",
       clothing_item_ids:
         existingOutfit?.items.map((item) => item.clothing_item_id) ?? [],
-    },
+    };
+  }
+
+  const form = useForm<OutfitFormFields>({
+    resolver: zodResolver(outfitSchema),
+    mode: "onChange",
+    defaultValues: buildDefaultValues(),
   });
 
   const isSubmitting = form.formState.isSubmitting;
@@ -65,6 +71,14 @@ export function OutfitForm({
   const selectedIds = form.watch("clothing_item_ids") ?? [];
 
   useUnsavedChangesWarning(form.formState.isDirty && !isSubmitting);
+
+  // 같은 라우트를 재방문(캐시된 클라이언트 라우트 재사용 등)해도 서버가 새로 내려준
+  // recordDate/existingOutfit을 폼이 확실히 반영하도록 값이 바뀌면 다시 초기화한다
+  useEffect(() => {
+    pendingUploadUrlRef.current = null;
+    form.reset(buildDefaultValues());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [recordDate, existingOutfit]);
 
   /**
    * 이번 세션에 새로 업로드했지만 DB에 저장되지 못한 사진을 Storage에서 정리하고
@@ -139,6 +153,7 @@ export function OutfitForm({
               url && url !== initialPhotoUrl ? url : null;
             form.setValue("existing_photo_url", url ?? undefined, {
               shouldValidate: true,
+              shouldDirty: true,
             });
             form.setValue("photo_file", null);
           }}
@@ -162,7 +177,9 @@ export function OutfitForm({
           <ItemPicker
             items={clothingItems}
             initialSelectedIds={selectedIds}
-            onConfirm={(ids) => form.setValue("clothing_item_ids", ids)}
+            onConfirm={(ids) =>
+              form.setValue("clothing_item_ids", ids, { shouldDirty: true })
+            }
             trigger={
               <Button type="button" variant="outline">
                 아이템 선택({selectedIds.length}개)
@@ -187,7 +204,14 @@ export function OutfitForm({
         {memoError && <p className="text-sm text-destructive">{memoError}</p>}
       </div>
 
-      <Button type="submit" disabled={isSubmitting}>
+      <Button
+        type="submit"
+        disabled={
+          isSubmitting ||
+          !form.formState.isValid ||
+          (isEditMode && !form.formState.isDirty)
+        }
+      >
         {existingOutfit ? "수정하기" : "저장하기"}
       </Button>
     </form>

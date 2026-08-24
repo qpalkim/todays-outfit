@@ -110,6 +110,7 @@ export async function createOutfit(
   revalidatePath("/");
   revalidatePath("/calendar");
   revalidatePath("/stats");
+  revalidatePath("/outfits/new");
   revalidatePath(`/outfits/${parsed.data.record_date}`);
 
   return { success: true, data: outfit };
@@ -143,5 +144,6 @@ export async function deleteOutfit(id: string): Promise<ActionResult> {
   revalidatePath("/");
   revalidatePath("/calendar");
   revalidatePath("/stats");
+  revalidatePath("/outfits/new");
   return { success: true, data: undefined };
 }

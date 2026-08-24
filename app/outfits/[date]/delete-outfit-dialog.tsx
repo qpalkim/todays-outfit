@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { deleteOutfit } from "@/app/outfits/actions";
@@ -64,8 +63,7 @@ export function DeleteOutfitDialog({
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button type="button" variant="destructive">
-          <Trash2 className="size-4" strokeWidth={1.5} />
-          기록 삭제
+          삭제하기
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
