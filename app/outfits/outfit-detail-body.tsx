@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { Calendar as CalendarIcon } from "lucide-react";
 
 import type { OutfitWithItems } from "@/types/outfit";
 import { formatRecordDate } from "@/lib/utils/date";
 import { Button } from "@/components/ui/button";
 import { ItemCard } from "@/components/common/item-card";
 import { SafeImage } from "@/components/common/safe-image";
+import { Mascot } from "@/components/common/mascot";
 import { DeleteOutfitDialog } from "@/app/outfits/[date]/delete-outfit-dialog";
 
 interface OutfitDetailBodyProps {
@@ -18,7 +18,7 @@ export function OutfitDetailBody({ outfit, date }: OutfitDetailBodyProps) {
   if (!outfit) {
     return (
       <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-border/60 py-10 text-center">
-        <CalendarIcon className="size-10 text-muted-foreground" strokeWidth={1.5} />
+        <Mascot size={80} />
         <p className="text-sm font-medium">
           {formatRecordDate(date)} 기록이 없어요
         </p>

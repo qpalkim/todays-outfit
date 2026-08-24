@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Shirt } from "lucide-react";
 
 import type { ClothingItem } from "@/types/clothing";
 import { CLOTHING_CATEGORY_LABELS } from "@/lib/constants/category";
@@ -12,6 +11,7 @@ import {
 } from "@/components/common/category-tabs";
 import { ItemCard } from "@/components/common/item-card";
 import { EmptyState } from "@/components/common/empty-state";
+import { Mascot } from "@/components/common/mascot";
 
 interface ClosetListProps {
   items: ClothingItem[];
@@ -30,7 +30,7 @@ export function ClosetList({ items }: ClosetListProps) {
         description="옷장에 첫 아이템을 등록해보세요"
         actionLabel="첫 아이템 등록하기"
         onAction={() => router.push("/closet/new")}
-        icon={<Shirt className="size-10 text-muted-foreground" strokeWidth={1.5} />}
+        icon={<Mascot size={72} />}
       />
     );
   }
