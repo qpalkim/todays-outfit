@@ -50,6 +50,9 @@ export function mapAuthErrorToMessage(error: unknown): string {
   if (normalized.includes("password should be at least")) {
     return "비밀번호는 6자 이상이어야 해요";
   }
+  if (normalized.includes("different from the old password")) {
+    return "새 비밀번호는 기존 비밀번호와 달라야 해요";
+  }
   if (normalized.includes("rate limit") || normalized.includes("too many requests")) {
     return "요청이 너무 많아요. 잠시 후 다시 시도해주세요";
   }

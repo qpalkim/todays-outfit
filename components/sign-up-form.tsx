@@ -49,7 +49,7 @@ export function SignUpForm({
     }
 
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -57,6 +57,14 @@ export function SignUpForm({
         },
       });
       if (error) throw error;
+
+      // 이미 가입된 이메일이면 Supabase가 에러 없이 identities가 빈 배열인
+      // 가짜 사용자 정보를 반환한다(이메일 존재 여부 노출 방지를 위한 의도된 동작)
+      if (data.user && data.user.identities && data.user.identities.length === 0) {
+        setError("이미 가입된 이메일이에요");
+        return;
+      }
+
       router.push("/auth/sign-up-success");
     } catch (error: unknown) {
       setError(mapAuthErrorToMessage(error));
