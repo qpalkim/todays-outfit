@@ -1,9 +1,23 @@
 # 오늘 뭐 입었지? (Today's Outfit)
 
+![오늘 뭐 입었지?](docs/screenshots/cover.png)
+
 하루 단위로 "오늘 입은 옷"을 기록해, 실제로 어떤 옷을 입고 사는지 데이터로 되돌아보게 하는 모바일 웹 옷장 로그.
 
+- 배포 URL: [todays-outfit-nine.vercel.app](https://todays-outfit-nine.vercel.app/)
 - 제품 요구사항: [`docs/PRD.md`](docs/PRD.md)
 - 개발 로드맵: [`docs/ROADMAP.md`](docs/ROADMAP.md)
+- 백엔드 설계: [`docs/BACKEND.md`](docs/BACKEND.md)
+
+## 주요 화면
+
+| 홈 | 옷장 | 착장 기록 |
+| --- | --- | --- |
+| ![홈](docs/screenshots/home.png) | ![옷장](docs/screenshots/closet.png) | ![착장 기록](docs/screenshots/outfit-new.png) |
+
+| 캘린더 | 통계 | 마이 |
+| --- | --- | --- |
+| ![캘린더](docs/screenshots/calendar.png) | ![통계](docs/screenshots/stats.png) | ![마이](docs/screenshots/my.png) |
 
 ## 기술 스택
 
