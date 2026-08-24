@@ -1,33 +1,43 @@
-## 수정 요구사항
+프로젝트 구현 완료 후, 마무리 작업
 
-### 1. 디자인 및 UI 개선 — 완료
+1. 리팩토링
 
-- ~~오픈 그래프 이미지 개선~~ → `app/opengraph-image.tsx`를 브랜드 캐릭터(`components/common/mascot.tsx`, "셔츠 버디")로 재설계
-- ~~파비콘 아이콘 변경~~ → `app/icon.tsx`, `app/apple-icon.tsx`를 브랜드 캐릭터 기반으로 교체
-- ~~Jua 폰트 대신 다른 폰트로 교체~~ → 포인트 폰트를 Gaegu로 교체(`lib/fonts.ts`)
-- ~~전체 페이지 기본 흰색 배경 변경~~ → `--background`에 옅은 민트 톤(`oklch(0.98 0.004 155)`)을 줘서 흰색 `--card`와 대비되도록 조정
-- ~~하단 탭 선택 상태 개선~~ → `--primary`/`--accent`/`--ring`의 hue를 180(시안)에서 155(민트)로 이동해 근본 원인 해결
-- ~~스켈레톤 UI 색상 개선~~ → `components/ui/skeleton.tsx`의 `bg-accent`를 `bg-muted`(중립 회색)로 변경
-- ~~스켈레톤 UI 레이아웃 개선~~ → stats/closet/outfit detail의 `loading.tsx`를 실제 콘텐츠 레이아웃에 맞게 재작성
+- [x] 불필요한 코드 있는지 체크 — 스타터킷 잔재 컴포넌트는 이미 전부 제거된 상태, `lib/utils.ts`의 영어 스타터킷 주석만 정리
+- [x] 작성해 놓고 쓰지 않는 코드가 있는지 체크 — console.log/TODO/FIXME 등 잔재 없음 확인
+- [x] 중복 코드 및 중복 컴포넌트 정리 — `category-select.tsx`/`category-tabs.tsx`는 폼 선택 vs 리스트 필터로 용도가 달라 중복 아님, 유지
+- [x] 네이밍 및 폴더 구조 확인 — 컨벤션 위반 없음
+- [x] 임시 주석, 콘솔 로그, 디버깅 코드 제거 — 해당 없음(사전 조사 결과 발견되지 않음)
+- [x] 클라이언트에 노출되면 안 되는 환경 변수가 있는지 체크 — `NEXT_PUBLIC_` 접두사 변수만 클라이언트에서 사용됨을 확인
+- [x] 깃에 올라가면 안 되는 파일이나 폴더가 있는지 체크 — `.env.local` 등 gitignore 정상 적용 확인
+- [x] 사용하지 않는 패키지 제거 — 미사용 `date-fns` 제거
+- [x] Lighthouse 점수 90점 이상 여부 확인 — Accessibility 93 / Best Practices 100 / SEO 100 달성. **Performance는 65~72점으로 미달.** 원인은 Supabase 프로젝트가 대칭키(HS256) JWT를 사용해 `supabase.auth.getClaims()` 호출마다 Supabase Auth 서버로 실제 네트워크 왕복(~2.3초)이 발생하기 때문. 요청당 중복 호출은 `React cache()`로 1회로 묶어 이미 반영했지만(호출 수 자체는 줄었지만 병렬 호출이라 체감 속도는 동일), 근본 해결에는 Supabase 대시보드에서 JWT 서명 키를 비대칭키(RS256/ES256)로 전환하는 인프라 변경이 필요함 — **후속 과제로 남김**
 
-### 2. 페이지 및 UX 개선
+2. 오픈 그래프 및 SEO 최적화
 
-- ~~홈 화면 콘텐츠 보완~~ → 완료. 홈 화면에 핵심 기능 4가지(기록/옷장/캘린더/통계) 소개 섹션을 상시 노출로 추가(`app/(tabs)/page.tsx`)
-- ~~옷 아이템 등록 진입점 추가~~ → 완료. 옷장 목록 상단에 "+ 추가" 버튼 고정 배치(`app/(tabs)/closet/page.tsx`, 아이템 1개 이상일 때만 노출)
-- ~~404 페이지 제작~~ → 완료. 전역 `app/not-found.tsx` 신규 작성
-- 다크모드 지원 — **보류**: `docs/PRD.md`가 MVP 범위에서 명시적으로 제외하고 있어 이번 라운드에서는 진행하지 않음. 추후 별도로 검토
+- [x] og 이미지 서비스에 어울리게 수정 — `app/opengraph-image.tsx`가 이미 프로젝트 정체성에 맞게 구현되어 있어 그대로 사용
+- [x] SEO 최적화
+  - [x] title 및 description 최적화 — title 템플릿 적용, 로그인/회원가입 페이지 개별 title 추가
+  - [x] robots.ts 추가 — 로그인 필요한 개인용 앱 특성상 `/`만 허용, 나머지 경로는 크롤링 차단. 이 과정에서 미들웨어가 `/robots.txt` 자체를 로그인 리다이렉트로 막고 있던 버그를 발견해 수정(`proxy.ts`)
+- [x] 프로젝트 제목: 오늘 뭐 입었지? - Today's Outfit — `package.json` name/description 추가로 반영
+- [x] 페이지별 메타데이터 확인 — 대부분 로그인 후 개인 화면이라 개별 title 실익이 낮아 루트 상속 유지, 공개 진입 경로(로그인/회원가입)만 개별 title 부여
+- [x] 파비콘, 카드 메타데이터 확인 — `app/icon.tsx`, `app/apple-icon.tsx` 정상 확인, `openGraph.url`/`siteName` 보강
+- [x] 실제 배포 url 기준으로 메타데이터 및 og 이미지 정상 노출 여부 확인 — `metadataBase`가 배포마다 바뀌는 `VERCEL_URL`에만 의존하던 문제를 `VERCEL_PROJECT_PRODUCTION_URL` 우선 사용으로 고정(`https://todays-outfit-nine.vercel.app`), 재배포 후 실사이트 확인 예정
 
-### 3. 기능 및 품질 검증
+3. 문서화
 
-- 로드맵 파일에 정의된 테스트 및 검증 사항을 모두 수행했는지 체크 — 확인 완료
-  - `docs/ROADMAP.md` 미완료 12건 중 7건은 Vercel/Supabase/Google 계정 접근이 필요해 에이전트가 대행 불가(사용자 진행 필요, Task024)
-  - Task014(착장 기록) DoD "저장 실패 시 Storage에 고아 이미지가 남지 않음"은 **서버측** 자동 정리를 가리키며, 이번에도 미구현으로 남김 — `app/closet/actions.ts` 등 기존 Server Action은 "Storage 정리는 브라우저 클라이언트가 담당한다"는 프로젝트 원칙을 따르고 있어(Task013 참고) 서버측 정리를 추가하면 이 원칙이 깨짐
-  - 대신 옷 아이템 등록/수정 폼(`app/closet/clothing-item-form.tsx`)에는 착장 기록 폼(`outfit-form.tsx`)에만 있던 **클라이언트측** 베스트에포트 롤백(저장 실패 시 방금 올린 사진을 Storage에서 정리)이 빠져있던 걸 발견해 동일하게 이식함 — 별개 갭이었지만 같은 종류의 실사용 리스크라 함께 해결
-  - 나머지(Lighthouse 점수, 실기기 테스트, 느린 네트워크 테스트)는 코드 변경 대상이 아닌 환경적 제약으로 남음
-
-### 4. 확장 가능성 — 완료
-
-- ~~서비스 로고 및 캐릭터 일러스트 제작~~ → `/design`으로 브랜드 캐릭터 "셔츠 버디" 확정 후 `components/common/mascot.tsx`로 컴포넌트화
-  - 적용 완료: 파비콘(`app/icon.tsx`), 애플 아이콘(`app/apple-icon.tsx`), OG 이미지(`app/opengraph-image.tsx`), 404 페이지(`app/not-found.tsx`), 빈 상태(옷장·통계 `EmptyState`, 홈 미기록 카드, 착장 상세 미기록 카드)
-
-주요 민트 색상: #ADEBB3(캐릭터), #3b8d5d(UI 프라이머리·배지 배경)
+- README.md 작성
+  - og 이미지 표지로 사용
+  - 주요 화면 스크린샷 첨부
+  - 프로젝트 소개
+  - 기술 스택
+  - 실행 방법
+  - 배포 url
+- BACKEND.md 수정
+  - supabase 설계 구조
+  - 백엔드 흐름
+  - 데이터베이스 아키텍처
+  - 테이블 구조
+  - 테이블 간 관계
+  - 인증 흐름
+  - RLS 정책
+  - @"supabase-backend-doc-writer (agent)" 서브 에이전트 사용
