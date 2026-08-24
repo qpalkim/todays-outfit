@@ -21,23 +21,24 @@
 - [x] 프로젝트 제목: 오늘 뭐 입었지? - Today's Outfit — `package.json` name/description 추가로 반영
 - [x] 페이지별 메타데이터 확인 — 대부분 로그인 후 개인 화면이라 개별 title 실익이 낮아 루트 상속 유지, 공개 진입 경로(로그인/회원가입)만 개별 title 부여
 - [x] 파비콘, 카드 메타데이터 확인 — `app/icon.tsx`, `app/apple-icon.tsx` 정상 확인, `openGraph.url`/`siteName` 보강
-- [x] 실제 배포 url 기준으로 메타데이터 및 og 이미지 정상 노출 여부 확인 — `metadataBase`가 배포마다 바뀌는 `VERCEL_URL`에만 의존하던 문제를 `VERCEL_PROJECT_PRODUCTION_URL` 우선 사용으로 고정(`https://todays-outfit-nine.vercel.app`), 재배포 후 실사이트 확인 예정
+- [x] 실제 배포 url 기준으로 메타데이터 및 og 이미지 정상 노출 여부 확인 — `metadataBase`가 배포마다 바뀌는 `VERCEL_URL`에만 의존하던 문제를 `VERCEL_PROJECT_PRODUCTION_URL` 우선 사용으로 고정(`https://todays-outfit-nine.vercel.app`), 재배포 후 title/description/og:*/robots.txt 모두 실사이트에서 정상 노출 확인 완료
 
 3. 문서화
 
-- README.md 작성
-  - og 이미지 표지로 사용
-  - 주요 화면 스크린샷 첨부
-  - 프로젝트 소개
-  - 기술 스택
-  - 실행 방법
-  - 배포 url
-- BACKEND.md 수정
-  - supabase 설계 구조
-  - 백엔드 흐름
-  - 데이터베이스 아키텍처
-  - 테이블 구조
-  - 테이블 간 관계
-  - 인증 흐름
-  - RLS 정책
-  - @"supabase-backend-doc-writer (agent)" 서브 에이전트 사용
+- [x] README.md 작성
+  - [x] og 이미지 표지로 사용 — `app/opengraph-image.tsx` 결과물을 다운로드해 `docs/screenshots/cover.png`로 사용
+  - [x] 주요 화면 스크린샷 첨부 — Playwright로 실배포 사이트 로그인 후 홈/옷장/캘린더/통계/마이/착장 기록 화면 캡처
+  - [x] 프로젝트 소개
+  - [x] 기술 스택
+  - [x] 실행 방법
+  - [x] 배포 url
+- [x] BACKEND.md 수정 — `supabase-backend-doc-writer` 서브 에이전트로 현재 코드 상태 기준 전면 재작성
+  - [x] supabase 설계 구조
+  - [x] 백엔드 흐름
+  - [x] 데이터베이스 아키텍처
+  - [x] 테이블 구조
+  - [x] 테이블 간 관계
+  - [x] 인증 흐름
+  - [x] RLS 정책
+  - [x] supabase-backend-doc-writer (agent) 서브 에이전트 사용
+  - 이 과정에서 발견된 후속 과제(코드 수정은 하지 않음, 기록만): ① `lib/supabase/types.ts`에 실사용되지 않는 `profiles` 테이블 타입 잔재, ② `clothing_items.photo_url` NULL 허용 변경과 Task 023의 RLS 성능 최적화가 로컬 마이그레이션 파일에는 반영되지 않아 SQL 파일과 실제 운영 DB 상태가 일부 어긋남 — 자세한 내용은 `docs/BACKEND.md` 5·6절 참고
