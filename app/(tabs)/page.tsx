@@ -1,15 +1,38 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { Camera } from "lucide-react";
+import { BarChart3, Calendar, Camera, Shirt } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/server";
 import { getOutfitByDate, getRecentOutfitDates } from "@/lib/queries/outfits";
 import { getTodayInKst } from "@/lib/utils/date";
 import { Button } from "@/components/ui/button";
 import { SafeImage } from "@/components/common/safe-image";
+import { Mascot } from "@/components/common/mascot";
 import { cn } from "@/lib/utils";
 
 const WEEKDAY_LABELS = ["일", "월", "화", "수", "목", "금", "토"];
+
+const CORE_FEATURES = [
+  {
+    icon: Camera,
+    label: "오늘의 착장 기록",
+    desc: "매일 입은 옷을 사진으로 남겨요",
+  },
+  {
+    icon: Shirt,
+    label: "옷장 관리",
+    desc: "가진 옷을 카테고리별로 정리해요",
+  },
+  {
+    icon: Calendar,
+    label: "지난 기록 보기",
+    desc: "캘린더로 과거 착장을 확인해요",
+  },
+  {
+    icon: BarChart3,
+    label: "통계",
+    desc: "자주 입은 옷과 카테고리를 살펴봐요",
+  },
+] as const;
 
 /** KST 기준 today를 포함한 최근 7일의 record_date 문자열을 과거→오늘 순으로 반환한다 */
 function buildLast7Days(today: string): string[] {
@@ -21,12 +44,69 @@ function buildLast7Days(today: string): string[] {
   });
 }
 
+/** 서비스 소개 섹션 — 로그인 여부와 무관하게 공통으로 보여준다 */
+function CoreFeatureSection() {
+  return (
+    <div className="rounded-2xl bg-accent/50 p-4">
+      <div className="mb-3 flex items-center gap-2">
+        <Mascot size={36} />
+        <p className="text-sm font-semibold font-point">
+          오늘 뭐 입었지?는 이런 걸 도와줘요
+        </p>
+      </div>
+      <div className="grid grid-cols-2 gap-2">
+        {CORE_FEATURES.map(({ icon: Icon, label, desc }) => (
+          <div
+            key={label}
+            className="flex flex-col gap-1.5 rounded-xl bg-card p-3 shadow-sm"
+          >
+            <span className="flex size-8 items-center justify-center rounded-full bg-accent">
+              <Icon className="size-4 text-accent-foreground" strokeWidth={1.5} />
+            </span>
+            <p className="text-sm font-medium">{label}</p>
+            <p className="text-xs text-muted-foreground">{desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/** 비로그인 사용자에게 보여주는 공개 홈 화면 — 서비스 소개와 로그인 유도만 담는다 */
+function PublicHome() {
+  return (
+    <div className="flex flex-col gap-6 p-4">
+      <div className="flex flex-col items-center gap-3 py-6 text-center">
+        <Mascot size={80} />
+        <div>
+          <h1 className="text-xl font-semibold font-point">오늘 뭐 입었지?</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            매일의 착장을 기록하는 개인 옷장 로그
+          </p>
+        </div>
+      </div>
+
+      <CoreFeatureSection />
+
+      <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-border/60 py-10 text-center">
+        <p className="text-sm font-medium">로그인하고 바로 시작해보세요</p>
+        <p className="text-sm text-muted-foreground">
+          오늘 입은 옷을 기록하려면 먼저 로그인이 필요해요
+        </p>
+        <Button asChild>
+          <Link href="/auth/login">로그인하고 기록하기</Link>
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 export default async function HomePage() {
   const supabase = await createClient();
   const { data, error } = await supabase.auth.getClaims();
 
   if (error || !data) {
-    redirect("/auth/login");
+    return <PublicHome />;
   }
 
   const { claims } = data;
@@ -49,9 +129,11 @@ export default async function HomePage() {
         </h1>
       </div>
 
+      <CoreFeatureSection />
+
       {todayOutfit ? (
         <div className="flex flex-col gap-3 rounded-2xl border border-border/60 bg-card p-4 shadow-md">
-          <p className="text-sm font-medium text-primary">
+          <p className="text-sm font-medium text-accent-foreground">
             오늘의 착장을 기록했어요
           </p>
           <div className="relative aspect-square w-full overflow-hidden rounded-md">
@@ -74,7 +156,7 @@ export default async function HomePage() {
         </div>
       ) : (
         <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-border/60 py-10 text-center">
-          <Camera className="size-10 text-muted-foreground" strokeWidth={1.5} />
+          <Mascot size={80} />
           <p className="text-sm font-medium">
             아직 오늘의 착장을 기록하지 않았어요
           </p>

@@ -28,8 +28,13 @@ function isTabActive(pathname: string, href: string): boolean {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+interface BottomTabBarProps {
+  /** 비로그인 상태면 홈 이외의 탭은 로그인 페이지로 보낸다 */
+  isAuthenticated: boolean;
+}
+
 /** 하단 탭바 — 홈/옷장/캘린더/통계/마이 5개 탭과 활성 탭 하이라이트를 렌더링한다 */
-export function BottomTabBar() {
+export function BottomTabBar({ isAuthenticated }: BottomTabBarProps) {
   const pathname = usePathname();
 
   return (
@@ -40,14 +45,16 @@ export function BottomTabBar() {
       <div className="flex h-16 items-stretch">
         {TABS.map(({ href, label, icon: Icon }) => {
           const isActive = isTabActive(pathname, href);
+          const targetHref =
+            isAuthenticated || href === "/" ? href : "/auth/login";
           return (
             <Link
               key={href}
-              href={href}
+              href={targetHref}
               aria-current={isActive ? "page" : undefined}
               className={cn(
                 "flex flex-1 cursor-pointer flex-col items-center justify-center gap-1 text-xs font-medium transition-colors",
-                isActive ? "text-primary" : "text-muted-foreground",
+                isActive ? "text-accent-foreground" : "text-muted-foreground",
               )}
             >
               <span

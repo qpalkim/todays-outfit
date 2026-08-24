@@ -1,6 +1,7 @@
 "use client";
 
 import { createClient } from "@/lib/supabase/client";
+import { mapAuthErrorToMessage } from "@/lib/errors";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
@@ -22,7 +23,7 @@ export function GoogleLoginButton() {
       });
       if (error) throw error;
     } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : "An error occurred");
+      setError(mapAuthErrorToMessage(error));
       setIsLoading(false);
     }
   };

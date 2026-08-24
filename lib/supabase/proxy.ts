@@ -47,8 +47,12 @@ export async function updateSession(request: NextRequest) {
   const { data } = await supabase.auth.getClaims();
   const user = data?.claims;
 
-  if (!user && !request.nextUrl.pathname.startsWith("/auth")) {
-    // no user, potentially respond by redirecting the user to the login page
+  // 비로그인 사용자는 홈("/")과 /auth 하위 경로만 접근 가능 — 그 외는 로그인으로 리다이렉트
+  const isPublicPath =
+    request.nextUrl.pathname === "/" ||
+    request.nextUrl.pathname.startsWith("/auth");
+
+  if (!user && !isPublicPath) {
     const url = request.nextUrl.clone();
     url.pathname = "/auth/login";
     return NextResponse.redirect(url);

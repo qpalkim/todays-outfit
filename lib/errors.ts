@@ -32,3 +32,30 @@ export function mapSupabaseErrorToMessage(error: unknown): string {
       return "요청을 처리하지 못했습니다. 잠시 후 다시 시도해주세요";
   }
 }
+
+/** Supabase Auth 에러 메시지를 자주 발생하는 케이스에 한해 한국어로 변환한다(매핑에 없으면 원문을 그대로 반환) */
+export function mapAuthErrorToMessage(error: unknown): string {
+  const message = error instanceof Error ? error.message : "";
+  const normalized = message.toLowerCase();
+
+  if (normalized.includes("invalid login credentials")) {
+    return "이메일 또는 비밀번호가 올바르지 않아요";
+  }
+  if (normalized.includes("already registered")) {
+    return "이미 가입된 이메일이에요";
+  }
+  if (normalized.includes("email not confirmed")) {
+    return "이메일 인증이 필요해요. 받은 편지함을 확인해주세요";
+  }
+  if (normalized.includes("password should be at least")) {
+    return "비밀번호는 6자 이상이어야 해요";
+  }
+  if (normalized.includes("rate limit") || normalized.includes("too many requests")) {
+    return "요청이 너무 많아요. 잠시 후 다시 시도해주세요";
+  }
+  if (normalized.includes("fetch") || normalized.includes("network")) {
+    return "네트워크 연결을 확인해주세요";
+  }
+
+  return message || "오류가 발생했어요";
+}

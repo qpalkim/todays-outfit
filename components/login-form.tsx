@@ -1,6 +1,7 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn, isValidEmail } from "@/lib/utils";
+import { mapAuthErrorToMessage } from "@/lib/errors";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { GoogleLoginButton } from "@/components/google-login-button";
@@ -27,6 +28,8 @@ export function LoginForm({
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
+  const isFormValid = isValidEmail(email) && password.length > 0;
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const supabase = createClient();
@@ -41,7 +44,7 @@ export function LoginForm({
       if (error) throw error;
       router.push("/");
     } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : "An error occurred");
+      setError(mapAuthErrorToMessage(error));
     } finally {
       setIsLoading(false);
     }
@@ -51,16 +54,16 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardTitle className="text-2xl font-point">로그인</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            이메일로 로그인하고 오늘의 착장을 기록해보세요
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">이메일</Label>
                 <Input
                   id="email"
                   type="email"
@@ -72,12 +75,12 @@ export function LoginForm({
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">비밀번호</Label>
                   <Link
                     href="/auth/forgot-password"
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                   >
-                    Forgot your password?
+                    비밀번호를 잊으셨나요?
                   </Link>
                 </div>
                 <Input
@@ -89,8 +92,12 @@ export function LoginForm({
                 />
               </div>
               {error && <p className="text-sm text-destructive">{error}</p>}
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Logging in..." : "Login"}
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={isLoading || !isFormValid}
+              >
+                {isLoading ? "로그인 중..." : "로그인"}
               </Button>
               <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                 <span className="relative z-10 bg-card px-2 text-muted-foreground">
@@ -100,12 +107,12 @@ export function LoginForm({
               <GoogleLoginButton />
             </div>
             <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
+              아직 계정이 없으신가요?{" "}
               <Link
                 href="/auth/sign-up"
                 className="underline underline-offset-4"
               >
-                Sign up
+                회원가입
               </Link>
             </div>
           </form>
