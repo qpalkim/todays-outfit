@@ -39,7 +39,9 @@
   --card-foreground: oklch(0.16 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.16 0 0);
-  --primary: oklch(0.88 0.1 147); /* #ADEBB3 — 마스코트 색상을 메인 민트로 사용 */
+  --primary: oklch(
+    0.88 0.1 147
+  ); /* #ADEBB3 — 마스코트 색상을 메인 민트로 사용 */
   --primary-foreground: oklch(0.22 0.02 147);
   --secondary: oklch(0.96 0 0);
   --secondary-foreground: oklch(0.21 0 0);
@@ -74,4 +76,8 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+}
+
+body {
+  min-width: 375px;
 }
