@@ -1,4 +1,4 @@
-# 오늘 뭐 입었지? (Today's Outfit)
+# 👕 오늘 뭐 입었지? (Today's Outfit)
 
 ![오늘 뭐 입었지?](docs/screenshots/cover.png)
 
@@ -8,6 +8,12 @@
 - 제품 요구사항: [`docs/PRD.md`](docs/PRD.md)
 - 개발 로드맵: [`docs/ROADMAP.md`](docs/ROADMAP.md)
 - 백엔드 설계: [`docs/BACKEND.md`](docs/BACKEND.md)
+
+## 왜 만들었나요?
+
+"내가 어떤 옷을 가지고 있는가"는 옷장을 열어보면 알 수 있지만, "나는 실제로 어떤 옷을 입고 살아가고 있는가"는 기억에 의존할 수밖에 없어 정확히 알기 어렵습니다. 옷장 속 옷과 실제 착용 패턴 사이에는 늘 간극이 있습니다.
+
+이 앱이 던지는 질문은 **소유가 아니라 실제 착용 행위**입니다. 매일 입은 옷을 하루 단위로 가볍게 기록해 누적하면, "나는 주로 어떤 옷을 입는가"를 데이터로 되돌아볼 수 있습니다. 그래서 이 프로젝트는 옷장을 정리하는 "옷장 관리 앱"이 아니라, 하루 착장을 쌓아가는 **개인 옷장 로그** 앱으로 만들었습니다.
 
 ## 주요 화면
 
@@ -19,9 +25,27 @@
 | --- | --- | --- |
 | ![캘린더](docs/screenshots/calendar.png) | ![통계](docs/screenshots/stats.png) | ![마이](docs/screenshots/my.png) |
 
+## 사용자 흐름
+
+```
+로그인 → 옷장에 옷 등록 → 오늘의 착장 기록 → 캘린더에서 지난 기록 확인 → 통계로 돌아보기
+```
+
+1. **로그인** — 이메일/비밀번호 또는 구글 계정으로 로그인합니다.
+2. **옷장에 옷 등록** — 가진 옷을 상의/하의/신발/아우터/기타 카테고리로 나눠 옷장에 등록합니다.
+3. **오늘의 착장 기록** — 대표 사진 1장을 올리고, 옷장에서 오늘 입은 아이템을 골라 연결합니다.
+4. **캘린더에서 지난 기록 확인** — 날짜별로 기록을 훑어보고, 필요하면 그날의 착장을 수정합니다.
+5. **통계로 돌아보기** — 카테고리별 착용 비중과 아이템별 착용 순위로 나만의 옷 입는 패턴을 확인합니다.
+
 ## 기술 스택
 
-Next.js (App Router) · React · TypeScript · TailwindCSS v4 · shadcn/ui · React Hook Form + Zod · Supabase(Auth·DB·Storage) · Vercel
+| 구분 | 기술 |
+| --- | --- |
+| 프레임워크 | Next.js (App Router), React, TypeScript |
+| 스타일링 | TailwindCSS v4, shadcn/ui |
+| 폼 · 검증 | React Hook Form, Zod |
+| 백엔드 | Supabase (Auth · Database · Storage) |
+| 배포 | Vercel |
 
 ## 로컬 실행
 
