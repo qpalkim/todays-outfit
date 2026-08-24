@@ -10,6 +10,7 @@ export default function Loading() {
           <Skeleton key={index} className="h-8 w-12 rounded-md" />
         ))}
       </div>
+      <Skeleton className="mb-4 h-5 w-16" />
       <LoadingSkeleton variant="grid" count={9} />
     </div>
   );

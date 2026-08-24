@@ -1,5 +1,5 @@
 import localFont from "next/font/local";
-import { Jua } from "next/font/google";
+import { Gaegu } from "next/font/google";
 
 /** 본문 전용 폰트 — 실제 사용 중인 굵기(400/500/600)만 서브셋으로 로드해 번들 크기를 줄인다 */
 export const pretendard = localFont({
@@ -25,7 +25,7 @@ export const pretendard = localFont({
 });
 
 /** 타이틀·숫자 등 강조 요소에만 선택 적용하는 포인트 폰트(통통 튄 손글씨풍) */
-export const pointFont = Jua({
+export const pointFont = Gaegu({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-point",
