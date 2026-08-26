@@ -35,20 +35,20 @@ export default function Image() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            width: 260,
-            height: 260,
+            width: 200,
+            height: 200,
             borderRadius: "50%",
             background: "#ffffff",
             boxShadow: "0 12px 32px rgba(5, 62, 20, 0.12)",
           }}
         >
-          <Mascot size={190} />
+          <Mascot size={145} />
         </div>
 
         <div
           style={{
             display: "flex",
-            fontSize: 76,
+            fontSize: 50,
             fontWeight: 700,
             color: "#053e14",
             letterSpacing: -1.5,
