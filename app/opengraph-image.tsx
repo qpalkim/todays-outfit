@@ -10,6 +10,9 @@ export const contentType = "image/png";
 const pretendardBold = readFileSync(
   join(process.cwd(), "public/fonts/Pretendard-Bold.subset.woff"),
 );
+const gaeguBold = readFileSync(
+  join(process.cwd(), "public/fonts/Gaegu-Bold.subset.ttf"),
+);
 
 const FEATURE_TAGS = ["📸 오늘의 착장", "👕 옷장", "📅 캘린더", "📊 통계"];
 
@@ -48,10 +51,10 @@ export default function Image() {
         <div
           style={{
             display: "flex",
-            fontSize: 50,
+            fontFamily: "Gaegu",
+            fontSize: 56,
             fontWeight: 700,
             color: "#053e14",
-            letterSpacing: -1.5,
           }}
         >
           오늘 뭐 입었지?
@@ -92,6 +95,12 @@ export default function Image() {
         {
           name: "Pretendard",
           data: pretendardBold,
+          weight: 700,
+          style: "normal",
+        },
+        {
+          name: "Gaegu",
+          data: gaeguBold,
           weight: 700,
           style: "normal",
         },
