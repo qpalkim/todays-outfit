@@ -20,6 +20,7 @@ npm run lint    # ESLint (eslint.config.mjs: next/core-web-vitals + next/typescr
 테스트 스크립트는 아직 구성되어 있지 않다(테스트 프레임워크 미설치).
 
 `.env.local`에 다음 환경변수가 필요하다 (README.md 기준):
+
 ```
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
